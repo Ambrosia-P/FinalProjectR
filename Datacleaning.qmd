@@ -1,0 +1,120 @@
+---
+title: "DataCleaning"
+format: html
+editor: visual
+---
+
+
+```{r}
+# Load required libraries
+library(readxl)
+library(tidyverse)
+library(lubridate)
+
+# ============================================================================
+# TABLE 1: ELECTRICITY PRICES - 9 countries × 12 semesters
+# ============================================================================
+
+elec_raw <- read_excel("Electricity_Prices.xlsx", sheet = "Data")
+
+# Read rows 12-20 (row 11 has headers, rows 12-20 have data)
+electricity_prices <- elec_raw[11:20, ]
+
+# Get the first row as column names
+col_names <- as.character(electricity_prices[1, ])
+
+# Find columns that are actual periods (contain "S")
+period_cols <- which(grepl("-S", col_names))
+
+# Keep only Country column (column 1) and period columns
+electricity_prices <- electricity_prices[-1, c(1, period_cols)]
+
+# Set column names properly
+colnames(electricity_prices) <- c("Country", col_names[period_cols])
+
+# Convert prices to numeric and multiply by 1000
+electricity_prices <- electricity_prices %>%
+  mutate(across(-Country, ~as.numeric(.) * 1000))
+
+
+cat("\n=== ELECTRICITY PRICES ===\n")
+print(electricity_prices)
+
+
+
+
+library(dplyr)
+
+
+### 1. Lecture du fichier (en sautant éventuelle ligne de titre)
+raw <- read_excel("TTF_Prices.xlsx", skip = 1)
+
+### 2. Garder Date + Price, renommer, convertir formats
+df <- raw %>%
+  select(1:2) %>%                    # première colonne = date, deuxième = prix
+  rename(date = 1, price = 2) %>%
+  mutate(
+    # dates au format mm/dd/yyyy
+    date  = as.Date(date, format = "%m/%d/%Y"),
+    # prix : enlever les virgules éventuelles, convertir en numérique
+    price = as.numeric(gsub(",", "", price))
+  )
+
+### 3. Filtrer de janvier 2019 à décembre 2024
+df_filtered <- df %>%
+  filter(date >= as.Date("2019-01-01"),
+         date <= as.Date("2024-12-31")) %>%
+  mutate(
+    year      = year(date),
+    month_num = month(date),
+    month     = factor(month.abb[month_num], levels = month.abb)
+  )
+
+### 4. Tableau années (lignes) x mois (colonnes)
+table_year_month <- df_filtered %>%
+  select(year, month, month_num, price) %>%
+  arrange(year, month_num) %>%
+  select(-month_num) %>%
+  pivot_wider(
+    names_from  = month,
+    values_from = price
+  ) %>%
+  arrange(year)
+
+# S'assurer que toutes les colonnes de mois sont bien numériques
+table_year_month <- table_year_month %>%
+  mutate(across(Jan:Dec, as.numeric))
+
+### 5. Calcul de S1 (Jan–Jun) et S2 (Jul–Dec)
+table_year_month_S <- table_year_month %>%
+  rowwise() %>%
+  mutate(
+    S1 = mean(c_across(Jan:Jun), na.rm = TRUE),
+    S2 = mean(c_across(Jul:Dec), na.rm = TRUE)
+  ) %>%
+  ungroup()
+
+### 6. Optionnel : tableau long avec deux lignes par année (S1, S2)
+table_semesters <- table_year_month_S %>%
+  select(year, S1, S2) %>%
+  pivot_longer(
+    cols      = c(S1, S2),
+    names_to  = "semester",
+    values_to = "price"
+  ) %>%
+  arrange(year, semester)
+
+# Pour voir le résultat principal :
+table_year_month_S
+
+
+
+```
+
+
+
+
+
+
+
+
