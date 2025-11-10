@@ -18,7 +18,7 @@ library(lubridate)
 elec_raw <- read_excel("Electricity_Prices.xlsx", sheet = "Data")
 
 # Read rows 12-20 (row 11 has headers, rows 12-20 have data)
-electricity_prices <- elec_raw[11:20, ]
+electricity_prices <- elec_raw[11:22, ]
 
 # Get the first row as column names
 col_names <- as.character(electricity_prices[1, ])
@@ -108,6 +108,25 @@ table_semesters <- table_year_month_S %>%
 table_year_month_S
 
 
+# install.packages("writexl")
+library(writexl)
+
+# 1) Électricité : tableau nettoyé
+write_xlsx(
+  electricity_prices,
+  path = "Energypricescleaned.xlsx"
+)
+
+
+```
+
+
+```{r}
+
+write_xlsx(
+  table_year_month_S,
+  path = file.path(getwd(), "Gaspricescleaned.xlsx")
+)
 
 ```
 
