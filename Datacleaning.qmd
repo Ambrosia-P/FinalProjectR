@@ -125,7 +125,7 @@ write_xlsx(
 
 
 
-
+## IMPORT DATAS 
 
 ```{r}
 library(tidyr)
@@ -188,4 +188,47 @@ LNG_imports[is.na(LNG_imports)]<- 0
 Total_imports <- Imports_pipeline |> left_join(LNG_imports, by = c("Year", "Country"))
 Total_imports <- Total_imports |> mutate(Total_MCM = pipeline_MCM + LNG_MCM)
 ```
+
+
+## Energy production by source
+
+```{r}
+Combustible_fuels <- read.csv("Combustible_fuels.csv")
+Combustible_fuels <- Combustible_fuels[,c(4,6,7,8)] 
+Combustible_fuels <- rename(Combustible_fuels, Source = siec, Country = geo, Year = TIME_PERIOD, Electricty_prod = OBS_VALUE)
+
+Hydro <- read.csv("Hydro.csv")
+Hydro <- Hydro[,c(4,6,7,8)] 
+Hydro <- rename(Hydro, Source = siec, Country = geo, Year = TIME_PERIOD, Electricty_prod = OBS_VALUE)
+
+Natural_gas <- read.csv("Natural_gas.csv")
+Natural_gas <- Natural_gas[,c(4,6,7,8)] 
+Natural_gas <- rename(Natural_gas, Source = siec, Country = geo, Year = TIME_PERIOD, Electricty_prod = OBS_VALUE)
+
+Nuclear <- read.csv("Nuclear.csv")
+Nuclear <- Nuclear[,c(4,6,7,8)] 
+Nuclear <- rename(Nuclear, Source = siec, Country = geo, Year = TIME_PERIOD, Electricty_prod = OBS_VALUE)
+
+Renewables <- read.csv("Renewable.csv")
+Renewables <- Renewables[,c(4,6,7,8)] 
+Renewables <- rename(Renewables, Source = siec, Country = geo, Year = TIME_PERIOD, Electricty_prod = OBS_VALUE)
+
+Solar <- read.csv("Solar.csv")
+Solar <- Solar[,c(4,6,7,8)] 
+Solar <- rename(Solar, Source = siec, Country = geo, Year = TIME_PERIOD, Electricty_prod = OBS_VALUE)
+
+Wind <- read.csv("Wind.csv")
+Wind <- Wind[,c(4,6,7,8)] 
+Wind <- rename(Wind, Source = siec, Country = geo, Year = TIME_PERIOD, Electricty_prod = OBS_VALUE)
+
+Total <- read.csv("Total.csv")
+Total <- Total[,c(4,6,7,8)] 
+Total <- rename(Total, Source = siec, Country = geo, Year = TIME_PERIOD, Electricty_prod = OBS_VALUE)
+```
+
+```{r}
+
+
+```
+
 
