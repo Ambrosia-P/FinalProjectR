@@ -164,4 +164,13 @@ LNG_2024 <- pivot_wider(LNG_2024, names_from = Reporter, values_from = Quantity)
 
 ```
 
+```{r}
+LNG_imports <- bind_rows(LNG_2019, LNG_2020, LNG_2021, LNG_2022, LNG_2023, LNG_2024)
+LNG_imports <- LNG_imports |> mutate(across(-Year,~as.numeric(.x))) 
+LNG_imports[is.na(LNG_imports)]<-0
+
+Density_LNG <- 450
+LNG_imports <- LNG_imports |> mutate(across(-Year,~as.numeric(.x)/(Density_LNG * 1000000)))
+
+```
 
