@@ -132,7 +132,7 @@ library(tidyr)
 Imports_pipeline <- read.csv("imports_from_russia.csv")
 
 Imports_pipeline <- Imports_pipeline[,-c(1,2,3,4,5,6,10,11)]
-Imports_pipeline <- pivot_wider(Imports_pipeline, names_from = geo, values_from = OBS_VALUE)
+Imports_pipeline <- Imports_pipeline |> rename(Country = geo, pipeline_MCM = OBS_VALUE)
 
 ```
 
@@ -174,6 +174,17 @@ LNG_imports <- LNG_imports |> mutate(across(-Year,~as.numeric(.x)/(Density_LNG *
 
 LNG_imports <- LNG_imports |> slice(rep(1:nrow(LNG_imports), each = 12)) |> mutate(Month=rep(1:12, times = nrow(LNG_imports)), across(-c(Year, Month), ~.x/12), Year = str_c(Year, str_pad(Month, 2, pad="0"), sep = "-")) |> select(-Month)
 
+LNG_imports <- LNG_imports |> pivot_longer(cols= -Year, names_to = "Country", values_to = "LNG_MCM")
 ```
 
+```{r}
+all_keys <- Imports_pipeline |> distinct(Year, Country)
+
+LNG_imports <- all_keys |> left_join(LNG_imports, by = c("Year", "Country")) 
+LNG_imports[is.na(LNG_imports)]<- 0
+```
+
+```{r}
+Total_imports <- Imports_pipeline |> left_join(LNG_imports, by = c("Year", "Country"))
+```
 
