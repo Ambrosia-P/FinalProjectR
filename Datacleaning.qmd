@@ -132,7 +132,7 @@ library(tidyr)
 Imports_pipeline <- read.csv("imports_from_russia.csv")
 
 Imports_pipeline <- Imports_pipeline[,-c(1,2,3,4,5,6,10,11)]
-Imports_pipeline <- Imports_pipeline |> rename(Country = geo, pipeline_MCM = OBS_VALUE)
+Imports_pipeline <- Imports_pipeline |> rename(Country = geo, Year= TIME_PERIOD, pipeline_MCM = OBS_VALUE)
 
 ```
 
@@ -186,5 +186,6 @@ LNG_imports[is.na(LNG_imports)]<- 0
 
 ```{r}
 Total_imports <- Imports_pipeline |> left_join(LNG_imports, by = c("Year", "Country"))
+Total_imports <- Total_imports |> mutate(Total_MCM = pipeline_MCM + LNG_MCM)
 ```
 
