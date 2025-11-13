@@ -4,7 +4,6 @@ format: html
 editor: visual
 ---
 
-
 ```{r}
 
 library(readxl)
@@ -105,7 +104,6 @@ table_year_month_S
 
 ```
 
-
 ```{r}
 
 library(writexl)
@@ -129,4 +127,11 @@ write_xlsx(
 
 
 
+```{r}
+Imports_from_russia <- read.csv("imports_from_russia.csv")
+
+Imports_from_russia <- Imports_from_russia[,-c(1,2,3,4,5,6,10,11)]
+
+
+```
 
