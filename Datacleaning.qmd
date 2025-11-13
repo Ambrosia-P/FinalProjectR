@@ -172,5 +172,8 @@ LNG_imports[is.na(LNG_imports)]<-0
 Density_LNG <- 450
 LNG_imports <- LNG_imports |> mutate(across(-Year,~as.numeric(.x)/(Density_LNG * 1000000)))
 
+LNG_imports <- LNG_imports |> slice(rep(1:nrow(LNG_imports), each = 12)) |> mutate(Month=rep(1:12, times = nrow(LNG_imports)), across(-c(Year, Month), ~.x/12), Year = str_c(Year, str_pad(Month, 2, pad="0"), sep = "-")) |> select(-Month)
+
 ```
+
 
