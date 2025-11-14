@@ -187,6 +187,8 @@ LNG_imports[is.na(LNG_imports)]<- 0
 ```{r}
 Total_imports <- Imports_pipeline |> left_join(LNG_imports, by = c("Year", "Country"))
 Total_imports <- Total_imports |> mutate(Total_MCM = pipeline_MCM + LNG_MCM)
+write.csv(Total_imports, "Total_import.csv", row.names = FALSE)
+
 ```
 
 
@@ -230,6 +232,8 @@ Total <- rename(Total, Source = siec, Country = geo, Year = TIME_PERIOD, Electri
 all_sources <- bind_rows(Combustible_fuels, Hydro, Solar, Wind, Nuclear, Natural_gas, Renewables)
 
 all_sources <- all_sources |> pivot_wider(names_from = "Source", values_from = "Electricity_prod")
+write.csv(all_sources, "all_sources.csv", row.names = FALSE)
+
 
 ```
 
