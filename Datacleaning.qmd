@@ -229,7 +229,7 @@ Total <- rename(Total, Source = siec, Country = geo, Year = TIME_PERIOD, Electri
 ```
 
 ```{r}
-all_sources <- bind_rows(Combustible_fuels, Hydro, Solar, Wind, Nuclear, Natural_gas, Renewables)
+all_sources <- bind_rows(Combustible_fuels, Hydro, Solar, Wind, Nuclear, Natural_gas, Renewables,Total)
 
 all_sources <- all_sources |> pivot_wider(names_from = "Source", values_from = "Electricity_prod")
 write.csv(all_sources, "all_sources.csv", row.names = FALSE)
