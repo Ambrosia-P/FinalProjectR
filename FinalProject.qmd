@@ -5,11 +5,81 @@ editor: visual
 autors: "Lou-Ann and Ambrosia"
 ---
 
-test
+```{r}
+# Load libraries
+library(readxl)
+library(readr)
+library(tidyverse)
+library(ggplot2)
 
-test 2 test 3
+# Load data
+```
 
-Test 4
+```{r}
+electricity_prices <- read_excel("Energypricescleaned.xlsx")
+gas_prices <- read_excel("Gaspricescleaned.xlsx")
+russian_imports <- read_csv("Imports_from_russia.csv")
+generation_data <- read_csv("all_sources.csv")
 
-test 6
-Test 7
+# Remove the header row from electricity prices
+electricity_prices <- electricity_prices %>% 
+  filter(Country != "GEO (Labels)")
+
+# Check it worked
+print(electricity_prices)
+```
+
+
+
+
+```{r}
+# Simpler calculation with non-overlapping categories
+energy_mix_2021_simple <- generation_2021 %>%
+  group_by(Country) %>%
+  summarize(
+    Nuclear = sum(`Nuclear fuels and other fuels n.e.c.`),
+    Gas = sum(`Natural gas`),
+    Coal = sum(`Combustible fuels`) - sum(`Natural gas`),
+    Hydro = sum(Hydro),
+    Wind = sum(Wind),
+    Solar = sum(Solar),
+    Total = sum(Total)
+  ) %>%
+  mutate(
+    Nuclear_pct = (Nuclear / Total) * 100,
+    Gas_pct = (Gas / Total) * 100,
+    Coal_pct = (Coal / Total) * 100,
+    Hydro_pct = (Hydro / Total) * 100,
+    Wind_pct = (Wind / Total) * 100,
+    Solar_pct = (Solar / Total) * 100
+  )
+
+# Show results
+energy_mix_2021_simple %>%
+  select(Country, Nuclear_pct, Coal_pct, Gas_pct, Hydro_pct, Wind_pct, Solar_pct) %>%
+  mutate(across(where(is.numeric), round, 1))
+```
+```{r}
+# Prepare data for plotting (using simple categories only)
+energy_mix_2021_plot <- energy_mix_2021_simple %>%
+  select(Country, Nuclear_pct, Coal_pct, Gas_pct, Hydro_pct, Wind_pct, Solar_pct) %>%
+  pivot_longer(cols = -Country, names_to = "Source", values_to = "Percentage")
+
+# Clean up names
+energy_mix_2021_plot$Source <- gsub("_pct", "", energy_mix_2021_plot$Source)
+
+# Reorder sources for better visualization
+energy_mix_2021_plot$Source <- factor(energy_mix_2021_plot$Source,
+                                       levels = c("Nuclear", "Coal", "Gas", "Hydro", "Wind", "Solar"))
+
+# Create stacked bar chart
+ggplot(energy_mix_2021_plot, aes(x = Country, y = Percentage, fill = Source)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Energy Mix by Country (2021 - Just Before Crisis)",
+       x = "Country",
+       y = "Percentage (%)",
+       fill = "Energy Source") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
