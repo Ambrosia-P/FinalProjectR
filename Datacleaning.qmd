@@ -13,7 +13,7 @@ library(dplyr)
 
 # TABLE 1: ELECTRICITY PRICES 
 
-elec_raw <- read_excel("Electricity_Prices.xlsx", sheet = "Data")
+elec_raw <- read_excel("EnergyPricesNewVersion.xlsx", sheet = "Data")
 
 
 electricity_prices <- elec_raw[11:22, ]
