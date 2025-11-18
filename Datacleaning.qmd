@@ -4,6 +4,10 @@ format: html
 editor: visual
 ---
 
+# DATA CLEANING AND PRESENTATION
+
+## ELECTRICITY PRICES
+
 ```{r}
 
 library(readxl)
@@ -11,7 +15,6 @@ library(tidyverse)
 library(lubridate)
 library(dplyr)
 
-# TABLE 1: ELECTRICITY PRICES 
 
 elec_raw <- read_excel("EnergyPricesNewVersion.xlsx", sheet = "Data")
 
@@ -37,10 +40,11 @@ electricity_prices <- electricity_prices %>%
 cat("\n=== ELECTRICITY PRICES ===\n")
 print(electricity_prices)
 
+```
 
-#Table 2: Gas Prices
+## GAS PRICES
 
-
+```{r}
 raw <- read_excel("TTF_Prices.xlsx", skip = 1)
 
 
@@ -100,8 +104,6 @@ table_semesters <- table_year_month_S %>%
 
 table_year_month_S
 
-
-
 ```
 
 ```{r}
@@ -121,11 +123,7 @@ write_xlsx(
 
 ```
 
-
-
-
-
-## IMPORT DATAS 
+## IMPORTATIONS
 
 ```{r}
 library(tidyr)
@@ -191,8 +189,7 @@ write.csv(Total_imports, "Total_import.csv", row.names = FALSE)
 
 ```
 
-
-## Energy production by source
+## ELECTRICITY PRODUCTION BY SOURCE
 
 ```{r}
 Combustible_fuels <- read.csv("data/Combustible_fuels.csv")
@@ -236,8 +233,3 @@ all_sources <- all_sources |> pivot_wider(names_from = "Source", values_from = "
 
 
 ```
-
-
-
-
-
