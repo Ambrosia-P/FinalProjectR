@@ -129,7 +129,7 @@ write_xlsx(
 
 ```{r}
 library(tidyr)
-Imports_pipeline <- read.csv("imports_from_russia.csv")
+Imports_pipeline <- read.csv("data/imports_pipeline.csv")
 
 Imports_pipeline <- Imports_pipeline[,-c(1,2,3,4,5,6,10,11)]
 Imports_pipeline <- Imports_pipeline |> rename(Country = geo, Year= TIME_PERIOD, pipeline_MCM = OBS_VALUE)
@@ -138,27 +138,27 @@ Imports_pipeline <- Imports_pipeline |> rename(Country = geo, Year= TIME_PERIOD,
 
 ```{r}
 
-LNG_2019 <- read.csv2("LNG_2019.csv", fileEncoding = "UTF-8")
+LNG_2019 <- read.csv2("data/LNG_2019.csv", fileEncoding = "UTF-8")
 LNG_2019 <- LNG_2019[-c(1,2,4,5,6,8,9,10,11,14,15,16,17,18,19,20,21),-c(2,3,4,6,7,9)]
 LNG_2019 <- pivot_wider(LNG_2019, names_from = Reporter, values_from = Quantity)
 
-LNG_2020 <- read.csv2("LNG_2020.csv", fileEncoding = "UTF-8")
+LNG_2020 <- read.csv2("data/LNG_2020.csv", fileEncoding = "UTF-8")
 LNG_2020 <- LNG_2020[-c(1,2,3,4,5,7,9,10,13,14,15,16,17,18,19,20,21),-c(2,3,4,6,7,9)]
 LNG_2020 <- pivot_wider(LNG_2020, names_from = Reporter, values_from = Quantity)
 
-LNG_2021 <- read.csv2("LNG_2021.csv", fileEncoding = "UTF-8")
+LNG_2021 <- read.csv2("data/LNG_2021.csv", fileEncoding = "UTF-8")
 LNG_2021 <- LNG_2021[-c(1,2,3,5,8,9,10,11,12,13,16:23),-c(2,3,4,6,7,9)]
 LNG_2021 <- pivot_wider(LNG_2021, names_from = Reporter, values_from = Quantity)
 
-LNG_2022 <- read.csv2("LNG_2022.csv", fileEncoding = "UTF-8")
+LNG_2022 <- read.csv2("data/LNG_2022.csv", fileEncoding = "UTF-8")
 LNG_2022 <- LNG_2022[-c(1,2,4,7:13,15,16,18:25),-c(2,3,4,6,7,9)]
 LNG_2022 <- pivot_wider(LNG_2022, names_from = Reporter, values_from = Quantity)
 
-LNG_2023 <- read.csv2("LNG_2023.csv", fileEncoding = "UTF-8")
+LNG_2023 <- read.csv2("data/LNG_2023.csv", fileEncoding = "UTF-8")
 LNG_2023 <- LNG_2023[-c(1:3,6,8:13,15,17:23),-c(2,3,4,6,7,9)]
 LNG_2023 <- pivot_wider(LNG_2023, names_from = Reporter, values_from = Quantity)
 
-LNG_2024 <- read.csv2("LNG_2024.csv", fileEncoding = "UTF-8")
+LNG_2024 <- read.csv2("data/LNG_2024.csv", fileEncoding = "UTF-8")
 LNG_2024 <- LNG_2024[-c(1:3,6,7,9:12,14,16:20),-c(2,3,4,6,7,9)]
 LNG_2024 <- pivot_wider(LNG_2024, names_from = Reporter, values_from = Quantity)
 
@@ -195,35 +195,35 @@ write.csv(Total_imports, "Total_import.csv", row.names = FALSE)
 ## Energy production by source
 
 ```{r}
-Combustible_fuels <- read.csv("Combustible_fuels.csv")
+Combustible_fuels <- read.csv("data/Combustible_fuels.csv")
 Combustible_fuels <- Combustible_fuels[,c(4,6,7,8)] 
 Combustible_fuels <- rename(Combustible_fuels, Source = siec, Country = geo, Year = TIME_PERIOD, Electricity_prod = OBS_VALUE)
 
-Hydro <- read.csv("Hydro.csv")
+Hydro <- read.csv("data/Hydro.csv")
 Hydro <- Hydro[,c(4,6,7,8)] 
 Hydro <- rename(Hydro, Source = siec, Country = geo, Year = TIME_PERIOD, Electricity_prod = OBS_VALUE)
 
-Natural_gas <- read.csv("Natural_gas.csv")
+Natural_gas <- read.csv("data/Natural_gas.csv")
 Natural_gas <- Natural_gas[,c(4,6,7,8)] 
 Natural_gas <- rename(Natural_gas, Source = siec, Country = geo, Year = TIME_PERIOD, Electricity_prod = OBS_VALUE)
 
-Nuclear <- read.csv("Nuclear.csv")
+Nuclear <- read.csv("data/Nuclear.csv")
 Nuclear <- Nuclear[,c(4,6,7,8)] 
 Nuclear <- rename(Nuclear, Source = siec, Country = geo, Year = TIME_PERIOD, Electricity_prod = OBS_VALUE)
 
-Renewables <- read.csv("Renewable.csv")
+Renewables <- read.csv("data/Renewable.csv")
 Renewables <- Renewables[,c(4,6,7,8)] 
 Renewables <- rename(Renewables, Source = siec, Country = geo, Year = TIME_PERIOD, Electricity_prod = OBS_VALUE)
 
-Solar <- read.csv("Solar.csv")
+Solar <- read.csv("data/Solar.csv")
 Solar <- Solar[,c(4,6,7,8)] 
 Solar <- rename(Solar, Source = siec, Country = geo, Year = TIME_PERIOD, Electricity_prod = OBS_VALUE)
 
-Wind <- read.csv("Wind.csv")
+Wind <- read.csv("data/Wind.csv")
 Wind <- Wind[,c(4,6,7,8)] 
 Wind <- rename(Wind, Source = siec, Country = geo, Year = TIME_PERIOD, Electricity_prod = OBS_VALUE)
 
-Total <- read.csv("Total.csv")
+Total <- read.csv("data/Total.csv")
 Total <- Total[,c(4,6,7,8)] 
 Total <- rename(Total, Source = siec, Country = geo, Year = TIME_PERIOD, Electricity_prod = OBS_VALUE)
 ```
@@ -232,27 +232,12 @@ Total <- rename(Total, Source = siec, Country = geo, Year = TIME_PERIOD, Electri
 all_sources <- bind_rows(Combustible_fuels, Hydro, Solar, Wind, Nuclear, Natural_gas, Renewables,Total)
 
 all_sources <- all_sources |> pivot_wider(names_from = "Source", values_from = "Electricity_prod")
-write.csv(all_sources, "all_sources.csv", row.names = FALSE)
-
-
-```
-
-
-```{r}
-
-all_sources_list <- split(all_sources, all_sources$Country)
-
-France_prod <- all_sources_list[["France"]]
-Germany_prod <- all_sources_list[["Germany"]]
-Poland_prod <- all_sources_list[["Poland"]]
-Bulgaria_prod <- all_sources_list[["Bulgaria"]]
-Finland_prod <- all_sources_list[["Finland"]]
-Sweden_prod <- all_sources_list[["Sweden"]]
-Denmark_prod <- all_sources_list[["Denmark"]]
-Netherlands_prod <- all_sources_list[["Netherlands"]]
-Spain_prod <- all_sources_list[["Spain"]]
 
 
 
 ```
+
+
+
+
 
