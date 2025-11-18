@@ -1,9 +1,10 @@
 ---
-title: "Projectdoc1"
+title: "Project"
 format: html
 editor: visual
 autors: "Lou-Ann and Ambrosia"
 ---
+## Introduction
 
 ```{r}
 # Load libraries
@@ -16,24 +17,25 @@ library(ggplot2)
 ```
 
 ```{r}
-electricity_prices <- read_excel("Energypricescleaned.xlsx")
-gas_prices <- read_excel("Gaspricescleaned.xlsx")
-russian_imports <- read_csv("Imports_from_russia.csv")
-generation_data <- read_csv("all_sources.csv")
+electricity_prices <- read_excel("cleaned_data/Energypricescleaned.xlsx")
+gas_prices <- read_excel("cleaned_data/Gaspricescleaned.xlsx")
+generation_data <- read_csv("cleaned_data/all_sources.csv")
 
 # Remove the header row from electricity prices
 electricity_prices <- electricity_prices %>% 
   filter(Country != "GEO (Labels)")
 
-# Check it worked
-print(electricity_prices)
+
+```
+
+```{r}
+generation_2021 <- generation_data %>%
+  filter(Year >= "2021-01" & Year <= "2021-12")
 ```
 
 
 
-
 ```{r}
-# Simpler calculation with non-overlapping categories
 energy_mix_2021_simple <- generation_2021 %>%
   group_by(Country) %>%
   summarize(
@@ -54,13 +56,12 @@ energy_mix_2021_simple <- generation_2021 %>%
     Solar_pct = (Solar / Total) * 100
   )
 
-# Show results
 energy_mix_2021_simple %>%
   select(Country, Nuclear_pct, Coal_pct, Gas_pct, Hydro_pct, Wind_pct, Solar_pct) %>%
   mutate(across(where(is.numeric), round, 1))
 ```
 ```{r}
-# Prepare data for plotting (using simple categories only)
+# Prepare data for plotting 
 energy_mix_2021_plot <- energy_mix_2021_simple %>%
   select(Country, Nuclear_pct, Coal_pct, Gas_pct, Hydro_pct, Wind_pct, Solar_pct) %>%
   pivot_longer(cols = -Country, names_to = "Source", values_to = "Percentage")
@@ -82,4 +83,10 @@ ggplot(energy_mix_2021_plot, aes(x = Country, y = Percentage, fill = Source)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+# Energy Mix Context (2021):
+
+In 2021, Europe's energy landscape was characterized by stark national 
+differences, reflecting decades of distinct policy choices and resource  endowments. France and Finland emerged as nuclear powerhouses, with France generating nearly 70% of its electricity from nuclear plants built after 
+the 1970s oil shocks, while Finland maintained a smaller but significant 
+nuclear fleet alongside its abundant forests for biomass. In contrast, the Netherlands and Germany had become heavily gas-dependent, with gas accounting for approximately 48% and 27% of their electricity generation respectively—a vulnerability that would prove costly during the crisis. These countries had embraced natural gas as a 'clean' transition fuel during their coal phase-out, inadvertently creating critical exposure to external suppliers. Poland and Bulgaria represented the coal-reliant bloc, with Poland deriving over 70% of its power from coal due to vast domestic reserves, though both were under EU pressure to decarbonize. Finally, the Nordic renewable champions—Denmark and Sweden—demonstrated the potential of clean energy, with Denmark leading Europe in wind power (over 60% of generation) and Sweden combining substantial hydroelectric capacity with wind and nuclear, achieving one of the continent's lowest-carbon electricity systems. These divergent starting positions would largely determine each country's resilience to the 2022 energy shock.
 
