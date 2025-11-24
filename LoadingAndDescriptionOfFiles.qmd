@@ -3,5 +3,30 @@ title: "Loading and description of the files"
 author: "Lou-Ann and Ambrosia"
 format: html
 editor: visual
+repo-url: https://github.com/Ambrosia-P/FinalProjectR
 ---
+
+# Raw Data 
+
+Raw data files are stored in the [`/data`](https://github.com/Ambrosia-P/FinalProjectR/tree/master/data) folder:
+
+**Energy Prices**: `EnergyPricesNewVersion.xlsx` - electricity and gas prices for European countries
+
+**Gas Prices**: `TTF_Prices.xlsx` - TTF (Title Transfer Facility) natural gas prices
+
+# Cleaned Data
+
+Processed data files are in the [`/cleaned_data`](https://github.com/Ambrosia-P/FinalProjectR/tree/master/cleaned_data) folder:
+
+**Electricity Prices**: `Energypricescleaned.xlsx` - cleaned household electricity prices for nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024, bi-annual data, prices excluding taxes and levies
+
+**Gas Prices**: `Gaspricescleaned.xlsx` - cleaned Dutch TTF natural gas prices with monthly closing prices in euros per megawatt-hour for the same time period
+
+## Description of the data collection and sources
+
+This data selection examines electricity and natural gas prices during the 2022 European Energy Crisis using data from two authoritative sources covering nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024.
+
+**Electricity Prices for Household Consumers** (Code: nrg_pc_204): This dataset is sourced from Eurostat and accessible via the [Eurostat Data Browser](https://ec.europa.eu/eurostat/databrowser/bookmark/3fc4f5aa-4d49-4ab4-9b16-392cc50555ed?lang=en&createdAt=2025-11-10T18:38:30Z). The dataframe measures electricity prices in euros for all 27 countries of the European Union from 2007 to 2025, with data collected bi-annually. For our purposes, we selected data for our nine chosen countries covering the period from 2019 to 2024, using prices that exclude taxes and levies.
+
+**Dutch TTF Natural Gas Prices**: This dataset is sourced from [Investing.com](https://www.investing.com/commodities/dutch-ttf-gas-c1-futures-historical-data) and provides monthly closing prices in euros per megawatt-hour. The Dutch TTF (Title Transfer Facility) gas market serves as the main benchmark for natural gas trading in Europe, setting the wholesale prices used in most European contracts. This makes it an essential indicator for understanding gas price movements across the continent during the crisis period.
 
