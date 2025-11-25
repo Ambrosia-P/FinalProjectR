@@ -34,7 +34,11 @@ Processed data files are in the [`/cleaned_data`](https://github.com/Ambrosia-P/
 
 **Electricity Production by sources** : `all_sources` - cleaned decomposition of electricity production by source from 2019 to 2024 for the nine selected countries, with the total of electricity produced in the country, monthly data. We can derive a data frame for each country by using : sources_list and sources_list\$Country
 
-## Description of the data collection and sources
+## Sources
+
+**Eurostat** :
+
+## Description of the data collection
 
 This data selection examines electricity and natural gas prices during the 2022 European Energy Crisis using data from two authoritative sources covering nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024.
 
@@ -48,7 +52,7 @@ This data selection examines electricity and natural gas prices during the 2022 
 
 **Electricity production by source** (Code: nrg_cb_pem): This data frame is sourced from Eurostat and accessible via the [Eurostat Data Browser](https://ec.europa.eu/eurostat/databrowser/bookmark/3fa70279-4410-4fb9-a55b-5a4038eea201?lang=en&createdAt=2025-11-10T19:11:35Z). The original data set provides the net generation of electricity by source / type of fuels in gigawatts per hour, from 2008 to 2025, for all 27 european countries, with data collected monthly. For our nine countries, we decided to select only the most relevant and known sources out of the 23 types of fuels provided and decided to keep the total of energy generated in order to compute the energy mix later.
 
-## Data summary
+# Data summary
 
 ### Electricity prices
 
@@ -129,3 +133,31 @@ names(France_elec_prod) <- c("","")
 
 kable(France_elec_prod)
 ```
+
+# Data cleaning description
+
+All data cleaning process can be found here : [Data Cleaning](Datacleaning.qmd)
+
+### Electricity production by source
+
+The original data set provides one data frame by type of fuel. Therefore, we have 8 data frames, each one measuring the production of electricity for the corresponding source in the nine countries.
+
+We loaded each data frame using the read.csv function and suppressed the useless columns (last update, frequency...). Then we renamed the remaining columns into Country, Source, Year and Electricity_prod.
+
+Then, we merged all the data frames in order to get all the sources in on frame using the function bind_rows. The function pivot_wider allows us to have a more lisible frame with a column per source Finally, we created a list by country from the all sources frame using the function split. This make it easier to extract one data frame per country.
+
+### Importations
+
+For the importations, we started by cleaning the 2 initial frames : pipeline and LNG
+
+For the pipeline, we simply loaded the csv, suppressed the irrelevant columns and renamed the remaining ones.
+
+For each LNG data frame (one for each year), we also suppressed the irrelevant columns, renamed the remaining ones and used the pivot_wider function. Then, we merged all the years in one single data frame using the bind_rows function. Since all the values in the data frames where characters, we changed it to numeric (except for the Year column) and replaced the NA by 0 (since it wouldn't change the result of our analysis). The next issue is that the LNG importations where expressed in kilograms, and the pipeline in MCM (million of cubic meters). Therefore, we decided to convert the LNG in MCM by dividing each value by the LNG density \* 1 000 000. 
+
+Another issue was that the LNG importations where collected annually and not monthly. We created a column of the form Year-Month using the str functions. We then divided each value by 12 to have a distribution of the annual quantity imported across the 12 months.
+
+Then, in order to join both data frames, we extracted the keys (Year and Country) from the pipeline importation data frame and added them to the LNG importations thanks to the left_join function. We also used left_join to add the LNG importations to the pipeline importations and get the Total importations data frame. Finally, we created a column thanks to mutate to sum both importations and get the total importations.
+
+
+
+
