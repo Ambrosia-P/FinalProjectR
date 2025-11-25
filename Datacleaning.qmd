@@ -230,4 +230,7 @@ all_sources <- bind_rows(Combustible_fuels, Hydro, Solar, Wind, Nuclear, Natural
 
 all_sources <- all_sources |> pivot_wider(names_from = "Source", values_from = "Electricity_prod")
 
+sources_list <- split(all_sources, all_sources$Country)
+
+
 ```
