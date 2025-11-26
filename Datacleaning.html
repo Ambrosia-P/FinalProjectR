@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Lou-Ann and Ambrosia">
 
-<title>Loading and description of the files</title>
+<title>DataCleaning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,17 +23,17 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="LoadingAndDescriptionOfFiles_files/libs/clipboard/clipboard.min.js"></script>
-<script src="LoadingAndDescriptionOfFiles_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="LoadingAndDescriptionOfFiles_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="LoadingAndDescriptionOfFiles_files/libs/quarto-html/popper.min.js"></script>
-<script src="LoadingAndDescriptionOfFiles_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="LoadingAndDescriptionOfFiles_files/libs/quarto-html/anchor.min.js"></script>
-<link href="LoadingAndDescriptionOfFiles_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="LoadingAndDescriptionOfFiles_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="LoadingAndDescriptionOfFiles_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="LoadingAndDescriptionOfFiles_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="LoadingAndDescriptionOfFiles_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="Datacleaning_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Datacleaning_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Datacleaning_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Datacleaning_files/libs/quarto-html/popper.min.js"></script>
+<script src="Datacleaning_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Datacleaning_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Datacleaning_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Datacleaning_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Datacleaning_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Datacleaning_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Datacleaning_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -47,19 +46,13 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Loading and description of the files</h1>
+<h1 class="title">DataCleaning</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Lou-Ann and Ambrosia </p>
-          </div>
-  </div>
     
   
     
@@ -70,112 +63,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="raw-data" class="level1">
-<h1>Raw Data</h1>
-<p>Raw data files are stored in the <a href="https://github.com/Ambrosia-P/FinalProjectR/tree/master/data"><code>/data</code></a> folder:</p>
-<p><strong>Energy Prices</strong>: <code>EnergyPricesNewVersion.xlsx</code> - electricity and gas prices for European countries</p>
-<p><strong>Gas Prices</strong>: <code>TTF_Prices.xlsx</code> - TTF (Title Transfer Facility) natural gas prices</p>
-</section>
-<section id="cleaned-data" class="level1">
-<h1>Cleaned Data</h1>
-<p>Processed data files are in the <a href="https://github.com/Ambrosia-P/FinalProjectR/tree/master/cleaned_data"><code>/cleaned_data</code></a> folder:</p>
-<p><strong>Electricity Prices</strong>: <code>Energypricescleaned.xlsx</code> - cleaned household electricity prices for nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024, bi-annual data, prices excluding taxes and levies</p>
-<p><strong>Gas Prices</strong>: <code>Gaspricescleaned.xlsx</code> - cleaned Dutch TTF natural gas prices with monthly closing prices in euros per megawatt-hour for the same time period</p>
-<section id="description-of-the-data-collection-and-sources" class="level2">
-<h2 class="anchored" data-anchor-id="description-of-the-data-collection-and-sources">Description of the data collection and sources</h2>
-<p>This data selection examines electricity and natural gas prices during the 2022 European Energy Crisis using data from two authoritative sources covering nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024.</p>
-<p><strong>Electricity Prices for Household Consumers</strong> (Code: nrg_pc_204): This dataset is sourced from Eurostat and accessible via the <a href="https://ec.europa.eu/eurostat/databrowser/bookmark/3fc4f5aa-4d49-4ab4-9b16-392cc50555ed?lang=en&amp;createdAt=2025-11-10T18:38:30Z">Eurostat Data Browser</a>. The dataframe measures electricity prices in euros for all 27 countries of the European Union from 2007 to 2025, with data collected bi-annually. For our purposes, we selected data for our nine chosen countries covering the period from 2019 to 2024, using prices that exclude taxes and levies.</p>
-<p><strong>Dutch TTF Natural Gas Prices</strong>: This dataset is sourced from <a href="https://www.investing.com/commodities/dutch-ttf-gas-c1-futures-historical-data">Investing.com</a> and provides monthly closing prices in euros per megawatt-hour. The Dutch TTF (Title Transfer Facility) gas market serves as the main benchmark for natural gas trading in Europe, setting the wholesale prices used in most European contracts. This makes it an essential indicator for understanding gas price movements across the continent during the crisis period.</p>
-</section>
-<section id="data-summary" class="level2">
-<h2 class="anchored" data-anchor-id="data-summary">Data summary</h2>
-<section id="electricity-prices" class="level3">
-<h3 class="anchored" data-anchor-id="electricity-prices">Electricity prices</h3>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Basic Information: Cleaned Electricity Prices Dataset</caption>
-<colgroup>
-<col style="width: 13%">
-<col style="width: 86%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Attribute</th>
-<th style="text-align: left;">Value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Dataset</td>
-<td style="text-align: left;">Energypricescleaned.xlsx</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Number of Rows</td>
-<td style="text-align: left;">10</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Number of Columns</td>
-<td style="text-align: left;">13</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Column Names</td>
-<td style="text-align: left;">Country, 2019-S1, 2019-S2, 2020-S1, 2020-S2, 2021-S1, 2021-S2, 2022-S1, 2022-S2, 2023-S1, 2023-S2, 2024-S1, 2024-S2</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-<section id="gas-prices" class="level3">
-<h3 class="anchored" data-anchor-id="gas-prices">Gas prices</h3>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Basic Information: Cleaned Gas Prices Dataset</caption>
-<colgroup>
-<col style="width: 19%">
-<col style="width: 80%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Attribute</th>
-<th style="text-align: left;">Value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Dataset</td>
-<td style="text-align: left;">Gaspricescleaned.xlsx</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Number of Rows</td>
-<td style="text-align: left;">6</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Number of Columns</td>
-<td style="text-align: left;">15</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Column Names</td>
-<td style="text-align: left;">year, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, S1, S2</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-</section>
-</section>
-<section id="research-question" class="level1">
-<h1>Research Question</h1>
-<p>The 2022 European Energy Crisis represents one of the most significant economic shocks to affect the European Union in recent decades. Triggered by Russia’s invasion of Ukraine in February 2022 and the subsequent disruption of natural gas supplies to Europe, this crisis sent energy prices soaring to unprecedented levels, threatening economic stability and household welfare across the continent. Our research seeks to understand the dynamics and heterogeneity of this crisis by examining how electricity and natural gas prices evolved across nine European countries with diverse energy profiles.</p>
-<p><strong>Central Question</strong>: How did electricity and natural gas prices respond to the 2022 energy supply shock across different European countries, and what role did national energy mix compositions play in mediating these price responses?</p>
-<p>The choice of our nine countries—France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland—is deliberate and reflects the diversity of European energy systems. France relies heavily on nuclear power, which theoretically insulates it from natural gas price volatility. Germany, conversely, had become increasingly dependent on Russian gas imports and was forced to rapidly restructure its energy supply. Spain and Italy represent southern European economies with different infrastructure and import dependencies. The Netherlands hosts the TTF gas hub, Europe’s primary natural gas trading benchmark. Poland and Bulgaria represent Central and Eastern European economies with historical ties to Russian energy. Finally, Sweden and Finland represent Nordic countries with substantial hydroelectric and renewable capacity.</p>
-<p>Our analysis focuses on the period from 2019 to 2024, allowing us to establish pre-crisis baseline trends and observe both the acute crisis phase in 2022-2023 and the subsequent adjustment period. By examining electricity prices alongside natural gas prices, we can investigate the transmission mechanisms through which gas price shocks affected electricity markets.</p>
-<p>Several key sub-questions guide our investigation. First, we examine the timing and magnitude of price increases: did all countries experience simultaneous shocks, or were there temporal variations reflecting different supply vulnerabilities? Second, we explore price convergence and divergence: did the crisis lead to greater price harmonization across Europe, or did it exacerbate existing price differentials? Third, we investigate the relationship between gas and electricity prices: how tightly coupled were these markets, and did this coupling vary across countries?</p>
-<p>This crisis serves as a natural experiment for understanding how integrated European energy markets function under extreme stress. Also, by examining how different energy mixes performed during the crisis, we can inform debates about optimal transition pathways that balance climate objectives with economic resilience.</p>
-</section>
+
 
 </main>
 <!-- /main column -->

@@ -77,4 +77,16 @@ kable(gas_info,
 ```
 
 
+# Research Question
 
+The 2022 European Energy Crisis represents one of the most significant economic shocks to affect the European Union in recent decades. Triggered by Russia's invasion of Ukraine in February 2022 and the subsequent disruption of natural gas supplies to Europe, this crisis sent energy prices soaring to unprecedented levels, threatening economic stability and household welfare across the continent. Our research seeks to understand the dynamics and heterogeneity of this crisis by examining how electricity and natural gas prices evolved across nine European countries with diverse energy profiles.
+
+**Central Question**: How did electricity and natural gas prices respond to the 2022 energy supply shock across different European countries, and what role did national energy mix compositions play in mediating these price responses?
+
+The choice of our nine countries—France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland—is deliberate and reflects the diversity of European energy systems. France relies heavily on nuclear power, which theoretically insulates it from natural gas price volatility. Germany, conversely, had become increasingly dependent on Russian gas imports and was forced to rapidly restructure its energy supply. Spain and Italy represent southern European economies with different infrastructure and import dependencies. The Netherlands hosts the TTF gas hub, Europe's primary natural gas trading benchmark. Poland and Bulgaria represent Central and Eastern European economies with historical ties to Russian energy. Finally, Sweden and Finland represent Nordic countries with substantial hydroelectric and renewable capacity.
+
+Our analysis focuses on the period from 2019 to 2024, allowing us to establish pre-crisis baseline trends and observe both the acute crisis phase in 2022-2023 and the subsequent adjustment period. By examining electricity prices alongside natural gas prices, we can investigate the transmission mechanisms through which gas price shocks affected electricity markets.
+
+Several key sub-questions guide our investigation. First, we examine the timing and magnitude of price increases: did all countries experience simultaneous shocks, or were there temporal variations reflecting different supply vulnerabilities? Second, we explore price convergence and divergence: did the crisis lead to greater price harmonization across Europe, or did it exacerbate existing price differentials? Third, we investigate the relationship between gas and electricity prices: how tightly coupled were these markets, and did this coupling vary across countries?
+
+This crisis serves as a natural experiment for understanding how integrated European energy markets function under extreme stress. Also, by examining how different energy mixes performed during the crisis, we can inform debates about optimal transition pathways that balance climate objectives with economic resilience.
