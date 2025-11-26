@@ -12,15 +12,14 @@ execute:
 
 Raw data files are stored in the [`/data`](https://github.com/Ambrosia-P/FinalProjectR/tree/master/data) folder:
 
-<<<<<<< HEAD
 **Energy Prices**: `EnergyPricesNewVersion.csv` - Electricity and gas prices for European countries
 
 **Gas Prices**: `Dutch TTF Natural Gas Futures Historical Data.csv` - TTF (Title Transfer Facility) natural gas prices
-=======
+
 **Energy Prices**: `EnergyPricesNewVersion.xlsx` - Electricity and gas prices for European countries
 
 **Gas Prices**: `TTF_Prices.xlsx` - TTF (Title Transfer Facility) natural gas prices
->>>>>>> ed549ad3797b4276261dced23b01a799ad2194ef
+
 
 **Pipeline Importations** : `Imports_pipeline.csv` - Importations from Russia by pipeline
 
@@ -32,7 +31,6 @@ Raw data files are stored in the [`/data`](https://github.com/Ambrosia-P/FinalPr
 
 Processed data files are in the [`/cleaned_data`](https://github.com/Ambrosia-P/FinalProjectR/tree/master/cleaned_data) folder:
 
-<<<<<<< HEAD
 **Electricity Prices**: `Energypricescleaned.csv` - cleaned household electricity prices for nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024, bi-annual data, prices excluding taxes and levies
 
 **Gas Prices**: `Gaspricescleaned.csv` - cleaned Dutch TTF natural gas prices with monthly closing prices in euros per megawatt-hour for the same time period
@@ -40,15 +38,7 @@ Processed data files are in the [`/cleaned_data`](https://github.com/Ambrosia-P/
 **Importations from Russia** : `Total_imports.csv` - cleaned importations of natural gas from Russia, from both pipeline and boat, from 2019 to 2024 for the nine selected European countries, in million of cubic meters, monthly data.
 
 **Electricity Production by sources** : `all_sources.csv` - cleaned decomposition of electricity production by source from 2019 to 2024 for the nine selected countries, with the total of electricity produced in the country, monthly data. We can derive a data frame for each country by using : sources_list and sources_list\$Country
-=======
-**Electricity Prices**: `Energypricescleaned.xlsx` - cleaned household electricity prices for nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024, bi-annual data, prices excluding taxes and levies
 
-**Gas Prices**: `Gaspricescleaned.xlsx` - cleaned Dutch TTF natural gas prices with monthly closing prices in euros per megawatt-hour for the same time period
-
-**Importations from Russia** : `Total_imports.csv` - cleaned importations of natural gas from Russia, from both pipeline and boat, from 2019 to 2024 for the nine selected European countries, in million of cubic meters, monthly data.
-
-**Electricity Production by sources** : `all_sources` - cleaned decomposition of electricity production by source from 2019 to 2024 for the nine selected countries, with the total of electricity produced in the country, monthly data. We can derive a data frame for each country by using : sources_list and sources_list\$Country
->>>>>>> ed549ad3797b4276261dced23b01a799ad2194ef
 
 ## Sources
 
@@ -179,6 +169,22 @@ kable(France_elec_prod_info)
 
 All data cleaning process can be found here : [Data Cleaning](Datacleaning.qmd)
 
+### Electricity Prices
+
+For the electricity prices, we started with the EnergyPricesNewVersion.csv file containing semi-annual electricity prices for European household consumers.
+We loaded the CSV file using the read_csv2 function (adapted for European CSV format with semicolon separators). The original dataset contained metadata in the first rows, so we extracted rows 11 to 22 which contained the actual country data.
+We then identified the relevant columns by selecting only those containing semester information (marked with "-S" in the column names using the grepl function). After removing the first row (which contained column headers) and keeping only the Country column and semester columns, we renamed the columns appropriately.
+Since the dataset spanned multiple years, we filtered to keep only the periods from 2019 to 2024 using the matches function with a regex pattern.
+A major data cleaning challenge was that the original values used European decimal notation (comma as decimal separator) and were expressed in euros per kilowatt-hour. We used gsub to replace commas with periods, converted the strings to numeric values with as.numeric, and multiplied by 1000 to convert the prices from €/kWh to €/MWh (euros per megawatt-hour) for consistency with international standards and easier comparison with gas prices.
+
+### Gas Prices
+
+For the gas prices, we worked with the Dutch TTF Natural Gas Futures Historical Data.csv file, which provides daily TTF (Title Transfer Facility) natural gas prices - the European benchmark for natural gas pricing.
+We loaded the CSV using read_csv2 and selected only the first two columns containing the date and price information, renaming them accordingly. The date column required conversion from character format to proper date objects using as.Date with the format "%m/%d/%Y". The price values contained commas as thousand separators (e.g., "1,234.56"), so we used gsub to remove these commas before converting to numeric values.
+Since our analysis focuses on the 2019-2024 period to capture the energy crisis, we filtered the data to retain only dates within this range. We then extracted temporal information by creating year, month number, and month name columns using the lubridate functions (year, month) and converting month abbreviations to factors for proper ordering.
+To make the data structure compatible with our electricity prices (which are semi-annual), we aggregated the daily gas prices. First, we used pivot_wider to transform the data from long format to a wide format with one column per month and one row per year. Then, we calculated semester averages (S1 for January-June, S2 for July-December) using rowwise and c_across to compute the mean across the relevant months, with na.rm = TRUE to handle any missing values.
+Finally, we exported both cleaned datasets to CSV format using write.csv2 (European format with semicolons). We applied rounding to one decimal place using round(., 1) wrapped in mutate(across(...)) to ensure clean, readable values and avoid floating-point precision issues that could create long decimal tails in the exported files.
+
 ### Electricity production by source
 
 The original data set provides one data frame by type of fuel. Therefore, we have 8 data frames, each one measuring the production of electricity for the corresponding source in the nine countries.
@@ -199,6 +205,13 @@ Another issue was that the LNG importations where collected annually and not mon
 
 Then, in order to join both data frames, we extracted the keys (Year and Country) from the pipeline importation data frame and added them to the LNG importations thanks to the left_join function. We also used left_join to add the LNG importations to the pipeline importations and get the Total importations data frame. Finally, we created a column thanks to mutate to sum both importations and get the total importations.
 
+
+### Key Variables
+
+- **Electricity Prices**: Semi-annual household electricity prices (€/MWh) for 9 European countries, 2019-2024
+- **Gas Prices**: Monthly Dutch TTF natural gas futures prices (€/MWh), the European benchmark
+- **Gas Importations**: Total gas imports by country (million m³) 
+- **Electricity Generation**: Production capacity by energy source (GWh) per country
 
 
 # Research Question
