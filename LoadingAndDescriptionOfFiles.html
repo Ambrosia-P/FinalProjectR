@@ -88,12 +88,16 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Gas Prices</strong>: <code>Gaspricescleaned.csv</code> - cleaned Dutch TTF natural gas prices with monthly closing prices in euros per megawatt-hour for the same time period</p>
 <p><strong>Importations from Russia</strong> : <code>Total_imports.csv</code> - cleaned importations of natural gas from Russia, from both pipeline and boat, from 2019 to 2024 for the nine selected European countries, in million of cubic meters, monthly data.</p>
 <p><strong>Electricity Production by sources</strong> : <code>all_sources.csv</code> - cleaned decomposition of electricity production by source from 2019 to 2024 for the nine selected countries, with the total of electricity produced in the country, monthly data. We can derive a data frame for each country by using : sources_list and sources_list$Country</p>
-<section id="sources" class="level2">
-<h2 class="anchored" data-anchor-id="sources">Sources</h2>
-<p><strong>Eurostat</strong> :</p>
 </section>
-<section id="description-of-the-data-collection" class="level2">
-<h2 class="anchored" data-anchor-id="description-of-the-data-collection">Description of the data collection</h2>
+<section id="sources-description" class="level1">
+<h1>Sources description</h1>
+<p><strong>Eurostat</strong> - Energy Database (https://ec.europa.eu/eurostat/data/database)</p>
+<p>Official EU statistics office providing validated energy data collected from national statistical institutes following standardized methodologies (EU Regulation 1099/2008). Period: 2019-2024 Access: Free CSV download</p>
+<p><strong>Investing.com</strong> - TTF Natural Gas Futures (https://www.investing.com/commodities/dutch-ttf-gas-c1-futures-historical-data)</p>
+<p>Historical market data for TTF Dutch natural gas futures, the European benchmark for wholesale gas prices traded on ICE exchange. Period: January 2019 - December 2024 Access: Direct CSV download</p>
+</section>
+<section id="description-of-the-data-collection" class="level1">
+<h1>Description of the data collection</h1>
 <p>This data selection examines electricity and natural gas prices during the 2022 European Energy Crisis using data from two authoritative sources covering nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024.</p>
 <p><strong>Electricity Prices for Household Consumers</strong> (Code: nrg_pc_204): This dataset is sourced from Eurostat and accessible via the <a href="https://ec.europa.eu/eurostat/databrowser/bookmark/3fc4f5aa-4d49-4ab4-9b16-392cc50555ed?lang=en&amp;createdAt=2025-11-10T18:38:30Z">Eurostat Data Browser</a>. The dataframe measures electricity prices in euros for all 27 countries of the European Union from 2007 to 2025, with data collected bi-annually. For our purposes, we selected data for our nine chosen countries covering the period from 2019 to 2024, using prices that exclude taxes and levies.</p>
 <p><strong>Dutch TTF Natural Gas Prices</strong>: This dataset is sourced from <a href="https://www.investing.com/commodities/dutch-ttf-gas-c1-futures-historical-data">Investing.com</a> and provides monthly closing prices in euros per megawatt-hour. The Dutch TTF (Title Transfer Facility) gas market serves as the main benchmark for natural gas trading in Europe, setting the wholesale prices used in most European contracts. This makes it an essential indicator for understanding gas price movements across the continent during the crisis period.</p>
@@ -101,25 +105,11 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Liquified Natural Gas Importations</strong> : When looking at the pipeline importations, we realized that the Eurostat data frame indicated that some countries didn’t import any Russian gas during our time period. If it can be coherent for countries such as Denmark (which mainly on renewable sources), it is absolutely not true for countries such as Germany that are highly dependent on Russian importations. The fact remains that these countries do not imports Russian gas by pipeline, but by boat in a liquefied form. Therefore, to have a more precise analysis, we have decided to add the LNG (Liquefied Natural Gas) importations. This data set is sourced from the WITS, World Integrated Trade Solution (a database developed by the World Bank in collaboration with others organizations) and accessible via <a href="https://wits.worldbank.org/trade/comtrade/en/country/All/year/2023/tradeflow/Imports/partner/RUS/product/271111?utm_source=chatgpt.com">WITS.com</a>. This data set measures the amount of LNG in kilograms imported by countries all around the world from different partners, from 1992 to 2024, with data collected annually. We decided to select our nine countries (if they do import LNG) as reporters and the Russian Federation as partner.</p>
 <p><strong>Electricity production by source</strong> (Code: nrg_cb_pem): This data frame is sourced from Eurostat and accessible via the <a href="https://ec.europa.eu/eurostat/databrowser/bookmark/3fa70279-4410-4fb9-a55b-5a4038eea201?lang=en&amp;createdAt=2025-11-10T19:11:35Z">Eurostat Data Browser</a>. The original data set provides the net generation of electricity by source / type of fuels in gigawatts per hour, from 2008 to 2025, for all 27 european countries, with data collected monthly. For our nine countries, we decided to select only the most relevant and known sources out of the 23 types of fuels provided and decided to keep the total of energy generated in order to compute the energy mix later.</p>
 </section>
-</section>
 <section id="data-summary" class="level1">
 <h1>Data summary</h1>
 <section id="electricity-prices" class="level3">
 <h3 class="anchored" data-anchor-id="electricity-prices">Electricity prices</h3>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 11 Columns: 13
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ";"
-chr  (1): Country
-dbl (12): 2019-S1, 2019-S2, 2020-S1, 2020-S2, 2021-S1, 2021-S2, 2022-S1, 202...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Basic Information: Cleaned Electricity Prices Dataset</caption>
@@ -158,18 +148,6 @@ dbl (12): 2019-S1, 2019-S2, 2020-S1, 2020-S2, 2021-S1, 2021-S2, 2022-S1, 202...
 <section id="gas-prices" class="level3">
 <h3 class="anchored" data-anchor-id="gas-prices">Gas prices</h3>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 6 Columns: 15
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ";"
-dbl (15): year, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, ...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Basic Information: Cleaned Gas Prices Dataset</caption>
@@ -208,18 +186,6 @@ dbl (15): year, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, ...
 <section id="gas-importations" class="level2">
 <h2 class="anchored" data-anchor-id="gas-importations">Gas Importations</h2>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 711 Columns: 1
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ";"
-chr (1): Country,Year,pipeline_MCM,LNG_MCM,Total_MCM
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <tbody>
@@ -249,18 +215,6 @@ chr (1): Country,Year,pipeline_MCM,LNG_MCM,Total_MCM
 <section id="for-all-sources" class="level3">
 <h3 class="anchored" data-anchor-id="for-all-sources">For all sources</h3>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 720 Columns: 1
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ";"
-chr (1): Country,Year,Combustible fuels,Hydro,Solar,Wind,Nuclear fuels and o...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <tbody>
@@ -288,16 +242,6 @@ chr (1): Country,Year,Combustible fuels,Hydro,Solar,Wind,Nuclear fuels and o...
 <section id="for-one-country" class="level3">
 <h3 class="anchored" data-anchor-id="for-one-country">For one country</h3>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 720 Columns: 10
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (2): Country, Year
-dbl (8): Combustible fuels, Hydro, Solar, Wind, Nuclear fuels and other fuel...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <tbody>
@@ -349,14 +293,24 @@ dbl (8): Combustible fuels, Hydro, Solar, Wind, Nuclear fuels and other fuel...
 <p>Another issue was that the LNG importations where collected annually and not monthly. We created a column of the form Year-Month using the str functions. We then divided each value by 12 to have a distribution of the annual quantity imported across the 12 months.</p>
 <p>Then, in order to join both data frames, we extracted the keys (Year and Country) from the pipeline importation data frame and added them to the LNG importations thanks to the left_join function. We also used left_join to add the LNG importations to the pipeline importations and get the Total importations data frame. Finally, we created a column thanks to mutate to sum both importations and get the total importations.</p>
 </section>
-<section id="key-variables" class="level3">
-<h3 class="anchored" data-anchor-id="key-variables">Key Variables</h3>
-<ul>
-<li><strong>Electricity Prices</strong>: Semi-annual household electricity prices (€/MWh) for 9 European countries, 2019-2024</li>
-<li><strong>Gas Prices</strong>: Monthly Dutch TTF natural gas futures prices (€/MWh), the European benchmark</li>
-<li><strong>Gas Importations</strong>: Total gas imports by country (million m³)</li>
-<li><strong>Electricity Generation</strong>: Production capacity by energy source (GWh) per country</li>
-</ul>
+</section>
+<section id="key-variables" class="level1">
+<h1>Key Variables</h1>
+<section id="electricity-prices-2" class="level3">
+<h3 class="anchored" data-anchor-id="electricity-prices-2">Electricity Prices:</h3>
+<p>Semi-annual household electricity prices (€/MWh) for 9 European countries (Bulgaria, Denmark, Germany, Spain, France, Netherlands, Poland, Finland, Sweden) from 2019-S1 to 2024-S2, excluding taxes and levies. This variable captures the dramatic price increases during the 2022 energy crisis, with prices more than doubling in some countries like the Netherlands (from 136 €/MWh in 2019-S1 to 432 €/MWh in 2023-S1) before gradually declining.</p>
+</section>
+<section id="gas-prices-2" class="level3">
+<h3 class="anchored" data-anchor-id="gas-prices-2">Gas Prices:</h3>
+<p>Monthly Dutch TTF (Title Transfer Facility) natural gas futures prices (€/MWh) from January 2019 to December 2024, representing the European benchmark for natural gas pricing. The dataset includes semester aggregates (S1: January-June, S2: July-December) and shows the unprecedented price spike in 2022, with August reaching 240 €/MWh compared to pre-crisis averages of 10-15 €/MWh.</p>
+</section>
+<section id="gas-importations-1" class="level3">
+<h3 class="anchored" data-anchor-id="gas-importations-1">Gas Importations:</h3>
+<p>Monthly natural gas imports from Russia by the 9 European countries (Bulgaria, Denmark, Germany, Spain, France, Netherlands, Poland, Finland, Sweden) from January 2019 to December 2024, measured in million cubic meters (MCM). The data distinguishes between pipeline imports and LNG (Liquified Natural Gas) imports, tracking the dramatic shift in European energy supply following reduced Russian gas deliveries after February 2022.</p>
+</section>
+<section id="electricity-generation-by-source-1" class="level3">
+<h3 class="anchored" data-anchor-id="electricity-generation-by-source-1">Electricity Generation by Source:</h3>
+<p>Monthly electricity production (GWh) for each of the 9 countries from January 2019 to December 2024, decomposed by energy source including combustible fuels, hydro, solar, wind, nuclear, natural gas, and renewables/biofuels. This variable enables analysis of how different countries’ energy mixes (e.g., France’s nuclear-heavy production vs.&nbsp;Germany’s renewable-focused approach) affected their vulnerability to the gas price shock and subsequent electricity price increases.</p>
 </section>
 </section>
 <section id="research-question" class="level1">

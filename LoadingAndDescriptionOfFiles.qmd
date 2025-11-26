@@ -6,6 +6,8 @@ editor: visual
 repo-url: https://github.com/Ambrosia-P/FinalProjectR
 execute:
   echo: false
+  message: false
+  warning: false
 ---
 
 # Raw Data
@@ -40,11 +42,20 @@ Processed data files are in the [`/cleaned_data`](https://github.com/Ambrosia-P/
 **Electricity Production by sources** : `all_sources.csv` - cleaned decomposition of electricity production by source from 2019 to 2024 for the nine selected countries, with the total of electricity produced in the country, monthly data. We can derive a data frame for each country by using : sources_list and sources_list\$Country
 
 
-## Sources
+# Sources description
 
-**Eurostat** :
+**Eurostat** - Energy Database (https://ec.europa.eu/eurostat/data/database)
 
-## Description of the data collection
+Official EU statistics office providing validated energy data collected from national statistical institutes following standardized methodologies (EU Regulation 1099/2008). Period: 2019-2024
+Access: Free CSV download
+
+**Investing.com** - TTF Natural Gas Futures (https://www.investing.com/commodities/dutch-ttf-gas-c1-futures-historical-data)
+
+Historical market data for TTF Dutch natural gas futures, the European benchmark for wholesale gas prices traded on ICE exchange.
+Period: January 2019 - December 2024
+Access: Direct CSV download
+
+# Description of the data collection
 
 This data selection examines electricity and natural gas prices during the 2022 European Energy Crisis using data from two authoritative sources covering nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024.
 
@@ -206,12 +217,23 @@ Another issue was that the LNG importations where collected annually and not mon
 Then, in order to join both data frames, we extracted the keys (Year and Country) from the pipeline importation data frame and added them to the LNG importations thanks to the left_join function. We also used left_join to add the LNG importations to the pipeline importations and get the Total importations data frame. Finally, we created a column thanks to mutate to sum both importations and get the total importations.
 
 
-### Key Variables
+# Key Variables
 
-- **Electricity Prices**: Semi-annual household electricity prices (€/MWh) for 9 European countries, 2019-2024
-- **Gas Prices**: Monthly Dutch TTF natural gas futures prices (€/MWh), the European benchmark
-- **Gas Importations**: Total gas imports by country (million m³) 
-- **Electricity Generation**: Production capacity by energy source (GWh) per country
+### Electricity Prices: 
+
+Semi-annual household electricity prices (€/MWh) for 9 European countries (Bulgaria, Denmark, Germany, Spain, France, Netherlands, Poland, Finland, Sweden) from 2019-S1 to 2024-S2, excluding taxes and levies. This variable captures the dramatic price increases during the 2022 energy crisis, with prices more than doubling in some countries like the Netherlands (from 136 €/MWh in 2019-S1 to 432 €/MWh in 2023-S1) before gradually declining.
+
+### Gas Prices:
+
+Monthly Dutch TTF (Title Transfer Facility) natural gas futures prices (€/MWh) from January 2019 to December 2024, representing the European benchmark for natural gas pricing. The dataset includes semester aggregates (S1: January-June, S2: July-December) and shows the unprecedented price spike in 2022, with August reaching 240 €/MWh compared to pre-crisis averages of 10-15 €/MWh.
+
+### Gas Importations:
+
+Monthly natural gas imports from Russia by the 9 European countries (Bulgaria, Denmark, Germany, Spain, France, Netherlands, Poland, Finland, Sweden) from January 2019 to December 2024, measured in million cubic meters (MCM). The data distinguishes between pipeline imports and LNG (Liquified Natural Gas) imports, tracking the dramatic shift in European energy supply following reduced Russian gas deliveries after February 2022.
+
+### Electricity Generation by Source:
+
+Monthly electricity production (GWh) for each of the 9 countries from January 2019 to December 2024, decomposed by energy source including combustible fuels, hydro, solar, wind, nuclear, natural gas, and renewables/biofuels. This variable enables analysis of how different countries' energy mixes (e.g., France's nuclear-heavy production vs. Germany's renewable-focused approach) affected their vulnerability to the gas price shock and subsequent electricity price increases.
 
 
 # Research Question
