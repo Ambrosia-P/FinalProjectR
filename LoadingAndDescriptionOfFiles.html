@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Lou-Ann and Ambrosia">
+
+<title>Loading and description of the files</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="LoadingAndDescriptionOfFiles_files/libs/clipboard/clipboard.min.js"></script>
+<script src="LoadingAndDescriptionOfFiles_files/libs/quarto-html/quarto.js"></script>
+<script src="LoadingAndDescriptionOfFiles_files/libs/quarto-html/popper.min.js"></script>
+<script src="LoadingAndDescriptionOfFiles_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="LoadingAndDescriptionOfFiles_files/libs/quarto-html/anchor.min.js"></script>
+<link href="LoadingAndDescriptionOfFiles_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="LoadingAndDescriptionOfFiles_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="LoadingAndDescriptionOfFiles_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="LoadingAndDescriptionOfFiles_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="LoadingAndDescriptionOfFiles_files/libs/bootstrap/bootstrap-1bc8a17f135ab3d594c857e9f48e611b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Loading and description of the files</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Lou-Ann and Ambrosia </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="raw-data" class="level1">
+<h1>Raw Data</h1>
+<p>Raw data files are stored in the <a href="https://github.com/Ambrosia-P/FinalProjectR/tree/master/data"><code>/data</code></a> folder:</p>
+<p><strong>Energy Prices</strong>: <code>EnergyPricesNewVersion.xlsx</code> - Electricity and gas prices for European countries</p>
+<p><strong>Gas Prices</strong>: <code>TTF_Prices.xlsx</code> - TTF (Title Transfer Facility) natural gas prices</p>
+<p><strong>Pipeline Importations</strong> : <code>Imports_pipeline.csv</code> - Importations from Russia by pipeline</p>
+<p><strong>Liquified Natural gas importations</strong> : <code>LNG_2019.csv</code> - Annual importations of natural gas from Russia by boat (also provided for 2020, 2021, 2022, 2023 and 2024). All years from 2019 to 2024 are combined the the data frame <code>LNG_imports</code></p>
+<p><strong>Electricity production by sources</strong> : <code>Combustible_fuels.csv</code> - Electricity produced by combustible fuels (also provided for Fossil fuels, Hydro, Natural gas, Nuclear, Renewable sources, Solar, Wind and Total)</p>
+</section>
+<section id="cleaned-data" class="level1">
+<h1>Cleaned Data</h1>
+<p>Processed data files are in the <a href="https://github.com/Ambrosia-P/FinalProjectR/tree/master/cleaned_data"><code>/cleaned_data</code></a> folder:</p>
+<p><strong>Electricity Prices</strong>: <code>Energypricescleaned.xlsx</code> - cleaned household electricity prices for nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024, bi-annual data, prices excluding taxes and levies</p>
+<p><strong>Gas Prices</strong>: <code>Gaspricescleaned.xlsx</code> - cleaned Dutch TTF natural gas prices with monthly closing prices in euros per megawatt-hour for the same time period</p>
+<p><strong>Importations from Russia</strong> : <code>Total_imports.csv</code> - cleaned importations of natural gas from Russia, from both pipeline and boat, from 2019 to 2024 for the nine selected European countries, in million of cubic meters, monthly data.</p>
+<p><strong>Electricity Production by sources</strong> : <code>all_sources</code> - cleaned decomposition of electricity production by source from 2019 to 2024 for the nine selected countries, with the total of electricity produced in the country, monthly data. We can derive a data frame for each country by using : sources_list and sources_list$Country</p>
+<section id="description-of-the-data-collection-and-sources" class="level2">
+<h2 class="anchored" data-anchor-id="description-of-the-data-collection-and-sources">Description of the data collection and sources</h2>
+<p>This data selection examines electricity and natural gas prices during the 2022 European Energy Crisis using data from two authoritative sources covering nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024.</p>
+<p><strong>Electricity Prices for Household Consumers</strong> (Code: nrg_pc_204): This dataset is sourced from Eurostat and accessible via the <a href="https://ec.europa.eu/eurostat/databrowser/bookmark/3fc4f5aa-4d49-4ab4-9b16-392cc50555ed?lang=en&amp;createdAt=2025-11-10T18:38:30Z">Eurostat Data Browser</a>. The dataframe measures electricity prices in euros for all 27 countries of the European Union from 2007 to 2025, with data collected bi-annually. For our purposes, we selected data for our nine chosen countries covering the period from 2019 to 2024, using prices that exclude taxes and levies.</p>
+<p><strong>Dutch TTF Natural Gas Prices</strong>: This dataset is sourced from <a href="https://www.investing.com/commodities/dutch-ttf-gas-c1-futures-historical-data">Investing.com</a> and provides monthly closing prices in euros per megawatt-hour. The Dutch TTF (Title Transfer Facility) gas market serves as the main benchmark for natural gas trading in Europe, setting the wholesale prices used in most European contracts. This makes it an essential indicator for understanding gas price movements across the continent during the crisis period.</p>
+<p><strong>Pipeline Importations</strong> (Code: nrg_ti_gasm) : This data set is sourced from Eurostat and accesible via the <a href="https://ec.europa.eu/eurostat/databrowser/view/nrg_ti_gasm/default/table?lang=fr">Eurostat Data Browser</a>. The initial data set measures the amount of natural gas in million of cubic meter that is imported by all 27 countries from global partners, from 2008 to 2025, with data collected monthly . We selected Russia as a partner and our nine countries as geopolitical entities to keep only the dependency on Russian importations.</p>
+<p><strong>Liquified Natural Gas Importations</strong> : When looking at the pipeline importations, we realized that the Eurostat data frame indicated that some countries didn’t import any Russian gas during our time period. If it can be coherent for countries such as Denmark (which mainly on renewable sources), it is absolutely not true for countries such as Germany that are highly dependent on Russian importations. The fact remains that these countries do not imports Russian gas by pipeline, but by boat in a liquefied form. Therefore, to have a more precise analysis, we have decided to add the LNG (Liquefied Natural Gas) importations. This data set is sourced from the WITS, World Integrated Trade Solution (a database developed by the World Bank in collaboration with others organizations) and accessible via <a href="https://wits.worldbank.org/trade/comtrade/en/country/All/year/2023/tradeflow/Imports/partner/RUS/product/271111?utm_source=chatgpt.com">WITS.com</a>. This data set measures the amount of LNG in kilograms imported by countries all around the world from different partners, from 1992 to 2024, with data collected annually. We decided to select as reporters our nine countries (if they do import LNG) and the Russian Federation as partner.</p>
+<p><strong>Electricity production by source</strong> (Code: nrg_cb_pem): This data frame is sourced from Eurostat and accessible via the <a href="https://ec.europa.eu/eurostat/databrowser/bookmark/3fa70279-4410-4fb9-a55b-5a4038eea201?lang=en&amp;createdAt=2025-11-10T19:11:35Z">Eurostat Data Browser</a>. The original data set provides the net generation of electricity by source / type of fuels in gigawatts per hour, from 2008 to 2025, for all 27 european countries, with data collected monthly. For our nine countries, we decided to select only the most relevant and known sources out of the 23 types of fuels provided and decided to keep the total of energy generated in order to compute the energy mix later.</p>
+</section>
+<section id="data-summary" class="level2">
+<h2 class="anchored" data-anchor-id="data-summary">Data summary</h2>
+<section id="electricity-prices" class="level3">
+<h3 class="anchored" data-anchor-id="electricity-prices">Electricity prices</h3>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: le package 'readxl' a été compilé avec la version R 4.5.2</code></pre>
+</div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Basic Information: Cleaned Electricity Prices Dataset</caption>
+<colgroup>
+<col style="width: 13%">
+<col style="width: 86%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribute</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dataset</td>
+<td style="text-align: left;">Energypricescleaned.xlsx</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of Rows</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of Columns</td>
+<td style="text-align: left;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Column Names</td>
+<td style="text-align: left;">Country, 2019-S1, 2019-S2, 2020-S1, 2020-S2, 2021-S1, 2021-S2, 2022-S1, 2022-S2, 2023-S1, 2023-S2, 2024-S1, 2024-S2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="gas-prices" class="level3">
+<h3 class="anchored" data-anchor-id="gas-prices">Gas prices</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Basic Information: Cleaned Gas Prices Dataset</caption>
+<colgroup>
+<col style="width: 19%">
+<col style="width: 80%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribute</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dataset</td>
+<td style="text-align: left;">Gaspricescleaned.xlsx</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of Rows</td>
+<td style="text-align: left;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of Columns</td>
+<td style="text-align: left;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Column Names</td>
+<td style="text-align: left;">year, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, S1, S2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="research-question" class="level1">
+<h1>Research Question</h1>
+<p>The 2022 European Energy Crisis represents one of the most significant economic shocks to affect the European Union in recent decades. Triggered by Russia’s invasion of Ukraine in February 2022 and the subsequent disruption of natural gas supplies to Europe, this crisis sent energy prices soaring to unprecedented levels, threatening economic stability and household welfare across the continent. Our research seeks to understand the dynamics and heterogeneity of this crisis by examining how electricity and natural gas prices evolved across nine European countries with diverse energy profiles.</p>
+<p><strong>Central Question</strong>: How did electricity and natural gas prices respond to the 2022 energy supply shock across different European countries, and what role did national energy mix compositions play in mediating these price responses?</p>
+<p>The choice of our nine countries—France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland—is deliberate and reflects the diversity of European energy systems. France relies heavily on nuclear power, which theoretically insulates it from natural gas price volatility. Germany, conversely, had become increasingly dependent on Russian gas imports and was forced to rapidly restructure its energy supply. Spain and Italy represent southern European economies with different infrastructure and import dependencies. The Netherlands hosts the TTF gas hub, Europe’s primary natural gas trading benchmark. Poland and Bulgaria represent Central and Eastern European economies with historical ties to Russian energy. Finally, Sweden and Finland represent Nordic countries with substantial hydroelectric and renewable capacity.</p>
+<p>Our analysis focuses on the period from 2019 to 2024, allowing us to establish pre-crisis baseline trends and observe both the acute crisis phase in 2022-2023 and the subsequent adjustment period. By examining electricity prices alongside natural gas prices, we can investigate the transmission mechanisms through which gas price shocks affected electricity markets.</p>
+<p>Several key sub-questions guide our investigation. First, we examine the timing and magnitude of price increases: did all countries experience simultaneous shocks, or were there temporal variations reflecting different supply vulnerabilities? Second, we explore price convergence and divergence: did the crisis lead to greater price harmonization across Europe, or did it exacerbate existing price differentials? Third, we investigate the relationship between gas and electricity prices: how tightly coupled were these markets, and did this coupling vary across countries?</p>
+<p>This crisis serves as a natural experiment for understanding how integrated European energy markets function under extreme stress. Also, by examining how different energy mixes performed during the crisis, we can inform debates about optimal transition pathways that balance climate objectives with economic resilience.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

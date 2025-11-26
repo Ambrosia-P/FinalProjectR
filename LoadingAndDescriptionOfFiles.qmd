@@ -12,9 +12,15 @@ execute:
 
 Raw data files are stored in the [`/data`](https://github.com/Ambrosia-P/FinalProjectR/tree/master/data) folder:
 
+<<<<<<< HEAD
 **Energy Prices**: `EnergyPricesNewVersion.csv` - Electricity and gas prices for European countries
 
 **Gas Prices**: `Dutch TTF Natural Gas Futures Historical Data.csv` - TTF (Title Transfer Facility) natural gas prices
+=======
+**Energy Prices**: `EnergyPricesNewVersion.xlsx` - Electricity and gas prices for European countries
+
+**Gas Prices**: `TTF_Prices.xlsx` - TTF (Title Transfer Facility) natural gas prices
+>>>>>>> ed549ad3797b4276261dced23b01a799ad2194ef
 
 **Pipeline Importations** : `Imports_pipeline.csv` - Importations from Russia by pipeline
 
@@ -26,6 +32,7 @@ Raw data files are stored in the [`/data`](https://github.com/Ambrosia-P/FinalPr
 
 Processed data files are in the [`/cleaned_data`](https://github.com/Ambrosia-P/FinalProjectR/tree/master/cleaned_data) folder:
 
+<<<<<<< HEAD
 **Electricity Prices**: `Energypricescleaned.csv` - cleaned household electricity prices for nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024, bi-annual data, prices excluding taxes and levies
 
 **Gas Prices**: `Gaspricescleaned.csv` - cleaned Dutch TTF natural gas prices with monthly closing prices in euros per megawatt-hour for the same time period
@@ -33,6 +40,15 @@ Processed data files are in the [`/cleaned_data`](https://github.com/Ambrosia-P/
 **Importations from Russia** : `Total_imports.csv` - cleaned importations of natural gas from Russia, from both pipeline and boat, from 2019 to 2024 for the nine selected European countries, in million of cubic meters, monthly data.
 
 **Electricity Production by sources** : `all_sources.csv` - cleaned decomposition of electricity production by source from 2019 to 2024 for the nine selected countries, with the total of electricity produced in the country, monthly data. We can derive a data frame for each country by using : sources_list and sources_list\$Country
+=======
+**Electricity Prices**: `Energypricescleaned.xlsx` - cleaned household electricity prices for nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024, bi-annual data, prices excluding taxes and levies
+
+**Gas Prices**: `Gaspricescleaned.xlsx` - cleaned Dutch TTF natural gas prices with monthly closing prices in euros per megawatt-hour for the same time period
+
+**Importations from Russia** : `Total_imports.csv` - cleaned importations of natural gas from Russia, from both pipeline and boat, from 2019 to 2024 for the nine selected European countries, in million of cubic meters, monthly data.
+
+**Electricity Production by sources** : `all_sources` - cleaned decomposition of electricity production by source from 2019 to 2024 for the nine selected countries, with the total of electricity produced in the country, monthly data. We can derive a data frame for each country by using : sources_list and sources_list\$Country
+>>>>>>> ed549ad3797b4276261dced23b01a799ad2194ef
 
 ## Sources
 
@@ -60,7 +76,9 @@ This data selection examines electricity and natural gas prices during the 2022 
 library(readxl)
 library(knitr)
 
+
 electricity_data <- read_csv("cleaned_data/Energypricescleaned.csv")
+
 
 electricity_info <- data.frame(
   Attribute = c("Dataset", "Number of Rows", "Number of Columns", "Column Names"),
