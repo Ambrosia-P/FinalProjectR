@@ -8,6 +8,7 @@ editor: visual
 
 ## ELECTRICITY PRICES
 
+
 ```{r}
 
 library(readxl)
@@ -16,7 +17,7 @@ library(lubridate)
 library(dplyr)
 
 
-elec_raw <- read_excel("EnergyPricesNewVersion.xlsx", sheet = "Data")
+elec_raw <- read_csv2("EnergyPricesNewVersion.csv")
 
 
 electricity_prices <- elec_raw[11:22, ]
@@ -32,9 +33,13 @@ electricity_prices <- electricity_prices[-1, c(1, period_cols)]
 colnames(electricity_prices) <- c("Country", col_names[period_cols])
 electricity_prices <- electricity_prices %>% select(Country, matches("2019|2020|2021|2022|2023|2024"))
 
-
 electricity_prices <- electricity_prices %>%
-  mutate(across(-Country, ~as.numeric(.) * 1000))
+  mutate(across(-Country, ~{
+    # Remplace virgule par point
+    x <- gsub(",", ".", .)
+    # Force la conversion numérique
+    as.numeric(x) * 1000
+  }))
 
 
 cat("\n=== ELECTRICITY PRICES ===\n")
@@ -42,22 +47,20 @@ print(electricity_prices)
 
 ```
 
+
 ## GAS PRICES
 
-```{r}
-raw <- read_excel("TTF_Prices.xlsx", skip = 1)
 
+```{r}
+raw <- read_csv2("Dutch TTF Natural Gas Futures Historical Data.csv")
 
 df <- raw %>%
   select(1:2) %>%                    
   rename(date = 1, price = 2) %>%
   mutate(
-
     date  = as.Date(date, format = "%m/%d/%Y"),
-   
     price = as.numeric(gsub(",", "", price))
   )
-
 
 df_filtered <- df %>%
   filter(date >= as.Date("2019-01-01"),
@@ -67,7 +70,6 @@ df_filtered <- df %>%
     month_num = month(date),
     month     = factor(month.abb[month_num], levels = month.abb)
   )
-
 
 table_year_month <- df_filtered %>%
   select(year, month, month_num, price) %>%
@@ -82,7 +84,6 @@ table_year_month <- df_filtered %>%
 table_year_month <- table_year_month %>%
   mutate(across(Jan:Dec, as.numeric))
 
-
 table_year_month_S <- table_year_month %>%
   rowwise() %>%
   mutate(
@@ -91,35 +92,22 @@ table_year_month_S <- table_year_month %>%
   ) %>%
   ungroup()
 
-
-table_semesters <- table_year_month_S %>%
-  select(year, S1, S2) %>%
-  pivot_longer(
-    cols      = c(S1, S2),
-    names_to  = "semester",
-    values_to = "price"
-  ) %>%
-  arrange(year, semester)
-
-
 table_year_month_S
 
 ```
-
+## Exports en CSV
 ```{r}
+library(readr)
 
-library(writexl)
+write.csv2(
+  electricity_prices %>% mutate(across(-Country, ~round(., 1))),
+  file = "Energypricescleaned.csv",
+  row.names = FALSE)
 
-
-write_xlsx(
-  electricity_prices,
-  path = "Energypricescleaned.xlsx"
-)
-
-write_xlsx(
-  table_year_month_S,
-  path = file.path(getwd(), "Gaspricescleaned.xlsx")
-)
+write.csv2(
+  table_year_month_S %>% mutate(across(-year, ~round(., 1))),
+  file = "Gaspricescleaned.csv",
+  row.names = FALSE)
 
 ```
 
