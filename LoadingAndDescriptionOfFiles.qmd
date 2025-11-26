@@ -73,17 +73,19 @@ This data selection examines electricity and natural gas prices during the 2022 
 ### Electricity prices
 
 ```{r}
-library(readxl)
+
 library(knitr)
+library(readr)
 
 
-electricity_data <- read_csv("cleaned_data/Energypricescleaned.csv")
+
+electricity_data <- read_csv2("cleaned_data/Energypricescleaned.csv")
 
 
 electricity_info <- data.frame(
   Attribute = c("Dataset", "Number of Rows", "Number of Columns", "Column Names"),
   Value = c(
-    "Energypricescleaned.xlsx",
+    "Energypricescleaned.csv",
     nrow(electricity_data),
     ncol(electricity_data),
     paste(colnames(electricity_data), collapse = ", ")
@@ -98,12 +100,12 @@ kable(electricity_info,
 ### Gas prices
 
 ```{r}
-library(readxl)
+library(readr)
 library(knitr)
 
-gas_data <- read_excel("cleaned_data/Gaspricescleaned.xlsx")
+gas_data <- read_csv2("cleaned_data/Gaspricescleaned.csv")
 
-gas_info <- data.frame( Attribute = c("Dataset", "Number of Rows", "Number of Columns", "Column Names"),Value = c("Gaspricescleaned.xlsx",
+gas_info <- data.frame( Attribute = c("Dataset", "Number of Rows", "Number of Columns", "Column Names"),Value = c("Gaspricescleaned.csv",
     nrow(gas_data),
     ncol(gas_data),
     paste(colnames(gas_data), collapse = ", ")))
@@ -117,12 +119,17 @@ kable(gas_info,
 
 ```{r}
 
-Importations <- read.csv("cleaned_data/Total_import.csv")
+library(readr)
 
-Importations <- data.frame(col1= c("Nom", "Number of rows", "Number of columns", "Unit"), col2= c("Gas Importations",nrow(Total_imports), ncol(Total_imports), "Million of cubic meters"))
-names(Importations) <- c("","")
+Importations <- read_csv2("cleaned_data/Total_import.csv")
 
-kable(Importations)
+Importations_info <- data.frame(
+  col1 = c("Nom", "Number of rows", "Number of columns", "Unit"), 
+  col2 = c("Gas Importations", nrow(Importations), ncol(Importations), "Million of cubic meters")
+)
+names(Importations_info) <- c("", "")
+
+kable(Importations_info)
 ```
 
 ## Electricity generation by source
@@ -131,25 +138,41 @@ kable(Importations)
 
 ```{r}
 
-Elec_prod <- read.csv("cleaned_data/all_sources.csv")
+library(readr)
 
-Elec_prod <- data.frame(col1= c("Nom", "Number of rows", "Number of columns", "Unit"), col2= c("Electricity generation by source",nrow(all_sources), ncol(all_sources), "Gigawatts per hour"))
-names(Elec_prod) <- c("","")
+Elec_prod <- read_csv2("cleaned_data/all_sources.csv")
 
-kable(Elec_prod)
+Elec_prod_info <- data.frame(
+  col1 = c("Nom", "Number of rows", "Number of columns", "Unit"), 
+  col2 = c("Electricity generation by source", nrow(Elec_prod), ncol(Elec_prod), "Gigawatts per hour")
+)
+
+names(Elec_prod_info) <- c("", "")
+
+kable(Elec_prod_info)
 ```
 
 ### For one country
 
 ```{r}
+library(readr)
 
+all_sources <- read_csv("cleaned_data/all_sources.csv")
+
+sources_list <- split(all_sources, all_sources$Country)
 
 France_elec_prod <- sources_list$France
 
-France_elec_prod <- data.frame(col1= c("Nom", "Number of rows", "Number of columns", "Unit"), col2= c("Electricity generation by source for France",nrow(France_elec_prod), ncol(France_elec_prod), "Million of cubic meters"))
-names(France_elec_prod) <- c("","")
+France_elec_prod_info <- data.frame(
+  col1 = c("Nom", "Number of rows", "Number of columns", "Unit"), 
+  col2 = c("Electricity generation by source for France", nrow(France_elec_prod), ncol(France_elec_prod), "Gigawatts per hour")
+)
 
-kable(France_elec_prod)
+names(France_elec_prod_info) <- c("", "")
+
+kable(France_elec_prod_info)
+
+
 ```
 
 # Data cleaning description
