@@ -91,10 +91,15 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="sources-description" class="level1">
 <h1>Sources description</h1>
-<p><strong>Eurostat</strong> - Energy Database (https://ec.europa.eu/eurostat/data/database)</p>
-<p>Official EU statistics office providing validated energy data collected from national statistical institutes following standardized methodologies (EU Regulation 1099/2008). Period: 2019-2024 Access: Free CSV download</p>
-<p><strong>Investing.com</strong> - TTF Natural Gas Futures (https://www.investing.com/commodities/dutch-ttf-gas-c1-futures-historical-data)</p>
-<p>Historical market data for TTF Dutch natural gas futures, the European benchmark for wholesale gas prices traded on ICE exchange. Period: January 2019 - December 2024 Access: Direct CSV download</p>
+<p>This project relies on two primary data sources that provide comprehensive and reliable information on European energy markets during the 2019-2024 period, encompassing both the pre-crisis baseline and the tumultuous energy crisis that followed Russia’s invasion of Ukraine in February 2022.</p>
+<section id="eurostat---energy-database-httpsec.europa.eueurostatdatadatabase" class="level3">
+<h3 class="anchored" data-anchor-id="eurostat---energy-database-httpsec.europa.eueurostatdatadatabase">Eurostat - Energy Database (https://ec.europa.eu/eurostat/data/database)</h3>
+<p>Eurostat serves as the statistical office of the European Union, responsible for collecting, harmonizing, and publishing official statistics across all EU member states. Our primary datasets on electricity prices, electricity generation by source, and natural gas importations were obtained from Eurostat’s comprehensive energy database. This source is particularly valuable for academic research due to its rigorous data collection methodology, which follows standardized protocols established under EU Regulation 1099/2008 on energy statistics. National statistical institutes from each member country report data to Eurostat following uniform definitions and classifications, ensuring cross-country comparability—a critical requirement for our comparative analysis of how different European countries responded to the energy crisis. The electricity price data specifically covers household consumers in the medium consumption band (2,500-5,000 kWh annually), excluding taxes and levies to enable pure market price comparisons. Electricity generation data is disaggregated by fuel type (combustible fuels, hydro, solar, wind, nuclear, natural gas, renewables/biofuels), allowing us to analyze each country’s energy mix and its relationship to price volatility. The gas importation statistics distinguish between pipeline imports and LNG (Liquified Natural Gas) imports, providing granular insight into the dramatic shifts in European energy supply chains following reduced Russian deliveries. All Eurostat data is freely accessible and downloadable in CSV format, with full documentation of collection methodologies, definitions, and any breaks in series. The temporal coverage spans January 2019 to December 2024 for monthly data (gas imports, electricity generation) and semester 1 of 2019 to semester 2 of 2024 for bi-annual data (electricity prices), providing a robust six-year window that captures both normal market conditions and crisis dynamics.</p>
+</section>
+<section id="investing.com---ttf-natural-gas-futures-httpswww.investing.comcommoditiesdutch-ttf-gas-c1-futures-historical-data" class="level3">
+<h3 class="anchored" data-anchor-id="investing.com---ttf-natural-gas-futures-httpswww.investing.comcommoditiesdutch-ttf-gas-c1-futures-historical-data">Investing.com - TTF Natural Gas Futures (https://www.investing.com/commodities/dutch-ttf-gas-c1-futures-historical-data)</h3>
+<p>To complement Eurostat’s official statistics, we obtained daily natural gas price data from Investing.com, a leading financial markets platform that aggregates trading data from global exchanges. Specifically, we collected historical prices for TTF (Title Transfer Facility) Dutch natural gas futures—the primary benchmark for European wholesale gas prices traded on the Intercontinental Exchange (ICE). The TTF hub, located in the Netherlands, became Europe’s most liquid natural gas trading point and the de facto reference price for European gas contracts following the UK’s exit from the EU. Daily closing prices are expressed in euros per megawatt-hour (€/MWh), the standard unit for energy commodity pricing in Europe. This high-frequency data (daily observations from January 2019 through December 2024) was aggregated into monthly and semester averages for our analysis, enabling direct comparison with the electricity price data. Using market-based pricing data from Investing.com rather than reported average prices provides several advantages: it captures real-time market sentiment and expectations, reflects the actual prices at which large volumes of gas traded, and includes the extreme volatility that characterized the 2022 crisis when spot prices briefly exceeded €300/MWh. The combination of official government statistics (Eurostat) and market trading data (Investing.com) provides a comprehensive view of both physical energy flows and price formation mechanisms during this unprecedented period in European energy markets.</p>
+</section>
 </section>
 <section id="description-of-the-data-collection" class="level1">
 <h1>Description of the data collection</h1>
@@ -321,6 +326,23 @@ ul.task-list li input[type="checkbox"] {
 <p>Our analysis focuses on the period from 2019 to 2024, allowing us to establish pre-crisis baseline trends and observe both the acute crisis phase in 2022-2023 and the subsequent adjustment period. By examining electricity prices alongside natural gas prices, we can investigate the transmission mechanisms through which gas price shocks affected electricity markets.</p>
 <p>Several key sub-questions guide our investigation. First, we examine the timing and magnitude of price increases: did all countries experience simultaneous shocks, or were there temporal variations reflecting different supply vulnerabilities? Second, we explore price convergence and divergence: did the crisis lead to greater price harmonization across Europe, or did it exacerbate existing price differentials? Third, we investigate the relationship between gas and electricity prices: how tightly coupled were these markets, and did this coupling vary across countries?</p>
 <p>This crisis serves as a natural experiment for understanding how integrated European energy markets function under extreme stress. Also, by examining how different energy mixes performed during the crisis, we can inform debates about optimal transition pathways that balance climate objectives with economic resilience.</p>
+</section>
+<section id="the-main-observed-variable-electricity-prices-between-2019-and-2023" class="level1">
+<h1>The main observed variable: Electricity prices between 2019 and 2023</h1>
+<p>Household electricity prices represent our primary outcome variable of interest, as they directly reflect the impact of the 2022 European energy crisis on consumers across nine European countries. This analysis examines how variations in Russian gas import dependence, natural gas price shocks, and national electricity generation mixes (nuclear, renewables, fossil fuels) influenced the magnitude and timing of electricity price increases during the 2022-2024 crisis period</p>
+<section id="graphical-representation" class="level2">
+<h2 class="anchored" data-anchor-id="graphical-representation">Graphical representation</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LoadingAndDescriptionOfFiles_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>```</p>
+</section>
 </section>
 
 </main>
