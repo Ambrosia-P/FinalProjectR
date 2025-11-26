@@ -18,11 +18,6 @@ Raw data files are stored in the [`/data`](https://github.com/Ambrosia-P/FinalPr
 
 **Gas Prices**: `Dutch TTF Natural Gas Futures Historical Data.csv` - TTF (Title Transfer Facility) natural gas prices
 
-**Energy Prices**: `EnergyPricesNewVersion.xlsx` - Electricity and gas prices for European countries
-
-**Gas Prices**: `TTF_Prices.xlsx` - TTF (Title Transfer Facility) natural gas prices
-
-
 **Pipeline Importations** : `Imports_pipeline.csv` - Importations from Russia by pipeline
 
 **Liquified Natural gas importations** : `LNG_2019.csv` - Annual importations of natural gas from Russia by boat (also provided for 2020, 2021, 2022, 2023 and 2024). All years from 2019 to 2024 are combined the the data frame `LNG_imports`
@@ -33,7 +28,7 @@ Raw data files are stored in the [`/data`](https://github.com/Ambrosia-P/FinalPr
 
 Processed data files are in the [`/cleaned_data`](https://github.com/Ambrosia-P/FinalProjectR/tree/master/cleaned_data) folder:
 
-**Electricity Prices**: `Energypricescleaned.csv` - cleaned household electricity prices for nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024, bi-annual data, prices excluding taxes and levies
+**Electricity Prices**: `Energypricescleaned.csv` - cleaned household electricity prices for nine European countries (France, Germany, Spain, Denmark, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024, bi-annual data, prices excluding taxes and levies
 
 **Gas Prices**: `Gaspricescleaned.csv` - cleaned Dutch TTF natural gas prices with monthly closing prices in euros per megawatt-hour for the same time period
 
@@ -48,19 +43,24 @@ This project relies on two primary data sources that provide comprehensive and r
 
 ### Eurostat - Energy Database (https://ec.europa.eu/eurostat/data/database)
 
-Eurostat serves as the statistical office of the European Union, responsible for collecting, harmonizing, and publishing official statistics across all EU member states. Our primary datasets on electricity prices, electricity generation by source, and natural gas importations were obtained from Eurostat's comprehensive energy database. This source is particularly valuable for academic research due to its rigorous data collection methodology, which follows standardized protocols established under EU Regulation 1099/2008 on energy statistics.
-National statistical institutes from each member country report data to Eurostat following uniform definitions and classifications, ensuring cross-country comparability—a critical requirement for our comparative analysis of how different European countries responded to the energy crisis. The electricity price data specifically covers household consumers in the medium consumption band (2,500-5,000 kWh annually), excluding taxes and levies to enable pure market price comparisons. Electricity generation data is disaggregated by fuel type (combustible fuels, hydro, solar, wind, nuclear, natural gas, renewables/biofuels), allowing us to analyze each country's energy mix and its relationship to price volatility. The gas importation statistics distinguish between pipeline imports and LNG (Liquified Natural Gas) imports, providing granular insight into the dramatic shifts in European energy supply chains following reduced Russian deliveries.
-All Eurostat data is freely accessible and downloadable in CSV format, with full documentation of collection methodologies, definitions, and any breaks in series. The temporal coverage spans January 2019 to December 2024 for monthly data (gas imports, electricity generation) and semester 1 of 2019 to semester 2 of 2024 for bi-annual data (electricity prices), providing a robust six-year window that captures both normal market conditions and crisis dynamics.
+Eurostat is the official statistical office of the European Union. It collects and publishes statistics from all EU member states using standardized methods, which makes cross-country comparisons reliable and meaningful for our analysis.
+
+We obtained three main datasets from Eurostat's energy database: electricity prices, electricity generation by source, and natural gas imports. The standardized collection process ensures that data from different countries can be directly compared; this is crucial for understanding how different European countries responded differently to the energy crisis.
+The electricity price data covers household consumers with medium consumption (2,500-5,000 kWh per year), and prices exclude taxes and levies so we can compare pure market prices across countries. The electricity generation data breaks down production by fuel type: combustible fuels, hydro, solar, wind, nuclear, natural gas, and renewables/biofuels. This breakdown lets us analyze how each country's energy mix affected its vulnerability to the gas price shock.
+The gas import data is particularly interesting because it separates pipeline imports from LNG (Liquified Natural Gas) imports. This distinction is important for tracking how European countries shifted their supply sources after Russia reduced gas deliveries in 2022.
+
+All Eurostat data is free to download in CSV format and includes detailed documentation. For our analysis, we use monthly data (gas imports and electricity generation) from January 2019 to December 2024, and bi-annual data (electricity prices) from 2019-S1 to 2024-S2. This six-year period captures both normal market conditions before the crisis and the dramatic changes that followed.
+
 
 ### Investing.com - TTF Natural Gas Futures (https://www.investing.com/commodities/dutch-ttf-gas-c1-futures-historical-data)
 
-To complement Eurostat's official statistics, we obtained daily natural gas price data from Investing.com, a leading financial markets platform that aggregates trading data from global exchanges. Specifically, we collected historical prices for TTF (Title Transfer Facility) Dutch natural gas futures—the primary benchmark for European wholesale gas prices traded on the Intercontinental Exchange (ICE).
-The TTF hub, located in the Netherlands, became Europe's most liquid natural gas trading point and the de facto reference price for European gas contracts following the UK's exit from the EU. Daily closing prices are expressed in euros per megawatt-hour (€/MWh), the standard unit for energy commodity pricing in Europe. This high-frequency data (daily observations from January 2019 through December 2024) was aggregated into monthly and semester averages for our analysis, enabling direct comparison with the electricity price data.
-Using market-based pricing data from Investing.com rather than reported average prices provides several advantages: it captures real-time market sentiment and expectations, reflects the actual prices at which large volumes of gas traded, and includes the extreme volatility that characterized the 2022 crisis when spot prices briefly exceeded €300/MWh. The combination of official government statistics (Eurostat) and market trading data (Investing.com) provides a comprehensive view of both physical energy flows and price formation mechanisms during this unprecedented period in European energy markets.
+To complement Eurostat's official statistics, we used Investing.com as our source for natural gas price data. Investing.com is a major financial markets platform that aggregates and publishes real-time and historical trading data from exchanges worldwide. Unlike government statistical offices that report retrospective averages, Investing.com provides actual market trading data, which better captures the day-to-day price volatility that characterized the 2022 energy crisis.
+We collected historical data for TTF (Title Transfer Facility) Dutch natural gas futures, the European benchmark for wholesale gas prices. The platform provides free access to daily closing prices with downloadable CSV files, making it straightforward to integrate this data with our Eurostat datasets.
+The platform's data reliability comes from its direct connection to ICE (Intercontinental Exchange) trading data, and its wide use by financial analysts and researchers makes it a standard reference for energy market analysis.
 
 # Description of the data collection
 
-This data selection examines electricity and natural gas prices during the 2022 European Energy Crisis using data from two authoritative sources covering nine European countries (France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024.
+This data selection examines electricity and natural gas prices during the 2022 European Energy Crisis using data from two authoritative sources covering nine European countries (France, Germany, Spain, Denmark, Netherlands, Poland, Bulgaria, Sweden, and Finland) from 2019 to 2024.
 
 **Electricity Prices for Household Consumers** (Code: nrg_pc_204): This dataset is sourced from Eurostat and accessible via the [Eurostat Data Browser](https://ec.europa.eu/eurostat/databrowser/bookmark/3fc4f5aa-4d49-4ab4-9b16-392cc50555ed?lang=en&createdAt=2025-11-10T18:38:30Z). The dataframe measures electricity prices in euros for all 27 countries of the European Union from 2007 to 2025, with data collected bi-annually. For our purposes, we selected data for our nine chosen countries covering the period from 2019 to 2024, using prices that exclude taxes and levies.
 
@@ -245,7 +245,10 @@ The 2022 European Energy Crisis represents one of the most significant economic 
 
 **Central Question**: How did electricity and natural gas prices respond to the 2022 energy supply shock across different European countries, and what role did national energy mix compositions play in mediating these price responses?
 
-The choice of our nine countries—France, Germany, Spain, Italy, Netherlands, Poland, Bulgaria, Sweden, and Finland—is deliberate and reflects the diversity of European energy systems. France relies heavily on nuclear power, which theoretically insulates it from natural gas price volatility. Germany, conversely, had become increasingly dependent on Russian gas imports and was forced to rapidly restructure its energy supply. Spain and Italy represent southern European economies with different infrastructure and import dependencies. The Netherlands hosts the TTF gas hub, Europe's primary natural gas trading benchmark. Poland and Bulgaria represent Central and Eastern European economies with historical ties to Russian energy. Finally, Sweden and Finland represent Nordic countries with substantial hydroelectric and renewable capacity.
+We chose nine countries for our analysis—France, Germany, Spain, Denmark, Netherlands, Poland, Bulgaria, Sweden, and Finland—to capture the diversity of European energy systems and how they responded differently to the crisis.
+
+France relies heavily on nuclear power (around 70% of its electricity), which should theoretically protect it from gas price shocks. Germany, on the other hand, had become highly dependent on Russian gas imports and had to quickly reorganize its energy supply after 2022. Spain represents Southern Europe with its own infrastructure and import patterns. Denmark is interesting because it has invested heavily in wind energy and has relatively low dependence on imported gas. The Netherlands hosts the TTF gas hub, which sets the benchmark price for European gas trading. Poland and Bulgaria represent Central and Eastern European countries with historical energy ties to Russia. Finally, Sweden and Finland give us the Nordic perspective, with their strong hydroelectric and renewable energy capacity.
+This mix of countries lets us compare how different energy strategies: nuclear-heavy (France), gas-dependent (Germany), renewables-focused (Denmark, Sweden), or transitioning systems (Poland, Bulgaria); performed during the same crisis.
 
 Our analysis focuses on the period from 2019 to 2024, allowing us to establish pre-crisis baseline trends and observe both the acute crisis phase in 2022-2023 and the subsequent adjustment period. By examining electricity prices alongside natural gas prices, we can investigate the transmission mechanisms through which gas price shocks affected electricity markets.
 
@@ -254,7 +257,7 @@ Several key sub-questions guide our investigation. First, we examine the timing 
 This crisis serves as a natural experiment for understanding how integrated European energy markets function under extreme stress. Also, by examining how different energy mixes performed during the crisis, we can inform debates about optimal transition pathways that balance climate objectives with economic resilience.
 
 
-# The main observed variable: Electricity prices between 2019 and 2023
+# The main observed variable: Electricity prices between 2019 and 2024
 
 Household electricity prices represent our primary outcome variable of interest, as they directly reflect the impact of the 2022 European energy crisis on consumers across nine European countries. This analysis examines how variations in Russian gas import dependence, natural gas price shocks, and national electricity generation mixes (nuclear, renewables, fossil fuels) influenced the magnitude and timing of electricity price increases during the 2022-2024 crisis period
 
