@@ -8,38 +8,26 @@ editor: visual
 
 ## ELECTRICITY PRICES
 
-
 ```{r}
 
 library(readxl)
 library(tidyverse)
 library(lubridate)
 library(dplyr)
+library(here)
+library(vroom)
 
 
-elec_raw <- read_csv2("EnergyPricesNewVersion.csv")
+elec_raw <- read.delim("data/EnergyPricesNewVersion.csv", sep = ";", skip=11)
 
 
-electricity_prices <- elec_raw[11:22, ]
+electricity_prices <- elec_raw[2:10, ]
+
+electricity_prices <- electricity_prices |> select(-matches("^X(\\.|$)")) |> rename(Country = TIME)
+colnames(electricity_prices) <- colnames(electricity_prices) |> gsub("^X", "", x = _) |> gsub("\\.", "-", x = _)   
 
 
-col_names <- as.character(electricity_prices[1, ])
-
-
-period_cols <- which(grepl("-S", col_names))
-
-electricity_prices <- electricity_prices[-1, c(1, period_cols)]
-
-colnames(electricity_prices) <- c("Country", col_names[period_cols])
-electricity_prices <- electricity_prices %>% select(Country, matches("2019|2020|2021|2022|2023|2024"))
-
-electricity_prices <- electricity_prices %>%
-  mutate(across(-Country, ~{
-    # Remplace virgule par point
-    x <- gsub(",", ".", .)
-    # Force la conversion numérique
-    as.numeric(x) * 1000
-  }))
+electricity_prices <- electricity_prices |>mutate(across(-Country,~ gsub(",", ".", .) |> as.numeric() * 1000))
 
 
 cat("\n=== ELECTRICITY PRICES ===\n")
@@ -47,55 +35,27 @@ print(electricity_prices)
 
 ```
 
-
 ## GAS PRICES
 
-
 ```{r}
-raw <- read_csv2("Dutch TTF Natural Gas Futures Historical Data.csv")
+raw <- read.delim("data/Dutch TTF Natural Gas Futures Historical Data.csv", sep= ";")
 
-df <- raw %>%
-  select(1:2) %>%                    
-  rename(date = 1, price = 2) %>%
-  mutate(
-    date  = as.Date(date, format = "%m/%d/%Y"),
-    price = as.numeric(gsub(",", "", price))
-  )
+TTF <- raw |> select(1:2) |> rename(date = 1, price = 2) |> mutate(date  = as.Date(date, format = "%m/%d/%Y"),price = as.numeric(gsub(",", "", price)))
 
-df_filtered <- df %>%
-  filter(date >= as.Date("2019-01-01"),
-         date <= as.Date("2024-12-31")) %>%
-  mutate(
-    year      = year(date),
-    month_num = month(date),
-    month     = factor(month.abb[month_num], levels = month.abb)
-  )
+TTF_filtered <- TTF |> filter(date >= as.Date("2019-01-01"),date <= as.Date("2024-12-31")) |> mutate(year = year(date), month_num = month(date), month = factor(month.abb[month_num], levels = month.abb))
 
-table_year_month <- df_filtered %>%
-  select(year, month, month_num, price) %>%
-  arrange(year, month_num) %>%
-  select(-month_num) %>%
-  pivot_wider(
-    names_from  = month,
-    values_from = price
-  ) %>%
-  arrange(year)
+table_year_month <- TTF_filtered |> select(year, month, month_num, price) |> arrange(year, month_num) |> select(-month_num) |>pivot_wider(names_from  = month, values_from = price) |> arrange(year)
 
-table_year_month <- table_year_month %>%
-  mutate(across(Jan:Dec, as.numeric))
+table_year_month <- table_year_month |> mutate(across(Jan:Dec, as.numeric))
 
-table_year_month_S <- table_year_month %>%
-  rowwise() %>%
-  mutate(
-    S1 = mean(c_across(Jan:Jun), na.rm = TRUE),
-    S2 = mean(c_across(Jul:Dec), na.rm = TRUE)
-  ) %>%
-  ungroup()
+table_year_month_S <- table_year_month |> rowwise() |> mutate(S1 = mean(c_across(Jan:Jun), na.rm = TRUE),S2 = mean(c_across(Jul:Dec), na.rm = TRUE)) |> ungroup()
 
-table_year_month_S
+knitr::kable(table_year_month_S)
 
 ```
+
 ## Exports en CSV
+
 ```{r}
 library(readr)
 
@@ -222,7 +182,3 @@ sources_list <- split(all_sources, all_sources$Country)
 
 
 ```
-
-
-
-
