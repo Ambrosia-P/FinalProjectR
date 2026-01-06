@@ -305,4 +305,51 @@ mean_delta <- round(mean(deltas),2)
 ```
 
 
-Our descriptive analysis of the national energy mix structure does not bring out major structural transformations in the electricity production systems as one might  expect following such a severe shock. Instead, we observe only marginal changes or slight adjustments, most often an increase in the share of renewable sources, while the global structure remains generally unchanged. In particular what is striking is that the country do not undertake major cut in their use of gas despite the intensity of the shock. On average, the decrease in the gas share after the crisis is of `mean_delta` percentage points, which does not illustrate a shift away from gas in the energy mix. This stability highlights the rigidity of the national energy mix structures in the short run. This is due to technological constraints : infrastructures cannot be transformed overnight, and path dependency may delay adjustments. It is important to recall that these results are only short-run outcomes, as we witnessed that structural transformations unfold over larger horizons. The study of the energy mixes therefore suggests that the crisis was not absorbed through technologies adjustments, but through prices. Consequently, we will focus on this intuition in the next parts of our analysis.
+Our descriptive analysis of the national energy mix structure does not bring out major structural transformations in the electricity production systems as one might  expect following such a severe shock. Instead, we observe only marginal changes or slight adjustments, most often an increase in the share of renewable sources, while the global structure remains generally unchanged. In particular what is striking is that the country do not undertake major cut in their use of gas despite the intensity of the shock. On average, the decrease in the gas share after the crisis is of `mean_delta` percentage points, which does not illustrate a shift away from gas in the energy mix. This stability highlights the rigidity of the national energy mix structures in the short run. This is due to technological constraints : infrastructures cannot be transformed overnight, and path dependency may delay adjustments. It is important to recall that these results are only short-run outcomes, as we witnessed that structural transformations unfold over larger horizons. The study of the energy mixes therefore suggests that the crisis was not absorbed through technology adjustments, but through prices. Consequently, we will focus on this intuition in the next parts of our analysis.
+
+### Structural heterogeneity and typologie of energy systems
+
+We now shift our focus from time comparison to cross-country comparison. This section documents the structural differences across countries and find similarities between the systems. This part of the analysis is centered around the pre-crisis energy mix since we want to study how the countries entered the crisis, and not how they react yet. We recall the pre-crisis energy mix structures :
+
+```{r}
+mix_pre <- bind_rows(struct_france |> filter(period=="Pre-crisis") |> mutate(country= "France"), struct_bulg |> filter(period=="Pre-crisis") |> mutate(country= "Bulgaria"),struct_fin |> filter(period=="Pre-crisis") |> mutate(country= "Finland"),struct_den |> filter(period=="Pre-crisis") |> mutate(country= "Denmark"), struct_germ |> filter(period=="Pre-crisis") |> mutate(country= "Germany"),struct_neth |> filter(period=="Pre-crisis") |> mutate(country= "Netherlands"),struct_pol |> filter(period=="Pre-crisis") |> mutate(country= "Poland"), struct_spa |> filter(period=="Pre-crisis") |> mutate(country= "Spain"),struct_swe |> filter(period=="Pre-crisis") |> mutate(country= "Sweden")) |> select(-c("period")) |> relocate(country, .before=1 )
+
+kable(mix_pre, caption = "Energy mix structure pre-crisis per country")
+```
+
+```{r}
+mix_pre_long <- mix_pre |> pivot_longer(cols = -country, names_to = "sources", values_to = "share")
+
+ggplot(mix_pre_long, aes(x= share, y = country, color= country))+
+  geom_point(size = 3)+
+  facet_wrap(~sources)+
+  labs(title = "Pre-crisis electricity generation mix across countries")
+```
+This graphical representation cast light on the heterogeneity of the national electricity generation structure before the crisis. However, we would like to deepen our analysis by studying the gas dependency and the use of the 
+
+```{r}
+ggplot(mix_pre, aes(x = `gas share`, y = `nuclear share` + `renewable share`)) +
+  geom_point(size = 3) +
+  geom_text(aes(label = country), vjust = -0.5) +
+  labs(x = "Gas share (%)", y = "Non-gas electricity sources (%)", title = "Structural exposure to gas in pre-crisis electricity systems")
+
+```
+
+
+
+
+Following this graphical representation, we want to suggest a classification of the countries according to their pre-crisis energy mix structure. 
+This typology split the countries in 4 groups :
+- nuclear-based systems
+- renewable-heavy systems
+- gas- exposed systems
+- fossil-fuels-intensive systems
+We would like to mention that these categories are not exclusive, neither describe which source is dominant in a national energy mix. These groups rather aim at highlighting the heterogeneity of the pre-crisis structure and therefore of the exposition to the 2022 shock. 
+
+
+
+
+
+
+
+
