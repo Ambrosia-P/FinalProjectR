@@ -37,7 +37,6 @@ sources <- read.csv("cleaned_data/all_sources.csv")
 sources_list <- split(sources, sources$Country)
 ```
 
-
 # Data description
 
 # Analysis
@@ -46,15 +45,11 @@ sources_list <- split(sources, sources$Country)
 
 ## National Energy mix structures
 
-In this section, we will focus on the national energy mix structures before and after the gas price shock. Indeed, we will study the structural difference across countries and how these structures changes over time as a response to the shock. 
-Two type of comparison will provide insight into the dynamics triggered by the 2022 crisis : 
-- A comparison pre/post shock within a same country will highlight the potential adjustment in its energy system triggerred by the crisis.
-- A cross country comparison allows us to show that the countries enter the 2022 crisis with different profiles and exposure levels
+In this section, we will focus on the national energy mix structures before and after the gas price shock. Indeed, we will study the structural difference across countries and how these structures changes over time as a response to the shock. Two type of comparison will provide insight into the dynamics triggered by the 2022 crisis : - A comparison pre/post shock within a same country will highlight the potential adjustment in its energy system triggerred by the crisis. - A cross country comparison allows us to show that the countries enter the 2022 crisis with different profiles and exposure levels
 
-This part is fundamental to the structure of our analysis since it will justify the persistance of the shocks and the heterogeneity of the responses provided. 
+This part is fundamental to the structure of our analysis since it will justify the persistance of the shocks and the heterogeneity of the responses provided.
 
 ### Energy mix computation
-
 
 ```{r}
 france_sources <- sources_list$France
@@ -145,9 +140,7 @@ kable(mix_swe, caption = "Sweden's Energy Mix per year (percent)")
 
 ### Exposure profiles pre and post crisis
 
-Our analysis focuses on a comparison between pre-crisis and post-crisis structures. Therefore, we divide our data sets into two time periods : 
-- 2019 - 2021 for the pre-crisis period
-- 2022 - 2024 for the post-crisis period
+Our analysis focuses on a comparison between pre-crisis and post-crisis structures. Therefore, we divide our data sets into two time periods : - 2019 - 2021 for the pre-crisis period - 2022 - 2024 for the post-crisis period
 
 As structural variables, we use the mean of each annual share over these periods
 
@@ -188,6 +181,7 @@ struct_swe <- mix_swe |> mutate(period = case_when(year>= 2019 & year<= 2021~"Pr
 
 kable(struct_swe, caption = "Sweden's energy mix structure pre and post the 2022 energy crisis")
 ```
+
 ### Period comparison and structural adjustments
 
 ```{r}
@@ -200,8 +194,8 @@ ggplot(struct_france_long, aes(x= `Energy sources`, y=Share, fill = period))+
   labs(title="France's structure pre and post 2022 crisis")
 
 ```
-France displays a nuclear-dominated energy system (68% pre-crisis and 64% post-crisis), with a little use of natural gas (around 7% of total electricity production over the whole period). The 2022 shock does not seem to have triggered significant adjustments, the maximum variation being an increase of about 5 percentage points in the share of renewable sources.
 
+France displays a nuclear-dominated energy system (68% pre-crisis and 64% post-crisis), with a little use of natural gas (around 7% of total electricity production over the whole period). The 2022 shock does not seem to have triggered significant adjustments, the maximum variation being an increase of about 5 percentage points in the share of renewable sources.
 
 ```{r}
 struct_bulg_long <- struct_bulg |> pivot_longer(cols = -period, names_to = "Energy sources", values_to = "Share")
@@ -211,9 +205,8 @@ ggplot(struct_bulg_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
   labs(title="Bulgaria's structure pre and post 2022 crisis")
 ```
-Bulgaria exhibits a system relying mainly on nuclear and combustible fuels, each nearly accounting for 40% over the whole period. The overall structure remains largely stable over time, with however, a notable rise of the use of renewable fuels in the electricity production, from  20% to around 26%.
 
-
+Bulgaria exhibits a system relying mainly on nuclear and combustible fuels, each nearly accounting for 40% over the whole period. The overall structure remains largely stable over time, with however, a notable rise of the use of renewable fuels in the electricity production, from 20% to around 26%.
 
 ```{r}
 struct_den_long <- struct_den |> pivot_longer(cols = -period, names_to = "Energy sources", values_to = "Share")
@@ -223,6 +216,7 @@ ggplot(struct_den_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
   labs(title="Denmark's structure pre and post 2022 crisis")
 ```
+
 Denmark's electricity production structure relies mainly on renewable sources, as do most Northen countries. The use of natural gas is minimal, below 5% over the whole period and the production structure do not include nuclear fuels at all. The 2022 shock has only led to moderate changes, which we do not considered to be significant structural adjustments.
 
 ```{r}
@@ -233,6 +227,7 @@ ggplot(struct_fin_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
   labs(title="Finland's structure pre and post 2022 crisis")
 ```
+
 As most of Northern countries, Finland's system is highly supported by renewable sources, but it still displays an important use of nuclear fuels, with a share ranging from 34% to 39% depending on whether we consider the pre or post crisis period. As in Denmark, the use of natural gas is minimal and even drops to only 1% after the crisis. However, since the changes do not exceed 6 percentage point (the maximum observed for the combustible fuels), we would not conclude that a major transformation of the Finish system has occurred.
 
 ```{r}
@@ -243,6 +238,7 @@ ggplot(struct_germ_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
   labs(title="Germany's structure pre and post 2022 crisis")
 ```
+
 Germany's electricity production system relies mostly on renewable sources, especially after the shock, where they account for half of total electricity production (compared with 40% before the shock). By contrast, we observe a decline in the use of nuclear fuels, falling from 12% to 2%. However, the shares of gas and other combustible fuels remain broadly unchanged between the pre and post crisis periods.
 
 ```{r}
@@ -253,9 +249,8 @@ ggplot(struct_neth_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
   labs(title="Netherlands' structure pre and post 2022 crisis")
 ```
+
 Netherlands is one of the few systems that exhibits a major structural transformation. Indeed, after the 2022 shock, the electricity production system shift from being gas dominated to renewable-dominated. While the nuclear and combustible shares remain constant or show only marginal changes, we observe a substantial cut in the use of natural gas, dropping from 55% of total electricity production to 37%. At the same time, the data highlight a surge of 20 percentage points in the use of renewable sources. As a result, after the 2022 shock, the gap between natural gas and renewable sources is of approximately 10 percentage points.
-
-
 
 ```{r}
 struct_pol_long <- struct_pol |> pivot_longer(cols = -period, names_to = "Energy sources", values_to = "Share")
@@ -265,9 +260,8 @@ ggplot(struct_pol_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
   labs(title="Poland's structure pre and post 2022 crisis")
 ```
-Poland displays a system extremely dependent on combustible fuels such as oil or coal, which account for 76% of  total electricity production pre-crisis and 66% post-crisis. We can also observe that no nuclear fuels are used in the production, as Poland do not  have any functioning nuclear power plants on its territory. After the 2022 shock, we do not observe significant transformations : while the share of renewable sources increases by 10 percentages point, from 17% to 27%, the gas share remains unchanged.
 
-
+Poland displays a system extremely dependent on combustible fuels such as oil or coal, which account for 76% of total electricity production pre-crisis and 66% post-crisis. We can also observe that no nuclear fuels are used in the production, as Poland do not have any functioning nuclear power plants on its territory. After the 2022 shock, we do not observe significant transformations : while the share of renewable sources increases by 10 percentages point, from 17% to 27%, the gas share remains unchanged.
 
 ```{r}
 struct_spa_long <- struct_spa |> pivot_longer(cols = -period, names_to = "Energy sources", values_to = "Share")
@@ -277,6 +271,7 @@ ggplot(struct_spa_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
   labs(title="Spain's structure pre and post 2022 crisis")
 ```
+
 Spain's electricity production structure presents a significant use of both gas and nuclear sources, even if renewable fuels prevail. After the 2022 shock, we do not observe major adjustments. The gas share declines from around 27% to 22% which is not outstanding. Renewable sources represent the most important component of the mix, as welle as the most noticeable change, with a share increasing from 42% before the shock to 50% afterward.
 
 ```{r}
@@ -287,7 +282,8 @@ ggplot(struct_swe_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
   labs(title="Sweden's structure pre and post 2022 crisis")
 ```
-Once again, as in most of Northern countries, Sweden uses a negligible amount of gas and its electricity production structure relies essentially on renewable sources. Between 65% and 69% of Swedish electricity is produced thanks to renewable fuels, while almost none of it is produced using gas. The overall structure appears to remain stable over the time period, in spite of the 2022 shock. 
+
+Once again, as in most of Northern countries, Sweden uses a negligible amount of gas and its electricity production structure relies essentially on renewable sources. Between 65% and 69% of Swedish electricity is produced thanks to renewable fuels, while almost none of it is produced using gas. The overall structure appears to remain stable over the time period, in spite of the 2022 shock.
 
 ```{r}
 delta_france <- struct_france$`gas share`[2] - struct_france$`gas share`[1]
@@ -304,8 +300,7 @@ deltas <- c(delta_france, delta_bulg, delta_swe, delta_spa, delta_pol, delta_net
 mean_delta <- round(mean(deltas),2)
 ```
 
-
-Our descriptive analysis of the national energy mix structure does not bring out major structural transformations in the electricity production systems as one might  expect following such a severe shock. Instead, we observe only marginal changes or slight adjustments, most often an increase in the share of renewable sources, while the global structure remains generally unchanged. In particular what is striking is that the country do not undertake major cut in their use of gas despite the intensity of the shock. On average, the decrease in the gas share after the crisis is of `mean_delta` percentage points, which does not illustrate a shift away from gas in the energy mix. This stability highlights the rigidity of the national energy mix structures in the short run. This is due to technological constraints : infrastructures cannot be transformed overnight, and path dependency may delay adjustments. It is important to recall that these results are only short-run outcomes, as we witnessed that structural transformations unfold over larger horizons. The study of the energy mixes therefore suggests that the crisis was not absorbed through technology adjustments, but through prices. Consequently, we will focus on this intuition in the next parts of our analysis.
+Our descriptive analysis of the national energy mix structure does not bring out major structural transformations in the electricity production systems as one might expect following such a severe shock. Instead, we observe only marginal changes or slight adjustments, most often an increase in the share of renewable sources, while the global structure remains generally unchanged. In particular what is striking is that the country do not undertake major cut in their use of gas despite the intensity of the shock. On average, the decrease in the gas share after the crisis is of `mean_delta` percentage points, which does not illustrate a shift away from gas in the energy mix. This stability highlights the rigidity of the national energy mix structures in the short run. This is due to technological constraints : infrastructures cannot be transformed overnight, and path dependency may delay adjustments. It is important to recall that these results are only short-run outcomes, as we witnessed that structural transformations unfold over larger horizons. The study of the energy mixes therefore suggests that the crisis was not absorbed through technology adjustments, but through prices. Consequently, we will focus on this intuition in the next parts of our analysis.
 
 ### Structural heterogeneity and typologie of energy systems
 
@@ -325,7 +320,8 @@ ggplot(mix_pre_long, aes(x= share, y = country, color= country))+
   facet_wrap(~sources)+
   labs(title = "Pre-crisis electricity generation mix across countries")
 ```
-This graphical representation cast light on the heterogeneity of the national electricity generation structure before the crisis. However, we would like to deepen our analysis by studying the gas dependency and the use of the 
+
+This graphical representation cast light on the heterogeneity of the national electricity generation structure before the crisis. As we can observe, the points, representing one country's share of a specific sources, are scattered across the graph, which illustrates major differences between countries in their electricity generation system. For instance, we can state that Denmark does not use any nuclear fuels to produce electricity while they account for almost 70% of Finland's electricity generation. By contrast, renewables sources contributes to 80% of Denmark's production, while it is only 40% for Finland. However, this representation treat sources in isolation. To deepen our analysis and construct a relevent typology, we complete this source-by-source comparison with a study if the different technologies's interaction whithin each national systems. For that, we need to look at the gas share in relation to the other alternative available in a country. We will only consider nuclear fuels and renewable sources as alternative to gas, since combustible fuels are also fossil fuels and therefore remain subject to the same dynamics and constraints as gas.
 
 ```{r}
 ggplot(mix_pre, aes(x = `gas share`, y = `nuclear share` + `renewable share`)) +
@@ -335,21 +331,20 @@ ggplot(mix_pre, aes(x = `gas share`, y = `nuclear share` + `renewable share`)) +
 
 ```
 
+This figure displays the pre-crisis share of gas used in electricity generation against the availability of non-gas alternatives. In the upper-left corner, we observe countries that rely primarily on other alternative sources and therefore exhibit low exposure to gas. In contrast, the lower-right corner includes countries that use a large share of gas relative to non-gas sources, and are thus more exposed to a gas supply shock. The countries located the central part of the graph occupy an intermediate position : while they have alternatives available, they still use a substantial amount of gas, which implies they remain exposed to gas market dynamics.
+
+Following these graphical representations, we want to suggest a classification of the countries according to their pre-crisis energy mix structure. This typology splits the countries in 4 groups : - nuclear-based systems - renewable-heavy systems - gas- exposed systems - fossil-fuels-intensive systems We would like to mention that these categories are not exclusive, neither describe which source is dominant in a national energy mix. These groups rather aim at highlighting the heterogeneity of the pre-crisis structure and therefore of the exposition to the 2022 shock.
+
+| Category               | Countries          |
+|------------------------|--------------------|
+| Nuclear-based          | France, Bulgaria\* |
+| Gas-exposed            | Netherlands, Spain |
+| Fossil-fuels-intensive | Poland, Germany\*  |
+| Renewable heavy        | Sweden, Denmark, Finland    |
+
+: Energy mix strucuture classification \* Bulgaria also belongs to the fossil-fuels-intensive systems since it uses as much combustible fuels as nuclear one in the electricty generation (38%) Germany also belongs to the renewable-heavy category since its renawable share is almost the same as its combustible share (34% and 39% respectively) but Northen countries exhibit a much larger use of rewnewables.
 
 
+The study of the pre-crisis structural heterogeneity allow the constrcution of a typology of energy mix system that highlights both similarities and differences between the national structures. The most important result of this descriptive analysis is that the countries enter the crisis with very different disposition whoch suggest that some are more exposed to a gas shocks than others. The intuition underlying this idea is that gas exposed systems would be more affected by the shock that systems that rely mainly on alternatives fuels such as nuclear or renewables. Therefore, a study of the pre-crisis structure's diversity suggests that country will respond differently through the crisis. This intuition will be examinated in the last part of the report.
 
-Following this graphical representation, we want to suggest a classification of the countries according to their pre-crisis energy mix structure. 
-This typology split the countries in 4 groups :
-- nuclear-based systems
-- renewable-heavy systems
-- gas- exposed systems
-- fossil-fuels-intensive systems
-We would like to mention that these categories are not exclusive, neither describe which source is dominant in a national energy mix. These groups rather aim at highlighting the heterogeneity of the pre-crisis structure and therefore of the exposition to the 2022 shock. 
-
-
-
-
-
-
-
-
+The descriptive analysis of the national energy mix strcuture is fundamental to understand the context in which the crisis took place and the nature of the shock. Indeed, the countries did not entered the shock in the same disposition as they display very heterogeneous electricity generation structure. The typology, based on how sources interact in the mix, highlights the range of gas exposure degree from one country to another and justify our main hypothesis : the responses to the 2022 energy crisis are diverse among the european countries. However, one of the main resuslt of this section's analysis is that the national energy mixes exhibit very limited short-run adjustment. Indeed, despite the intensity of the 2022 shock, the structures have remained largely stable and the adjustments made are not to be considered as major transformations. These empirical findings imply that the adjustment to the crisis was unlikely to occur through technology changes, justifying a closer examination of price dynamics and shock persistance in the following sections.
