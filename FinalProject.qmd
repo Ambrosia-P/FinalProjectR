@@ -50,9 +50,15 @@ sources_list <- split(sources, sources$Country)
 
 # Data description
 
-Our analysis relies on four main datasets covering the period from 2019 to 2024. **Electricity prices** are sourced from Eurostat on a semi-annual basis (S1, S2) for nine European countries: Bulgaria, Denmark, Finland, France, Germany, Netherlands, Poland, Spain, and Sweden. Prices are expressed in EUR per MWh and reflect household consumer costs. **Natural gas prices** come from the Dutch TTF Natural Gas Futures historical data, providing monthly observations of Europe benchmark gas price. **Energy production by source** is obtained from Eurostat's energy statistics, disaggregated into combustible fuels, natural gas, nuclear, hydro, solar, wind, and total renewable production, allowing us to construct detailed energy mix profiles for each country on a monthly basis. **Gas import data**, including both pipeline imports and LNG imports measured in Million Cubic Meters (MCM), are sourced from Eurostat, enabling us to quantify each country's external gas dependence.
+Our analysis relies on four main datasets covering the period from 2019 to 2024. **Electricity prices** are sourced from Eurostat on a semi-annual basis (S1, S2) for nine European countries: Bulgaria, Denmark, Finland, France, Germany, Netherlands, Poland, Spain, and Sweden. Prices are expressed in EUR per MWh and reflect household consumer costs.
 
-All datasets required extensive cleaning and harmonization to ensure consistency across sources and time periods. Monthly data were aggregated to semi-annual or annual frequencies where appropriate to match electricity price periodicity and reduce noise in structural indicators. Detailed data cleaning procedures, variable definitions, and preliminary descriptive statistics are documented in our Phase 2 submission
+**Natural gas prices** come from the Dutch TTF Natural Gas Futures historical data, providing monthly observations of Europe benchmark gas price. 
+
+**Energy production by source** is obtained from Eurostat's energy statistics, disaggregated into combustible fuels, natural gas, nuclear, hydro, solar, wind, and total renewable production, allowing us to construct detailed energy mix profiles for each country on a monthly basis. 
+
+**Gas import data**, including both pipeline imports and LNG imports measured in Million Cubic Meters (MCM), are sourced from Eurostat, enabling us to quantify each country's russian gas dependence.
+
+All datasets required extensive cleaning and harmonization to ensure consistency across sources and time periods. Monthly data were aggregated to semi-annual or annual frequencies where appropriate to match electricity price periodicity and reduce noise in structural indicators. Detailed data cleaning procedures, variable definitions, and preliminary descriptive statistics are documented in our Phase 2 submission.
 
 # The 2022 energy shock
 
@@ -161,90 +167,45 @@ This part is fundamental to the structure of our analysis since it will justify 
 
 ### Energy mix computation
 
+
 ```{r}
-france_sources <- sources_list$France
+compute_mix <- function(df) {df |> mutate(combustible = Combustible.fuels - Natural.gas,`combustible share` = round((combustible / Total) * 100, 2),`nuclear share` = round((Nuclear.fuels.and.other.fuels.n.e.c. / Total) * 100, 2),`gas share` = round((Natural.gas / Total) * 100, 2),`renewable share` = round((Renewables.and.biofuels / Total) * 100, 2)) |>select(-c(3:11))}
 
-mix_france <- france_sources |> mutate(combustible = Combustible.fuels- Natural.gas) |> mutate(`combustible share` = round((combustible/Total)*100, 2), `nuclear share` = round((Nuclear.fuels.and.other.fuels.n.e.c./Total)*100, 2), `gas share` = round((Natural.gas/Total)*100, 2), `renewable share` = round((Renewables.and.biofuels/Total)*100, 2))
-mix_france <- mix_france[,-c(3:11)]
-
-bulg_sources <- sources_list$Bulgaria
-
-mix_bulg <- bulg_sources |> mutate(combustible = Combustible.fuels- Natural.gas) |> mutate(`combustible share` = round((combustible/Total)*100, 2), `nuclear share` = round((Nuclear.fuels.and.other.fuels.n.e.c./Total)*100, 2), `gas share` = round((Natural.gas/Total)*100, 2), `renewable share` = round((Renewables.and.biofuels/Total)*100, 2))
-mix_bulg <- mix_bulg[,-c(3:11)]
-
-germ_sources <- sources_list$Germany
-
-mix_germ <- germ_sources |> mutate(combustible = Combustible.fuels- Natural.gas) |> mutate(`combustible share` = round((combustible/Total)*100, 2), `nuclear share` = round((Nuclear.fuels.and.other.fuels.n.e.c./Total)*100, 2), `gas share` = round((Natural.gas/Total)*100, 2), `renewable share` = round((Renewables.and.biofuels/Total)*100, 2))
-mix_germ <- mix_germ[,-c(3:11)]
-
-den_sources <- sources_list$Denmark
-
-mix_den <- den_sources |> mutate(combustible = Combustible.fuels- Natural.gas) |> mutate(`combustible share` = round((combustible/Total)*100, 2), `nuclear share` = round((Nuclear.fuels.and.other.fuels.n.e.c./Total)*100, 2), `gas share` = round((Natural.gas/Total)*100, 2), `renewable share` = round((Renewables.and.biofuels/Total)*100, 2))
-mix_den <- mix_den[,-c(3:11)]
-
-spa_sources <- sources_list$Spain
-
-mix_spa <- spa_sources |> mutate(combustible = Combustible.fuels- Natural.gas) |> mutate(`combustible share` = round((combustible/Total)*100, 2), `nuclear share` = round((Nuclear.fuels.and.other.fuels.n.e.c./Total)*100, 2), `gas share` = round((Natural.gas/Total)*100, 2), `renewable share` = round((Renewables.and.biofuels/Total)*100, 2))
-mix_spa <- mix_spa[,-c(3:11)]
-
-fin_sources <- sources_list$Finland
-
-mix_fin <- fin_sources |> mutate(combustible = Combustible.fuels- Natural.gas) |> mutate(`combustible share` = round((combustible/Total)*100, 2), `nuclear share` = round((Nuclear.fuels.and.other.fuels.n.e.c./Total)*100, 2), `gas share` = round((Natural.gas/Total)*100, 2), `renewable share` = round((Renewables.and.biofuels/Total)*100, 2))
-mix_fin <- mix_fin[,-c(3:11)]
-
-neth_sources <- sources_list$Netherlands
-
-mix_neth <- neth_sources |> mutate(combustible = Combustible.fuels- Natural.gas) |> mutate(`combustible share` = round((combustible/Total)*100, 2), `nuclear share` = round((Nuclear.fuels.and.other.fuels.n.e.c./Total)*100, 2), `gas share` = round((Natural.gas/Total)*100, 2), `renewable share` = round((Renewables.and.biofuels/Total)*100, 2))
-mix_neth <- mix_neth[,-c(3:11)]
-
-pol_sources <- sources_list$Poland
-
-mix_pol <- pol_sources |> mutate(combustible = Combustible.fuels- Natural.gas) |> mutate(`combustible share` = round((combustible/Total)*100, 2), `nuclear share` = round((Nuclear.fuels.and.other.fuels.n.e.c./Total)*100, 2), `gas share` = round((Natural.gas/Total)*100, 2), `renewable share` = round((Renewables.and.biofuels/Total)*100, 2))
-mix_pol <- mix_pol[,-c(3:11)]
-
-swe_sources <- sources_list$Sweden
-
-mix_swe <- swe_sources |> mutate(combustible = Combustible.fuels- Natural.gas) |> mutate(`combustible share` = round((combustible/Total)*100, 2), `nuclear share` = round((Nuclear.fuels.and.other.fuels.n.e.c./Total)*100, 2), `gas share` = round((Natural.gas/Total)*100, 2), `renewable share` = round((Renewables.and.biofuels/Total)*100, 2))
-mix_swe <- mix_swe[,-c(3:11)]
+mix_list <- lapply(sources_list, compute_mix)
+mix_france <- mix_list$France
+mix_bulg <- mix_list$Bulgaria
+mix_den <- mix_list$Denmark
+mix_fin <- mix_list$Finland
+mix_germ <- mix_list$Germany
+mix_neth <- mix_list$Netherlands
+mix_pol <- mix_list$Poland
+mix_spa <- mix_list$Spain
+mix_swe <- mix_list$Sweden
 ```
 
 Since the energy mix shares are slow moving indicators, we aggregate the monthly variables at the annual level.
 
 ```{r}
-mix_france <- mix_france |> mutate(year = as.integer(substr(Year, 1, 4))) |> group_by(year) |> summarize(`combustible share`= round(mean(`combustible share`),2), `nuclear share`= round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`=round(mean(`renewable share`),2)) |> filter(year!=2025)
+mix_year <- function(df) {df |> mutate(year = as.integer(substr(Year, 1, 4))) |> group_by(year) |> summarise(`combustible share` = round(mean(`combustible share`, na.rm = TRUE), 2),`nuclear share`     = round(mean(`nuclear share`, na.rm = TRUE),2), `gas share`= round(mean(`gas share`, na.rm = TRUE), 2),`renewable share`   = round(mean(`renewable share`, na.rm = TRUE), 2),.groups = "drop") |> filter(year != 2025)}
+
+mix_france <- mix_year(mix_france)
+mix_bulg   <- mix_year(mix_bulg)
+mix_den    <- mix_year(mix_den)
+mix_fin    <- mix_year(mix_fin)
+mix_germ   <- mix_year(mix_germ)
+mix_neth   <- mix_year(mix_neth)
+mix_pol    <- mix_year(mix_pol)
+mix_spa    <- mix_year(mix_spa)
+mix_swe    <- mix_year(mix_swe)
 
 kable(mix_france, caption = "France's Energy Mix per year (percent)")
-
-mix_bulg <- mix_bulg |> mutate(year = as.integer(substr(Year, 1, 4))) |> group_by(year) |> summarize(`combustible share`= round(mean(`combustible share`),2), `nuclear share`= round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`=round(mean(`renewable share`),2))|> filter(year!=2025)
-
 kable(mix_bulg, caption = "Bulgaria's Energy Mix per year (percent)")
-
-mix_den <- mix_den |> mutate(year = as.integer(substr(Year, 1, 4))) |> group_by(year) |> summarize(`combustible share`= round(mean(`combustible share`),2), `nuclear share`= round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`=round(mean(`renewable share`),2))|> filter(year!=2025)
-
 kable(mix_den, caption = "Denmark's Energy Mix per year (percent)")
-
-mix_fin <- mix_fin |> mutate(year = as.integer(substr(Year, 1, 4))) |> group_by(year) |> summarize(`combustible share`= round(mean(`combustible share`),2), `nuclear share`= round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`=round(mean(`renewable share`),2))|> filter(year!=2025)
-
 kable(mix_fin, caption = "Finland's Energy Mix per year (percent)")
-
-mix_germ <- mix_germ |> mutate(year = as.integer(substr(Year, 1, 4))) |> group_by(year) |> summarize(`combustible share`= round(mean(`combustible share`),2), `nuclear share`= round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`=round(mean(`renewable share`),2))|> filter(year!=2025)
-
 kable(mix_germ, caption = "Germany's Energy Mix per year (percent)")
-
-mix_neth <- mix_neth|> mutate(year = as.integer(substr(Year, 1, 4))) |> group_by(year) |> summarize(`combustible share`= round(mean(`combustible share`),2), `nuclear share`= round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`=round(mean(`renewable share`),2))|> filter(year!=2025)
-
 kable(mix_neth, caption = "Netherlands' Energy Mix per year (percent)")
-
-mix_pol <- mix_pol |> mutate(year = as.integer(substr(Year, 1, 4))) |> group_by(year) |> summarize(`combustible share`= round(mean(`combustible share`),2), `nuclear share`= round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`=round(mean(`renewable share`),2))|> filter(year!=2025)
-
 kable(mix_pol, caption = "Poland's Energy Mix per year (percent)")
-
-mix_spa <- mix_spa |> mutate(year = as.integer(substr(Year, 1, 4))) |> group_by(year) |> summarize(`combustible share`= round(mean(`combustible share`),2), `nuclear share`= round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`=round(mean(`renewable share`),2))|> filter(year!=2025)
-
 kable(mix_spa, caption = "Spain's Energy Mix per year (percent)")
-
-mix_swe <- mix_swe |> mutate(year = as.integer(substr(Year, 1, 4))) |> group_by(year) |> summarize(`combustible share`= round(mean(`combustible share`),2), `nuclear share`= round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`=round(mean(`renewable share`),2))|> filter(year!=2025)
-
 kable(mix_swe, caption = "Sweden's Energy Mix per year (percent)")
 ```
 
@@ -258,50 +219,48 @@ Our analysis focuses on a comparison between pre-crisis and post-crisis structur
 As structural variables, we use the mean of each annual share over these periods
 
 ```{r}
-struct_france <- mix_france |> mutate(period = case_when(year>= 2019 & year<= 2021~"Pre-crisis", year>=2022 & year<=2024~"Post-crisis")) |> group_by(period) |>  summarize(`combustible share`=round(mean(`combustible share`),2), `nuclear share`=round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`= round(mean(`renewable share`),2))
+
+struct <- function(df){df|> mutate(period = case_when(year>= 2019 & year<= 2021~"Pre-crisis", year>=2022 & year<=2024~"Post-crisis")) |> group_by(period) |>  summarize(`combustible share`=round(mean(`combustible share`),2), `nuclear share`=round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`= round(mean(`renewable share`),2))}
+
+struct_france <- struct(mix_france)
+struct_bulg <- struct(mix_bulg)
+struct_den <- struct(mix_den)
+struct_fin <- struct(mix_fin)
+struct_germ <- struct(mix_germ)
+struct_pol <- struct(mix_germ)
+struct_neth <- struct(mix_neth)
+struct_spa <- struct(mix_spa)
+struct_swe <- struct(mix_swe)
 
 kable(struct_france, caption = "France's energy mix structure pre and post the 2022 energy crisis")
-
-struct_bulg <- mix_bulg |> mutate(period = case_when(year>= 2019 & year<= 2021~"Pre-crisis", year>=2022 & year<=2024~"Post-crisis")) |> group_by(period) |>  summarize(`combustible share`=round(mean(`combustible share`),2), `nuclear share`=round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`= round(mean(`renewable share`),2))
-
 kable(struct_bulg, caption = "Bulgaria's energy mix structure pre and post the 2022 energy crisis")
-
-struct_den <- mix_den |> mutate(period = case_when(year>= 2019 & year<= 2021~"Pre-crisis", year>=2022 & year<=2024~"Post-crisis")) |> group_by(period) |>  summarize(`combustible share`=round(mean(`combustible share`),2), `nuclear share`=round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`= round(mean(`renewable share`),2))
-
 kable(struct_den, caption = "Denmark's energy mix structure pre and post the 2022 energy crisis")
-
-struct_fin <- mix_fin |> mutate(period = case_when(year>= 2019 & year<= 2021~"Pre-crisis", year>=2022 & year<=2024~"Post-crisis")) |> group_by(period) |>  summarize(`combustible share`=round(mean(`combustible share`),2), `nuclear share`=round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`= round(mean(`renewable share`),2))
-
 kable(struct_fin, caption = "Finland's energy mix structure pre and post the 2022 energy crisis")
-
-struct_germ <- mix_germ |> mutate(period = case_when(year>= 2019 & year<= 2021~"Pre-crisis", year>=2022 & year<=2024~"Post-crisis")) |> group_by(period) |>  summarize(`combustible share`=round(mean(`combustible share`),2), `nuclear share`=round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`= round(mean(`renewable share`),2))
-
 kable(struct_germ, caption = "Germany's energy mix structure pre and post the 2022 energy crisis")
-
-struct_neth <- mix_neth |> mutate(period = case_when(year>= 2019 & year<= 2021~"Pre-crisis", year>=2022 & year<=2024~"Post-crisis")) |> group_by(period) |>  summarize(`combustible share`=round(mean(`combustible share`),2), `nuclear share`=round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`= round(mean(`renewable share`),2))
-
 kable(struct_neth, caption = "Netherlands' energy mix structure pre and post the 2022 energy crisis")
-
-struct_pol <- mix_pol |> mutate(period = case_when(year>= 2019 & year<= 2021~"Pre-crisis", year>=2022 & year<=2024~"Post-crisis")) |> group_by(period) |>  summarize(`combustible share`=round(mean(`combustible share`),2), `nuclear share`=round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`= round(mean(`renewable share`),2))
-
 kable(struct_pol, caption = "Poland's energy mix structure pre and post the 2022 energy crisis")
-
-struct_spa <- mix_spa |> mutate(period = case_when(year>= 2019 & year<= 2021~"Pre-crisis", year>=2022 & year<=2024~"Post-crisis")) |> group_by(period) |>  summarize(`combustible share`=round(mean(`combustible share`),2), `nuclear share`=round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`= round(mean(`renewable share`),2))
-
 kable(struct_spa, caption = "Spain's energy mix structure pre and post the 2022 energy crisis")
-
-struct_swe <- mix_swe |> mutate(period = case_when(year>= 2019 & year<= 2021~"Pre-crisis", year>=2022 & year<=2024~"Post-crisis")) |> group_by(period) |>  summarize(`combustible share`=round(mean(`combustible share`),2), `nuclear share`=round(mean(`nuclear share`),2), `gas share`=round(mean(`gas share`),2), `renewable share`= round(mean(`renewable share`),2))
-
 kable(struct_swe, caption = "Sweden's energy mix structure pre and post the 2022 energy crisis")
 ```
-
 ### Period comparison and structural adjustments
 
+
 ```{r}
+struct_long <- function(df) {df |> mutate(period = factor(period, levels = c("Pre-crisis", "Post-crisis"))) |> pivot_longer(cols = -period,names_to = "Energy sources",values_to = "Share")}
 
-struct_france_long <- struct_france |> pivot_longer(cols = -period, names_to = "Energy sources", values_to = "Share")
-struct_france$period <- factor(struct_france$period,levels = c("Pre-crisis", "Post-crisis"))
 
+struct_france_long <- struct_long(struct_france)
+struct_bulg_long <- struct_long(struct_bulg)
+struct_den_long <- struct_long(struct_den)
+struct_fin_long <- struct_long(struct_fin)
+struct_germ_long <- struct_long(struct_germ)
+struct_neth_long <- struct_long(struct_neth)
+struct_pol_long <- struct_long(struct_pol)
+struct_spa_long <- struct_long(struct_spa)
+struct_swe_long <- struct_long(struct_swe)
+```
+
+```{r}
 ggplot(struct_france_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
   labs(title="France's structure pre and post 2022 crisis")
@@ -311,9 +270,6 @@ ggplot(struct_france_long, aes(x= `Energy sources`, y=Share, fill = period))+
 France displays a nuclear-dominated energy system (68% pre-crisis and 64% post-crisis), with a little use of natural gas (around 7% of total electricity production over the whole period). The 2022 shock does not seem to have triggered significant adjustments, the maximum variation being an increase of about 5 percentage points in the share of renewable sources.
 
 ```{r}
-struct_bulg_long <- struct_bulg |> pivot_longer(cols = -period, names_to = "Energy sources", values_to = "Share")
-struct_bulg$period <- factor(struct_bulg$period,levels = c("Pre-crisis", "Post-crisis"))
-
 ggplot(struct_bulg_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
   labs(title="Bulgaria's structure pre and post 2022 crisis")
@@ -322,9 +278,6 @@ ggplot(struct_bulg_long, aes(x= `Energy sources`, y=Share, fill = period))+
 Bulgaria exhibits a system relying mainly on nuclear and combustible fuels, each nearly accounting for 40% over the whole period. The overall structure remains largely stable over time, with however, a notable rise of the use of renewable fuels in the electricity production, from 20% to around 26%.
 
 ```{r}
-struct_den_long <- struct_den |> pivot_longer(cols = -period, names_to = "Energy sources", values_to = "Share")
-struct_den$period <- factor(struct_den$period,levels = c("Pre-crisis", "Post-crisis"))
-
 ggplot(struct_den_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
   labs(title="Denmark's structure pre and post 2022 crisis")
@@ -333,8 +286,6 @@ ggplot(struct_den_long, aes(x= `Energy sources`, y=Share, fill = period))+
 Denmark's electricity production structure relies mainly on renewable sources, as do most Northen countries. The use of natural gas is minimal, below 5% over the whole period and the production structure do not include nuclear fuels at all. The 2022 shock has only led to moderate changes, which we do not considered to be significant structural adjustments.
 
 ```{r}
-struct_fin_long <- struct_fin |> pivot_longer(cols = -period, names_to = "Energy sources", values_to = "Share")
-struct_fin$period <- factor(struct_fin$period,levels = c("Pre-crisis", "Post-crisis"))
 
 ggplot(struct_fin_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
@@ -344,9 +295,6 @@ ggplot(struct_fin_long, aes(x= `Energy sources`, y=Share, fill = period))+
 As most of Northern countries, Finland's system is highly supported by renewable sources, but it still displays an important use of nuclear fuels, with a share ranging from 34% to 39% depending on whether we consider the pre or post crisis period. As in Denmark, the use of natural gas is minimal and even drops to only 1% after the crisis. However, since the changes do not exceed 6 percentage point (the maximum observed for the combustible fuels), we would not conclude that a major transformation of the Finish system has occurred.
 
 ```{r}
-struct_germ_long <- struct_germ |> pivot_longer(cols = -period, names_to = "Energy sources", values_to = "Share")
-struct_germ$period <- factor(struct_germ$period,levels = c("Pre-crisis", "Post-crisis"))
-
 ggplot(struct_germ_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
   labs(title="Germany's structure pre and post 2022 crisis")
@@ -355,8 +303,6 @@ ggplot(struct_germ_long, aes(x= `Energy sources`, y=Share, fill = period))+
 Germany's electricity production system relies mostly on renewable sources, especially after the shock, where they account for half of total electricity production (compared with 40% before the shock). By contrast, we observe a decline in the use of nuclear fuels, falling from 12% to 2%. However, the shares of gas and other combustible fuels remain broadly unchanged between the pre and post crisis periods.
 
 ```{r}
-struct_neth_long <- struct_neth |> pivot_longer(cols = -period, names_to = "Energy sources", values_to = "Share")
-struct_neth$period <- factor(struct_neth$period,levels = c("Pre-crisis", "Post-crisis"))
 
 ggplot(struct_neth_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
@@ -366,9 +312,6 @@ ggplot(struct_neth_long, aes(x= `Energy sources`, y=Share, fill = period))+
 Netherlands is one of the few systems that exhibits a major structural transformation. Indeed, after the 2022 shock, the electricity production system shift from being gas dominated to renewable-dominated. While the nuclear and combustible shares remain constant or show only marginal changes, we observe a substantial cut in the use of natural gas, dropping from 55% of total electricity production to 37%. At the same time, the data highlight a surge of 20 percentage points in the use of renewable sources. As a result, after the 2022 shock, the gap between natural gas and renewable sources is of approximately 10 percentage points.
 
 ```{r}
-struct_pol_long <- struct_pol |> pivot_longer(cols = -period, names_to = "Energy sources", values_to = "Share")
-struct_pol$period <- factor(struct_pol$period,levels = c("Pre-crisis", "Post-crisis"))
-
 ggplot(struct_pol_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
   labs(title="Poland's structure pre and post 2022 crisis")
@@ -377,8 +320,6 @@ ggplot(struct_pol_long, aes(x= `Energy sources`, y=Share, fill = period))+
 Poland displays a system extremely dependent on combustible fuels such as oil or coal, which account for 76% of total electricity production pre-crisis and 66% post-crisis. We can also observe that no nuclear fuels are used in the production, as Poland do not have any functioning nuclear power plants on its territory. After the 2022 shock, we do not observe significant transformations : while the share of renewable sources increases by 10 percentages point, from 17% to 27%, the gas share remains unchanged.
 
 ```{r}
-struct_spa_long <- struct_spa |> pivot_longer(cols = -period, names_to = "Energy sources", values_to = "Share")
-struct_spa$period <- factor(struct_spa$period,levels = c("Pre-crisis", "Post-crisis"))
 
 ggplot(struct_spa_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
@@ -388,8 +329,6 @@ ggplot(struct_spa_long, aes(x= `Energy sources`, y=Share, fill = period))+
 Spain's electricity production structure presents a significant use of both gas and nuclear sources, even if renewable fuels prevail. After the 2022 shock, we do not observe major adjustments. The gas share declines from around 27% to 22% which is not outstanding. Renewable sources represent the most important component of the mix, as welle as the most noticeable change, with a share increasing from 42% before the shock to 50% afterward.
 
 ```{r}
-struct_swe_long <- struct_swe |> pivot_longer(cols = -period, names_to = "Energy sources", values_to = "Share")
-struct_swe$period <- factor(struct_swe$period,levels = c("Pre-crisis", "Post-crisis"))
 
 ggplot(struct_swe_long, aes(x= `Energy sources`, y=Share, fill = period))+
   geom_bar(stat = "identity", position = "dodge")+
@@ -473,11 +412,15 @@ In this case, persistence is central because it governs how the shock continues 
 
 ## ARMA estimation
 
-To examine the persistency of the shock we examine the national electricity prices from 2019 to 2024, the data being semestrial. We use an ARIMA model to study the trends and estimate the coefficient. Theoretically, an ARIMA model is a combination of lagged time series values "AR" and a moving average part "MA". In this case, we center our focus on the AR coefficient, since they govern the memory of a process and therefore capture the durability of a price shock. A ARIMA model is constructed using (p,d,q), p and q being the order of the AR and MA parts, d being the order of the differencing operation. Our study precisely relies on an ARMA process, therefore, d is set to 0 in our ARIMA regression. The form of the resulting series will be such that : $P_{t} = \mu + \sum_{i=1}^{p} \phi_{i} P_{t-i} + \sum_{i = 0}^{q} \theta_{i}\epsilon_{t-i}$.
+To examine the persistency of the shock we examine the national electricity prices from 2019 to 2024, the data being semestrial. We use an ARMA model (equivalent to an ARIMA model with d=0) to study the trends and estimate the coefficient. Theoretically, an ARMA model is a combination of lagged time series values "AR" and a moving average part "MA". In this case, we center our focus on the AR coefficient, since they govern the memory of a process and therefore capture the durability of a price shock. A ARMA model is constructed using (p,q), p and q being the order of the AR and MA parts. The form of the resulting series will be such that : $P_{t} = \mu + \sum_{i=1}^{p} \phi_{i} P_{t-i} + \sum_{i = 0}^{q} \theta_{i}\epsilon_{t-i}$.
 
 To estimate our model coefficient, we use the auto.arima function that gives the preferred specification for each country by automatically minimize the Akaike Information Criterion (AIC).
 
-Remark : Models adequacy is assessed using Ljung-Box tests on residuals for autocorrelation and basic stability and if needed invertibility checks. For all countries, these tests showed that the estimated AR coefficient satisfy stationarity conditions and autocorrelation is not significant.
+Remark : 
+
+- Models adequacy is assessed using Ljung-Box tests on residuals for autocorrelation and basic stability and if needed invertibility checks. For all countries, these tests showed that the estimated AR coefficient satisfy stationarity conditions and autocorrelation is not significant.
+
+- Given the limited number of observations, the ARMA analysis is used as an explanatory tool rather than for forecasting purposes.
 
 ### France
 
@@ -496,12 +439,6 @@ fit_france <- auto.arima(y,d = 0, max.d = 0, max.p = 1, max.q = 1, seasonal = FA
 ```{r, results='hide'}
 summary(fit_france)
 ```
-
-|            | Estimate |
-|------------|----------|
-| $\phi_1$   | 0.9466   |
-| $\theta_1$ | 0.6525   |
-| $\mu$      | 5.0452   |
 
 $P_{t} = 5.0452+  0.9466P_{t-1} + \epsilon_{t}+ 0.6525\epsilon_{t-1}$
 
@@ -536,12 +473,6 @@ fit_bulg <- auto.arima(y,d = 0, max.d = 0, max.p = 1, max.q = 1, seasonal = FALS
 summary(fit_bulg)
 ```
 
-|            | Estimate |
-|------------|----------|
-| $\phi_1$   | 0.9191   |
-| $\theta_1$ | 0        |
-| $\mu$      | 4.5132   |
-
 $P_{t} = 4.5132+  0.9191P_{t-1} + \epsilon_{t}$
 
 ```{r, results='hide'}
@@ -568,12 +499,6 @@ fit_den <- auto.arima(y,d = 0, max.d = 0, max.p = 1, max.q = 1, seasonal = FALSE
 ```{r, results='hide'}
 summary(fit_den)
 ```
-
-|            | Estimate |
-|------------|----------|
-| $\phi_1$   | 0.7926   |
-| $\theta_1$ | 0        |
-| $\mu$      | 5.0320   |
 
 $P_{t} = 5.0320+  0.9191P_{t-1} + \epsilon_{t}$
 
@@ -602,12 +527,6 @@ fit_fin <- auto.arima(y,d = 0, max.d = 0, max.p = 1, max.q = 1, seasonal = FALSE
 summary(fit_fin)
 ```
 
-|            | Estimate |
-|------------|----------|
-| $\phi_1$   | 0.8296   |
-| $\theta_1$ | 0        |
-| $\mu$      | 4.9457   |
-
 $P_{t} = 4.9457+  0.8296 P_{t-1} + \epsilon_{t}$
 
 ```{r, results='hide'}
@@ -634,12 +553,6 @@ fit_germ <- auto.arima(y,d = 0, max.d = 0, max.p = 1, max.q = 1, seasonal = FALS
 ```{r, results='hide'}
 summary(fit_germ)
 ```
-
-|            | Estimate |
-|------------|----------|
-| $\phi_1$   | 0.9276   |
-| $\theta_1$ | 0        |
-| $\mu$      | 5.3001   |
 
 $P_{t} = 5.3001+  0.9276 P_{t-1} + \epsilon_{t}$
 
@@ -668,12 +581,6 @@ fit_neth <- auto.arima(y,d = 0, max.d = 0, max.p = 1, max.q = 1, seasonal = FALS
 summary(fit_neth)
 ```
 
-|            | Estimate |
-|------------|----------|
-| $\phi_1$   | 0.7972   |
-| $\theta_1$ | 0        |
-| $\mu$      | 5.2693   |
-
 $P_{t} = 5.2693+  0.7972 P_{t-1} + \epsilon_{t}$
 
 ```{r, results='hide'}
@@ -701,12 +608,6 @@ fit_pol <- auto.arima(y,d = 0, max.d = 0, max.p = 1, max.q = 1, seasonal = FALSE
 summary(fit_pol)
 ```
 
-|            | Estimate |
-|------------|----------|
-| $\phi_1$   | 0        |
-| $\theta_1$ | 0        |
-| $\mu$      | 4.5855   |
-
 $P_{t} = 4.5855 + \epsilon_{t}$
 
 As we can see, the preferred specification through AIC reduces the model to only a constant. To ensure comparability between countries, we impose an AR(1) specification by setting p = 1.
@@ -716,12 +617,6 @@ fit_pol_AR <- Arima(y, order = c(1,0,0), include.mean = TRUE)
 summary(fit_pol_AR)
 
 ```
-
-|            | Estimate |
-|------------|----------|
-| $\phi_1$   | 0.5768   |
-| $\theta_1$ | 0        |
-| $\mu$      | 5.0128   |
 
 $P_{t} = 5.0128+  0.5768 P_{t-1} + \epsilon_{t}$
 
@@ -750,12 +645,6 @@ fit_spa <- auto.arima(y,d = 0, max.d = 0, max.p = 1, max.q = 1, seasonal = FALSE
 summary(fit_spa)
 ```
 
-|            | Estimate |
-|------------|----------|
-| $\phi_1$   | 0.7876   |
-| $\theta_1$ | 0        |
-| $\mu$      | 5.1219   |
-
 $P_{t} = 5.1219+  0.7876 P_{t-1} + \epsilon_{t}$
 
 ```{r, results='hide'}
@@ -783,12 +672,6 @@ fit_swe <- auto.arima(y,d = 0, max.d = 0, max.p = 1, max.q = 1, seasonal = FALSE
 summary(fit_swe)
 ```
 
-|            | Estimate |
-|------------|----------|
-| $\phi_1$   | 0.5768   |
-| $\theta_1$ | 0        |
-| $\mu$      | 5.0128   |
-
 $P_{t} = 5.0128+  0.5768 P_{t-1} + \epsilon_{t}$
 
 ```{r, results='hide'}
@@ -805,39 +688,37 @@ Box.test(residuals(fit_swe), lag = 4, type = "Ljung-Box")
 ## Measure of shock persistence
 
 The AR coefficient of the fitted ARMA model does not direclty reflect the duration of a shock. To properly examine the persistency, we build a indicator of persistency that is comparable between country. From the impulse response function of the ARMA, we define the half life as the number of semester required for the effect of one unit of price shock to decline by 50% compared to its initial level. The half life of a shock is computed as following : $HL_c = log(0.5)/log(|\hat{\phi_i}|)$
+```{r, results='hide'}
+HL <- function(fit) {phi <- coef(fit)[["ar1"]]
+  log(0.5) / log(abs(phi))
+}
+
+HL_fra <- HL(fit_france)
+HL_bulg <- HL(fit_bulg)
+HL_den <- HL(fit_den)
+HL_fin <- HL(fit_fin)
+HL_germ <- HL(fit_germ)
+HL_neth <- HL(fit_neth)
+HL_pol <- HL(fit_pol_AR)
+HL_spa <- HL(fit_spa)
+HL_swe <- HL(fit_swe)
+
+```
 
 ```{r}
 phi_fra <- coef(fit_france)[["ar1"]]
-HL_fra = log(0.5)/log(abs(phi_fra))
-
 phi_bulg <-coef(fit_bulg)[["ar1"]]
-HL_bulg = log(0.5)/log(abs(phi_bulg))
-
 phi_den <-coef(fit_den)[["ar1"]]
-HL_den = log(0.5)/log(abs(phi_den))
-
 phi_fin <-coef(fit_fin)[["ar1"]]
-HL_fin = log(0.5)/log(abs(phi_fin))
-
 phi_germ <-coef(fit_germ)[["ar1"]]
-HL_germ = log(0.5)/log(abs(phi_germ))
-
 phi_neth <-coef(fit_neth)[["ar1"]]
-HL_neth = log(0.5)/log(abs(phi_neth))
-
 phi_pol <-coef(fit_pol_AR)[["ar1"]]
-HL_pol = log(0.5)/log(abs(phi_pol))
-
 phi_spa <-coef(fit_spa)[["ar1"]]
-HL_spa = log(0.5)/log(abs(phi_spa))
-
 phi_swe <-coef(fit_swe)[["ar1"]]
-HL_swe = log(0.5)/log(abs(phi_swe))
 
 persistency <- data_frame( country = c("France", "Bulgaria", "Denmark", "Finland", "Germany", "Netherlands", "Poland", "Spain", "Sweden"), AR1 = c(phi_fra, phi_bulg, phi_den, phi_fin, phi_germ, phi_neth, phi_pol, phi_spa, phi_swe), `Half Life`= c(HL_fra, HL_bulg, HL_den, HL_fin, HL_germ, HL_neth, HL_pol, HL_spa, HL_swe))
 
 kable(persistency, caption = "Half life of the shock per country")
-
 
 ```
 
@@ -867,7 +748,7 @@ In this section, we construct a composite vulnerability index to assess how expo
 
 -   Gas dependence: the share of natural gas in the national electricity production mix in 2021, reflecting structural reliance on gas.
 -   Import volume: the total volume of gas imports in 2021, measured in Million Cubic Meters (MCM), capturing the scale of external dependence.
--   Price increase: the percentage change in electricity prices between 2021 and 2022, illustrating the immediate shock intensity
+-   Price increase: the percentage change in electricity prices between 2021 and 2022, illustrating the immediate shock intensity.
 
 To ensure comparability across these three indicators, we normalize each variable on a 0-100 scale before averaging them into a single vulnerability score. Countries with higher scores were more exposed to the crisis through a combination of structural dependence, import reliance, and price volatility.
 
@@ -1227,6 +1108,7 @@ ggplot(europe_prices) +
   theme_minimal()
 ```
 
+<<<<<<< HEAD
 The map visualizes the geographic distribution of electricity price increases across Europe between 2021 and 2022, revealing significant spatial heterogeneity. Denmark stands out with the highest price increase at 138%, represented in red, despite its low gas dependence. Southern European countries like Spain and the Netherlands experienced substantial increases of 71% and 88% respectively, shown in orange. In contrast, Eastern and Northern European countries display more moderate responses. Poland and Bulgaria show the lowest increases at only 6%, represented in green, while France, Finland, and Sweden experienced relatively contained surges between 24% and 40%, shown in yellow. Notably, the map does not reveal a clear geographic pattern suggesting regional spillover effects. High impact countries are geographically dispersed, while neighboring countries experienced vastly different outcomes. Bulgaria and Poland, both in Eastern Europe, had minimal price increases while nearby countries faced much larger shocks. This spatial heterogeneity reinforces our finding that country specific factors played more important roles than geographic proximity in determining vulnerability to the 2022 energy crisis.
 
 # FINDINGS AND CONCLUSION
@@ -1251,3 +1133,6 @@ This analysis examined the heterogeneous responses of nine European countries to
 Gas dependence in electricity generation was the systematic driver of differential vulnerability, but only during the crisis itself. The panel regression demonstrates that pre-existing gas share did not predict baseline price levels (explaining the insignificant cross-sectional results) but critically determined crisis amplification through the significant interaction effect. Each additional percentage point of gas dependence increased crisis-period prices by 0.85%, resulting in countries with 40% gas facing nearly double the price impact of those with 10% gas.
 This pattern reveals that structural energy characteristics operated as latent vulnerabilities, decisive under stress. Gas-dependent systems lacked buffer capacity when the fuel price shock hit, while nuclear- and renewable-heavy systems possessed inherent resilience. The 2022 crisis thus exposed fundamental asymmetries in European energy systems: despite facing the same external shock through integrated markets, countries experienced vastly different economic impacts based on their pre-existing generation structures. With elevated prices persisting through 2024 and minimal structural adjustment observed, these vulnerabilities remain largely unaddressed, carrying significant implications for European energy security.
 
+=======
+The map visualizes the geographic distribution of electricity price increases across Europe between 2021 and 2022, revealing significant spatial heterogeneity. Denmark stands out with the highest price increase at 138%, represented in red, despite its low gas dependence. Southern European countries like Spain and the Netherlands experienced substantial increases of 71% and 88% respectively, shown in orange. In contrast, Eastern and Northern European countries display more moderate responses. Poland and Bulgaria show the lowest increases at only 6%, represented in green, while France, Finland, and Sweden experienced relatively contained surges between 24% and 40%, shown in yellow. Notably, the map does not reveal a clear geographic pattern suggesting regional spillover effects. High impact countries are geographically dispersed, while neighboring countries experienced vastly different outcomes. Bulgaria and Poland, both in Eastern Europe, had minimal price increases while nearby countries faced much larger shocks. This spatial heterogeneity reinforces our finding that country specific factors played more important roles than geographic proximity in determining vulnerability to the 2022 energy crisis. 
+>>>>>>> f677262 (Part 3 : precision on the ARMA methodology)
