@@ -429,7 +429,7 @@ kable(mix_pre, caption = "Energy mix structure pre-crisis per country")
 mix_pre_long <- mix_pre |> pivot_longer(cols = -country, names_to = "sources", values_to = "share")
 
 ggplot(mix_pre_long, aes(x= share, y = country, color= country))+
-  geom_point(size = 3)+
+  geom_point(size = 2)+
   facet_wrap(~sources)+
   labs(title = "Pre-crisis electricity generation mix across countries")
 ```
@@ -438,7 +438,7 @@ This graphical representation cast light on the heterogeneity of the national el
 
 ```{r}
 ggplot(mix_pre, aes(x = `gas share`, y = `nuclear share` + `renewable share`)) +
-  geom_point(size = 3) +
+  geom_point(size = 2) +
   geom_text(aes(label = country), vjust = -0.5) +
   labs(x = "Gas share (%)", y = "Non-gas electricity sources (%)", title = "Structural exposure to gas in pre-crisis electricity systems")
 
@@ -473,7 +473,7 @@ In this case, persistence is central because it governs how the shock continues 
 
 ## ARMA estimation
 
-To examine the persistency of the shock we examine the national electricity prices from 2019 to 2024, the data being semestrial. We use an ARIMA model to study the trends and estimate the coefficient. Theoretically, an ARIMA model is a combination of lagged time series values "AR" and a moving average part "MA". In this case, we center our focus on the AR coefficient, since they govern the memory of a process and therefore capture the durability of a price shock. A ARIMA model is constructed using (p,d,q), p and q being the order of the AR and MA parts, d being the order of the differencing operation. Our study precisely relies on an ARMA process, therefore, d is set to 0 in our ARIMA regression. The form of the resulting series will be such that : $(1 - \sum_{i=1}^{p} \phi_{i} L^{i} ) \; (1-L) \; X_{t} = (1 + \sum_{i = 1}^{q} \theta_{i}L^{i}) \;\epsilon_{t}$.
+To examine the persistency of the shock we examine the national electricity prices from 2019 to 2024, the data being semestrial. We use an ARIMA model to study the trends and estimate the coefficient. Theoretically, an ARIMA model is a combination of lagged time series values "AR" and a moving average part "MA". In this case, we center our focus on the AR coefficient, since they govern the memory of a process and therefore capture the durability of a price shock. A ARIMA model is constructed using (p,d,q), p and q being the order of the AR and MA parts, d being the order of the differencing operation. Our study precisely relies on an ARMA process, therefore, d is set to 0 in our ARIMA regression. The form of the resulting series will be such that : $P_{t} = \mu + \sum_{i=1}^{p} \phi_{i} P_{t-i} + \sum_{i = 0}^{q} \theta_{i}\epsilon_{t-i}$.
 
 To estimate our model coefficient, we use the auto.arima function that gives the preferred specification for each country by automatically minimize the Akaike Information Criterion (AIC).
 
@@ -502,6 +502,8 @@ summary(fit_france)
 | $\phi_1$   | 0.9466   |
 | $\theta_1$ | 0.6525   |
 | $\mu$      | 5.0452   |
+
+$P_{t} = 5.0452+  0.9466P_{t-1} + \epsilon_{t}+ 0.6525\epsilon_{t-1}$
 
 ```{r, results='hide'}
 phi <- coef(fit_france)["ar1"]
@@ -540,6 +542,8 @@ summary(fit_bulg)
 | $\theta_1$ | 0        |
 | $\mu$      | 4.5132   |
 
+$P_{t} = 4.5132+  0.9191P_{t-1} + \epsilon_{t}$
+
 ```{r, results='hide'}
 phi <- coef(fit_bulg)["ar1"]
 abs(phi) < 1
@@ -570,6 +574,8 @@ summary(fit_den)
 | $\phi_1$   | 0.7926   |
 | $\theta_1$ | 0        |
 | $\mu$      | 5.0320   |
+
+$P_{t} = 5.0320+  0.9191P_{t-1} + \epsilon_{t}$
 
 ```{r, results='hide'}
 phi <- coef(fit_den)["ar1"]
@@ -602,6 +608,8 @@ summary(fit_fin)
 | $\theta_1$ | 0        |
 | $\mu$      | 4.9457   |
 
+$P_{t} = 4.9457+  0.8296 P_{t-1} + \epsilon_{t}$
+
 ```{r, results='hide'}
 phi <- coef(fit_fin)["ar1"]
 abs(phi) < 1
@@ -632,6 +640,8 @@ summary(fit_germ)
 | $\phi_1$   | 0.9276   |
 | $\theta_1$ | 0        |
 | $\mu$      | 5.3001   |
+
+$P_{t} = 5.3001+  0.9276 P_{t-1} + \epsilon_{t}$
 
 ```{r, results='hide'}
 phi <- coef(fit_germ)["ar1"]
@@ -664,6 +674,8 @@ summary(fit_neth)
 | $\theta_1$ | 0        |
 | $\mu$      | 5.2693   |
 
+$P_{t} = 5.2693+  0.7972 P_{t-1} + \epsilon_{t}$
+
 ```{r, results='hide'}
 phi <- coef(fit_neth)["ar1"]
 abs(phi) < 1
@@ -695,6 +707,8 @@ summary(fit_pol)
 | $\theta_1$ | 0        |
 | $\mu$      | 4.5855   |
 
+$P_{t} = 4.5855 + \epsilon_{t}$
+
 As we can see, the preferred specification through AIC reduces the model to only a constant. To ensure comparability between countries, we impose an AR(1) specification by setting p = 1.
 
 ```{r, results='hide'}
@@ -708,6 +722,8 @@ summary(fit_pol_AR)
 | $\phi_1$   | 0.5768   |
 | $\theta_1$ | 0        |
 | $\mu$      | 5.0128   |
+
+$P_{t} = 5.0128+  0.5768 P_{t-1} + \epsilon_{t}$
 
 ```{r, results='hide'}
 phi <- coef(fit_pol_AR)["ar1"]
@@ -740,6 +756,8 @@ summary(fit_spa)
 | $\theta_1$ | 0        |
 | $\mu$      | 5.1219   |
 
+$P_{t} = 5.1219+  0.7876 P_{t-1} + \epsilon_{t}$
+
 ```{r, results='hide'}
 phi <- coef(fit_spa)["ar1"]
 abs(phi) < 1
@@ -770,6 +788,8 @@ summary(fit_swe)
 | $\phi_1$   | 0.5768   |
 | $\theta_1$ | 0        |
 | $\mu$      | 5.0128   |
+
+$P_{t} = 5.0128+  0.5768 P_{t-1} + \epsilon_{t}$
 
 ```{r, results='hide'}
 phi <- coef(fit_swe)["ar1"]
