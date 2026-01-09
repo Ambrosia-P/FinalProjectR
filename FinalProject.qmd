@@ -32,6 +32,9 @@ library(tidyr)
 library(tidyverse)
 library(ggplot2)
 library(knitr)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(forecast)
 ```
 
 ```{r}
@@ -54,7 +57,8 @@ Our analysis relies on four main datasets covering the period from 2019 to 2024.
 
 All datasets required extensive cleaning and harmonization to ensure consistency across sources and time periods. Monthly data were aggregated to semi-annual or annual frequencies where appropriate to match electricity price periodicity and reduce noise in structural indicators. Detailed data cleaning procedures, variable definitions, and preliminary descriptive statistics are documented in our Phase 2 submission 
 
-# Part 1: The 2022 energy shock
+# The 2022 energy shock
+
 The 2022 energy crisis originated in the natural gas market and rapidly transmitted to electricity prices across Europe. In this section, we document the nature and magnitude of this shock by analyzing the evolution of gas and electricity prices during the crisis period. Understanding the timing, amplitude, and transmission mechanism of the shock is essential to interpreting the heterogeneous responses observed across countries in subsequent sections.
 
 ```{r}
@@ -74,7 +78,7 @@ ggplot(gas_evolution, aes(x = period, y = price, group = 1)) +
   geom_line(color = "blue", size = 1.2) +
   geom_point(color = "blue", size = 2.5) +
   geom_vline(xintercept = 7, linetype = "dashed", color = "red", size = 1) +
-  annotate("text", x = 7.5, y = max(gas_evolution$price, na.rm = TRUE) * 0.85, 
+  annotate("text", x = 6, y = max(gas_evolution$price, na.rm = TRUE) * 0.85, 
            label = "Crisis onset\n(2022-S1)", color = "red", size = 4) +
   labs(title = "Evolution of Dutch TTF Natural Gas Prices (2019-2024)",
        x = "Period (Year-Semester)",
@@ -99,7 +103,7 @@ ggplot(avg_elec_prices, aes(x = period, y = avg_price, group = 1)) +
   geom_line(color = "darkgreen", size = 1.2) +
   geom_point(color = "darkgreen", size = 2.5) +
   geom_vline(xintercept = 5, linetype = "dashed", color = "red", size = 1) +
-  annotate("text", x = 5.5, y = max(avg_elec_prices$avg_price, na.rm = TRUE) * 0.85,
+  annotate("text", x = 5, y = max(avg_elec_prices$avg_price, na.rm = TRUE) * 0.85,
            label = "Crisis onset", color = "red", size = 4) +
   labs(title = "Average Electricity Prices Across Nine European Countries (2019-2024)",
        x = "Period (Year-Semester)",
@@ -149,7 +153,7 @@ The summary table quantifies the magnitude of the 2022 energy shock across both 
 The differential in percentage increases between gas and electricity prices reflects several factors. First, electricity generation relies on multiple fuel sources beyond gas, providing some buffering effect. Second, regulatory interventions in some countries capped consumer electricity prices, dampening the observed price response. Third, the merit order mechanism means electricity prices respond to marginal costs rather than average generation costs. Nevertheless, the substantial electricity price increase confirms that the gas shock successfully propagated throughout European energy systems, creating significant economic pressure on households and businesses across the continent.
 
 
-## National Energy mix structures
+# National Energy mix structures
 
 In this section, we will focus on the national energy mix structures before and after the gas price shock. Indeed, we will study the structural difference across countries and how these structures changes over time as a response to the shock. Two type of comparison will provide insight into the dynamics triggered by the 2022 crisis : - A comparison pre/post shock within a same country will highlight the potential adjustment in its energy system triggerred by the crisis. - A cross country comparison allows us to show that the countries enter the 2022 crisis with different profiles and exposure levels
 
@@ -457,7 +461,7 @@ The study of the pre-crisis structural heterogeneity allow the constrcution of a
 
 The descriptive analysis of national energy mix strucutures is fundamental to understand the context in which the crisis took place and the nature of the shock. Indeed,  countries did not enter the shock under the same conditions, as they display highly heterogeneous electricity generation structures. The proposed typology, based on the combination of different sources within the mix, highlights the range of gas exposure degree from one country to another and supports our main hypothesis : the responses to the 2022 energy crisis differed markedly across  european countries. However, one of the main result of this section's analysis is that the national energy mixes exhibit very limited short-run adjustment. Indeed, despite the intensity of the 2022 shock, the structures have remained largely stable and the adjustments made are not to be considered as major transformations. These empirical findings imply that the adjustment to the crisis was unlikely to occur through technology changes, motivating a closer examination of price dynamics and shock persistence in the following sections.
 
-## Electricity price dynamics and shock persistency 
+# Electricity price dynamics and shock persistency 
 
 The previous sections have established two main results : the 2022 shock generated large price movements but the short-run adjustments remained limited as a consequence of technological and infrastructural constraints. Facing the limited scope of technological transformations, our focus now shifts to a further analysis of prices dynamics, since the larger share of adjustments have likely occurred through prices.
 
@@ -467,10 +471,49 @@ Studying persistence is interesting to understand the multidimensional aspect of
 - Cross-crountry inequalities : despite the initial impact being similar for all european countries, if we observe different levels of persistency, this shock and generate unequal burden across countries.
 - Market normalization : the persistency of a shock also governs how fast the economy and the prices come back to their original level after a peak. 
 
-<<<<<<< HEAD
-=======
-Our descriptive analysis of the national energy mix structure does not bring out major structural transformations in the electricity production systems as one might  expect following such a severe shock. Instead, we observe only marginal changes or slight adjustments, most often an increase in the share of renewable sources, while the global structure remains generally unchanged. In particular what is striking is that the country do not undertake major cut in their use of gas despite the intensity of the shock. On average, the decrease in the gas share after the crisis is of `mean_delta` percentage points, which does not illustrate a shift away from gas in the energy mix. This stability highlights the rigidity of the national energy mix structures in the short run. This is due to technological constraints : infrastructures cannot be transformed overnight, and path dependency may delay adjustments. It is important to recall that these results are only short-run outcomes, as we witnessed that structural transformations unfold over larger horizons. The study of the energy mixes therefore suggests that the crisis was not absorbed through technologies adjustments, but through prices. Consequently, we will focus on this intuition in the next parts of our analysis.
+## ARMA estimation
 
+### France
+
+```{r}
+elec_prices_long <- energy_prices |> slice(-1)|> pivot_longer(cols=-Country, names_to = "date", values_to = "price") |> mutate(log_price=log(price))
+```
+
+```{r}
+
+y <- elec_prices_long |> filter(Country == "France") |> arrange(date) |> pull(log_price)
+
+fit_france <- auto.arima(y,d = 0, max.d = 0, max.p = 1, max.q = 1, seasonal = FALSE, stationary = TRUE, stepwise = FALSE, approximation = FALSE)
+
+```
+
+```{r, results='hide'}
+summary(fit_france)
+```
+|                        | Estimate           |
+|------------------------|--------------------|
+| $\phi_1$               | 0.9466             |
+| $\theta_1$             |0.6525              |
+| $\mu$                  | 5.0452             |
+
+
+
+```{r, results='hide'}
+phi <- coef(fit_france)["ar1"]
+abs(phi) < 1
+
+```
+```{r, results='hide'}
+theta <- coef(fit_france)["ma1"]
+abs(theta) < 1
+
+```
+```{r, results='hide'}
+Box.test(residuals(fit_france), lag = 4, type = "Ljung-Box")
+
+
+```
+### Bulgaria 
 # Cross country heterogeneity in responses to the energy crisis
 
 ## Composite Vulnerability Index
@@ -657,7 +700,6 @@ Netherlands, with the highest gas share (46%), did experience a substantial pric
 ### European map of price increases
 
 ```{r}
-library(rnaturalearth)
 
 # Get Europe map data
 europe <- ne_countries(scale = "medium", continent = "Europe", returnclass = "sf")
