@@ -11,3 +11,6 @@ Datacleaning_files/
 FinalProject_files/
 Phase2_files/
 *.pdf
+*.aux
+*.log
+*.tex
