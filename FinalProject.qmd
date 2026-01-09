@@ -50,15 +50,17 @@ sources_list <- split(sources, sources$Country)
 
 # Data description
 
-Our analysis relies on four main datasets covering the period from 2019 to 2024. **Electricity prices** are sourced from Eurostat on a semi-annual basis (S1, S2) for nine European countries: Bulgaria, Denmark, Finland, France, Germany, Netherlands, Poland, Spain, and Sweden. Prices are expressed in EUR per MWh and reflect household consumer costs.
+Our analysis relies on four main data sets covering the period from 2019 to 2024. 
+
+**Electricity prices** are sourced from Eurostat on a semi-annual basis (S1, S2) for nine European countries: Bulgaria, Denmark, Finland, France, Germany, Netherlands, Poland, Spain, and Sweden. Prices are expressed in EUR per MWh and reflect household consumer costs.
 
 **Natural gas prices** come from the Dutch TTF Natural Gas Futures historical data, providing monthly observations of Europe benchmark gas price. 
 
 **Energy production by source** is obtained from Eurostat's energy statistics, disaggregated into combustible fuels, natural gas, nuclear, hydro, solar, wind, and total renewable production, allowing us to construct detailed energy mix profiles for each country on a monthly basis. 
 
-**Gas import data**, including both pipeline imports and LNG imports measured in Million Cubic Meters (MCM), are sourced from Eurostat, enabling us to quantify each country's russian gas dependence.
+**Gas import data**, including both pipeline imports and LNG imports measured in Million Cubic Meters (MCM), are sourced from Eurostat, enabling us to quantify each country's Russian gas dependence.
 
-All datasets required extensive cleaning and harmonization to ensure consistency across sources and time periods. Monthly data were aggregated to semi-annual or annual frequencies where appropriate to match electricity price periodicity and reduce noise in structural indicators. Detailed data cleaning procedures, variable definitions, and preliminary descriptive statistics are documented in our Phase 2 submission.
+All data sets required extensive cleaning and harmonization to ensure consistency across sources and time periods. Monthly data were aggregated to semi-annual or annual frequencies where appropriate to match electricity price periodicity and reduce noise in structural indicators. Detailed data cleaning procedures, variable definitions, and preliminary descriptive statistics are documented in our Phase 2 submission.
 
 # The 2022 energy shock
 
@@ -163,7 +165,7 @@ In this section, we will focus on the national energy mix structures before and 
 -   A comparison pre/post shock within a same country will highlight the potential adjustment in its energy system triggered by the crisis.
 -   A cross country comparison allows us to show that the countries enter the 2022 crisis with different profiles and exposure levels
 
-This part is fundamental to the structure of our analysis since it will justify the persistance of the shocks and the heterogeneity of the responses provided.
+This part is fundamental to the structure of our analysis since it will justify the persistence of the shocks and the heterogeneity of the responses provided.
 
 ### Energy mix computation
 
@@ -242,6 +244,7 @@ kable(struct_pol, caption = "Poland's energy mix structure pre and post the 2022
 kable(struct_spa, caption = "Spain's energy mix structure pre and post the 2022 energy crisis")
 kable(struct_swe, caption = "Sweden's energy mix structure pre and post the 2022 energy crisis")
 ```
+
 ### Period comparison and structural adjustments
 
 
@@ -283,7 +286,7 @@ ggplot(struct_den_long, aes(x= `Energy sources`, y=Share, fill = period))+
   labs(title="Denmark's structure pre and post 2022 crisis")
 ```
 
-Denmark's electricity production structure relies mainly on renewable sources, as do most Northen countries. The use of natural gas is minimal, below 5% over the whole period and the production structure do not include nuclear fuels at all. The 2022 shock has only led to moderate changes, which we do not considered to be significant structural adjustments.
+Denmark's electricity production structure relies mainly on renewable sources, as do most Northern countries. The use of natural gas is minimal, below 5% over the whole period and the production structure do not include nuclear fuels at all. The 2022 shock has only led to moderate changes, which we do not considered to be significant structural adjustments.
 
 ```{r}
 
@@ -352,7 +355,7 @@ deltas <- c(delta_france, delta_bulg, delta_swe, delta_spa, delta_pol, delta_net
 mean_delta <- round(mean(deltas),2)
 ```
 
-Our descriptive analysis of the national energy mix structure does not bring out major structural transformations in the electricity production systems as one might expect following such a severe shock. Instead, we observe only marginal changes or slight adjustments, most often an increase in the share of renewable sources, while the global structure remains generally unchanged. In particular what is striking is that the country do not undertake major cut in their use of gas despite the intensity of the shock. On average, the decrease in the gas share after the crisis is of `mean_delta` percentage points, which does not illustrate a shift away from gas in the energy mix. This stability highlights the rigidity of the national energy mix structures in the short run. This is due to technological constraints : infrastructures cannot be transformed overnight, and path dependency may delay adjustments. It is important to recall that these results are only short-run outcomes, as we witnessed that structural transformations unfold over larger horizons. The study of the energy mixes therefore suggests that the crisis was not absorbed through technology adjustments, but through prices. Consequently, we will focus on this intuition in the next parts of our analysis.
+Our descriptive analysis of the national energy mix structure does not bring out major structural transformations in the electricity production systems as one might expect following such a severe shock. Instead, we observe only marginal changes or slight adjustments, most often an increase in the share of renewable sources, while the global structure remains generally unchanged. In particular what is striking is that the country do not undertake major cut in their use of gas despite the intensity of the shock. On average, the decrease in the gas share after the crisis is of `r round(mean_delta,2)` percentage points, which does not illustrate a shift away from gas in the energy mix. This stability highlights the rigidity of the national energy mix structures in the short run. This is due to technological constraints : infrastructures cannot be transformed overnight, and path dependency may delay adjustments. It is important to recall that these results are only short-run outcomes, as we witnessed that structural transformations unfold over larger horizons. The study of the energy mixes therefore suggests that the crisis was not absorbed through technology adjustments, but through prices. Consequently, we will focus on this intuition in the next parts of our analysis.
 
 ### Structural heterogeneity and typologie of energy systems
 
@@ -373,7 +376,7 @@ ggplot(mix_pre_long, aes(x= share, y = country, color= country))+
   labs(title = "Pre-crisis electricity generation mix across countries")
 ```
 
-This graphical representation cast light on the heterogeneity of the national electricity generation structure before the crisis. As we can observe, the points, representing one country's share of a specific sources, are scattered across the graph, which illustrates major differences between countries in their electricity generation system. For instance, we can state that Denmark does not use any nuclear fuels to produce electricity while they account for almost 70% of Finland's electricity generation. By contrast, renewables sources contributes to 80% of Denmark's production, while it is only 40% for Finland. However, this representation treat sources in isolation. To deepen our analysis and construct a relevent typology, we complete this source-by-source comparison with a study if the different technologies's interaction whithin each national systems. For that, we need to look at the gas share in relation to the other alternative available in a country. We will only consider nuclear fuels and renewable sources as alternative to gas, since combustible fuels are also fossil fuels and therefore remain subject to the same dynamics and constraints as gas.
+This graphical representation cast light on the heterogeneity of the national electricity generation structure before the crisis. As we can observe, the points, representing one country's share of a specific sources, are scattered across the graph, which illustrates major differences between countries in their electricity generation system. For instance, we can state that Denmark does not use any nuclear fuels to produce electricity while they account for almost 70% of Finland's electricity generation. By contrast, renewables sources contributes to 80% of Denmark's production, while it is only 40% for Finland. However, this representation treat sources in isolation. To deepen our analysis and construct a relevant typology, we complete this source-by-source comparison with a study if the different technologies' interaction within each national systems. For that, we need to look at the gas share in relation to the other alternative available in a country. We will only consider nuclear fuels and renewable sources as alternative to gas, since combustible fuels are also fossil fuels and therefore remain subject to the same dynamics and constraints as gas.
 
 ```{r}
 ggplot(mix_pre, aes(x = `gas share`, y = `nuclear share` + `renewable share`)) +
@@ -385,7 +388,14 @@ ggplot(mix_pre, aes(x = `gas share`, y = `nuclear share` + `renewable share`)) +
 
 This figure displays the pre-crisis share of gas used in electricity generation against the availability of non-gas alternatives. In the upper-left corner, we observe countries that rely primarily on other alternative sources and therefore exhibit low exposure to gas. In contrast, the lower-right corner includes countries that use a large share of gas relative to non-gas sources, and are thus more exposed to a gas supply shock. The countries located the central part of the graph occupy an intermediate position : while they have alternatives available, they still use a substantial amount of gas, which implies they remain exposed to gas market dynamics.
 
-Following these graphical representations, we want to suggest a classification of the countries according to their pre-crisis energy mix structure. This typology splits the countries in 4 groups : - nuclear-based systems - renewable-heavy systems - gas- exposed systems - fossil-fuels-intensive systems We would like to mention that these categories are not exclusive, neither describe which source is dominant in a national energy mix. These groups rather aim at highlighting the heterogeneity of the pre-crisis structure and therefore of the exposition to the 2022 shock.
+Following these graphical representations, we want to suggest a classification of the countries according to their pre-crisis energy mix structure. This typology splits the countries in 4 groups : 
+
+- nuclear-based systems 
+- renewable-heavy systems 
+- gas- exposed systems
+- fossil-fuels-intensive systems
+
+We would like to mention that these categories are not exclusive, neither describe which source is dominant in a national energy mix. These groups rather aim at highlighting the heterogeneity of the pre-crisis structure and therefore of the exposition to the 2022 shock.
 
 | Category               | Countries                |
 |------------------------|--------------------------|
@@ -394,29 +404,32 @@ Following these graphical representations, we want to suggest a classification o
 | Fossil-fuels-intensive | Poland, Germany\*        |
 | Renewable heavy        | Sweden, Denmark, Finland |
 
-: Energy mix strucuture classification \* Bulgaria also belongs to the fossil-fuels-intensive systems since it uses as much combustible fuels as nuclear one in the electricty generation (38%) Germany also belongs to the renewable-heavy category since its renawable share is almost the same as its combustible share (34% and 39% respectively) but Northen countries exhibit a much larger use of rewnewables.
+: Energy mix structure classification 
 
-The study of the pre-crisis structural heterogeneity allow the constrcution of a typology of energy mix system that highlights both similarities and differences between the national structures. The most important result of this descriptive analysis is that the countries enter the crisis with very different disposition whoch suggest that some are more exposed to a gas shocks than others. The intuition underlying this idea is that gas exposed systems would be more affected by the shock that systems that rely mainly on alternatives fuels such as nuclear or renewables. Therefore, a study of the pre-crisis structure's diversity suggests that country will respond differently through the crisis. This intuition will be examinated in the last part of the report.
+\* Bulgaria also belongs to the fossil-fuels-intensive systems since it uses as much combustible fuels as nuclear one in the electricity generation (38%).
+Germany also belongs to the renewable-heavy category since its renewable share is almost the same as its combustible share (34% and 39% respectively) but Northern countries exhibit a much larger use of renewables.
 
-The descriptive analysis of national energy mix strucutures is fundamental to understand the context in which the crisis took place and the nature of the shock. Indeed, countries did not enter the shock under the same conditions, as they display highly heterogeneous electricity generation structures. The proposed typology, based on the combination of different sources within the mix, highlights the range of gas exposure degree from one country to another and supports our main hypothesis : the responses to the 2022 energy crisis differed markedly across european countries. However, one of the main result of this section's analysis is that the national energy mixes exhibit very limited short-run adjustment. Indeed, despite the intensity of the 2022 shock, the structures have remained largely stable and the adjustments made are not to be considered as major transformations. These empirical findings imply that the adjustment to the crisis was unlikely to occur through technology changes, motivating a closer examination of price dynamics and shock persistence in the following sections.
+The study of the pre-crisis structural heterogeneity allow the construction of a typology of energy mix system that highlights both similarities and differences between the national structures. The most important result of this descriptive analysis is that the countries enter the crisis with very different disposition which suggest that some are more exposed to a gas shocks than others. The intuition underlying this idea is that gas exposed systems would be more affected by the shock that systems that rely mainly on alternatives fuels such as nuclear or renewables. Therefore, a study of the pre-crisis structure's diversity suggests that country will respond differently through the crisis. This intuition will be examined in the last part of the report.
 
-# Electricity price dynamics and shock persistency
+The descriptive analysis of national energy mix structures is fundamental to understand the context in which the crisis took place and the nature of the shock. Indeed, countries did not enter the shock under the same conditions, as they display highly heterogeneous electricity generation structures. The proposed typology, based on the combination of different sources within the mix, highlights the range of gas exposure degree from one country to another and supports our main hypothesis : the responses to the 2022 energy crisis differed markedly across European countries. However, one of the main result of this section's analysis is that the national energy mixes exhibit very limited short-run adjustment. Indeed, despite the intensity of the 2022 shock, the structures have remained largely stable and the adjustments made are not to be considered as major transformations. These empirical findings imply that the adjustment to the crisis was unlikely to occur through technology changes, motivating a closer examination of price dynamics and shock persistence in the following sections.
+
+# Electricity price dynamics and shock persistence
 
 The previous sections have established two main results : the 2022 gas price shock generated large electricity price movements but the short-run adjustments remained limited as a consequence of technological and infrastructural constraints. Facing the limited scope of technological transformations, our focus now shifts to a further analysis of prices dynamics, since the larger share of adjustments have likely occurred through prices.
 
-In this case, persistence is central because it governs how the shock continues to affect one country's economy. If all european countries have experienced the same price shock, persistence heterogeneity suggests different implications in term of welfare. Studying persistence is interesting to understand the multidimensional aspect of the 2022 crisis :
+In this case, persistence is central because it governs how the shock continues to affect one country's economy. If all European countries have experienced the same price shock, persistence heterogeneity suggests different implications in term of welfare. Studying persistence is interesting to understand the multidimensional aspect of the 2022 crisis :
 
 -   Welfare implications : a higher persistence implies longer period of electricity high prices, affecting real income for households and production costs for firms.
--   Cross-crountry inequalities : despite the initial impact being similar for all european countries, if we observe different levels of persistency, this shock and generate unequal burden across countries.
--   Market normalization : the persistency of a shock also governs how fast the economy and the prices come back to their original level after a peak.
+-   Cross-country inequalities : despite the initial impact being similar for all European countries, if we observe different levels of persistence, this shock and generate unequal burden across countries.
+-   Market normalization : the persistence of a shock also governs how fast the economy and the prices come back to their original level after a peak.
 
 ## ARMA estimation
 
-To examine the persistency of the shock we examine the national electricity prices from 2019 to 2024, the data being semestrial. We use an ARMA model (equivalent to an ARIMA model with d=0) to study the trends and estimate the coefficient. Theoretically, an ARMA model is a combination of lagged time series values "AR" and a moving average part "MA". In this case, we center our focus on the AR coefficient, since they govern the memory of a process and therefore capture the durability of a price shock. A ARMA model is constructed using (p,q), p and q being the order of the AR and MA parts. The form of the resulting series will be such that : $P_{t} = \mu + \sum_{i=1}^{p} \phi_{i} P_{t-i} + \sum_{i = 0}^{q} \theta_{i}\epsilon_{t-i}$.
+To examine the persistence of the shock we examine the national electricity prices from 2019 to 2024, the data being semiannual. We use an ARMA model (equivalent to an ARIMA model with d=0) to study the trends and estimate the coefficient. Theoretically, an ARMA model is a combination of lagged time series values "AR" and a moving average part "MA". In this case, we center our focus on the AR coefficient, since they govern the memory of a process and therefore capture the durability of a price shock. A ARMA model is constructed using (p,q), p and q being the order of the AR and MA parts. The form of the resulting series will be such that : $P_{t} = \mu + \sum_{i=1}^{p} \phi_{i} P_{t-i} + \sum_{i = 0}^{q} \theta_{i}\epsilon_{t-i}$.
 
 To estimate our model coefficient, we use the auto.arima function that gives the preferred specification for each country by automatically minimize the Akaike Information Criterion (AIC).
 
-Remark : 
+Remarks : 
 
 - Models adequacy is assessed using Ljung-Box tests on residuals for autocorrelation and basic stability and if needed invertibility checks. For all countries, these tests showed that the estimated AR coefficient satisfy stationarity conditions and autocorrelation is not significant.
 
@@ -687,7 +700,8 @@ Box.test(residuals(fit_swe), lag = 4, type = "Ljung-Box")
 
 ## Measure of shock persistence
 
-The AR coefficient of the fitted ARMA model does not direclty reflect the duration of a shock. To properly examine the persistency, we build a indicator of persistency that is comparable between country. From the impulse response function of the ARMA, we define the half life as the number of semester required for the effect of one unit of price shock to decline by 50% compared to its initial level. The half life of a shock is computed as following : $HL_c = log(0.5)/log(|\hat{\phi_i}|)$
+The AR coefficient of the fitted ARMA model does not directly reflect the duration of a shock. To properly examine the persistence, we build a indicator that is comparable between country. From the impulse response function of the ARMA, we define the half life as the number of semester required for the effect of one unit of price shock to decline by 50% compared to its initial level. The half life of a shock is computed as following : $HL_c = log(0.5)/log(|\hat{\phi_i}|)$
+
 ```{r, results='hide'}
 HL <- function(fit) {phi <- coef(fit)[["ar1"]]
   log(0.5) / log(abs(phi))
@@ -716,31 +730,31 @@ phi_pol <-coef(fit_pol_AR)[["ar1"]]
 phi_spa <-coef(fit_spa)[["ar1"]]
 phi_swe <-coef(fit_swe)[["ar1"]]
 
-persistency <- data_frame( country = c("France", "Bulgaria", "Denmark", "Finland", "Germany", "Netherlands", "Poland", "Spain", "Sweden"), AR1 = c(phi_fra, phi_bulg, phi_den, phi_fin, phi_germ, phi_neth, phi_pol, phi_spa, phi_swe), `Half Life`= c(HL_fra, HL_bulg, HL_den, HL_fin, HL_germ, HL_neth, HL_pol, HL_spa, HL_swe))
+persistence <- data_frame( country = c("France", "Bulgaria", "Denmark", "Finland", "Germany", "Netherlands", "Poland", "Spain", "Sweden"), AR1 = c(phi_fra, phi_bulg, phi_den, phi_fin, phi_germ, phi_neth, phi_pol, phi_spa, phi_swe), `Half Life`= c(HL_fra, HL_bulg, HL_den, HL_fin, HL_germ, HL_neth, HL_pol, HL_spa, HL_swe))
 
-kable(persistency, caption = "Half life of the shock per country")
+kable(persistence, caption = "Half life of the shock per country")
 
 ```
 
 ```{r}
-mean_HL <- mean(persistency$`Half Life`)
+mean_HL <- mean(persistence$`Half Life`)
 ```
 
 ```{r}
-ggplot(persistency, aes(x = country, y = `Half Life`)) +
+ggplot(persistence, aes(x = country, y = `Half Life`)) +
   geom_point(size = 3) +
-  geom_hline(yintercept = mean(persistency$`Half Life`), linetype = "dashed")
+  geom_hline(yintercept = mean(persistence$`Half Life`), linetype = "dashed")
 
 
 ```
 
-The estimated ARMA models show that the electricty prices come back to their initial level slowly after the 2022 gas price shock, since the autoregeressive coefficient are close to unity. As a consequence, the half lives of the shock span multiple years in almost all countries : on average, countries take `mean_HL` semesters to absorb the shock ie 2,5 years. However we observe a substantial heterogeneity among countries as highlighted by the graphical representation where half life values are largely spread on the graph. While in some cases price effects dissipate within one semester, as for Poland or Sweden, in others they remain substantial even several years after the shock, and in some case, the prices has not came back to their original level yet. It is the case for France, Germany or Bulgaria.
+The estimated ARMA models show that the electricity prices come back to their initial level slowly after the 2022 gas price shock, since the auto regressive coefficient are close to unity. As a consequence, the half lives of the shock span multiple years in almost all countries : on average, countries take `r round(mean_HL)` semesters to absorb the shock ie 2,5 years. However we observe a substantial heterogeneity among countries as highlighted by the graphical representation where half life values are largely spread on the graph. While in some cases price effects dissipate within one semester, as for Poland or Sweden, in others they remain substantial even several years after the shock, and in some case, the prices has not came back to their original level yet. It is the case for France, Germany or Bulgaria.
 
-This section study the persistency of the 2022 shock in the national economy through the estimated autoregressive coefficients of the fitted ARMA model. The half lives indicate a slow reversion, but also marked differences among the countries. While some of them exhibit rapid adjustments, some other display prolonged price effects. Therefore, the observed heterogeneity in electricity price shock persistence raise the question of which structural factors govern the cross-country differences.
+This section study the persistence of the 2022 shock in the national economy through the estimated auto regressive coefficients of the fitted ARMA model. The half lives indicate a slow reversion, but also marked differences among the countries. While some of them exhibit rapid adjustments, some other display prolonged price effects. Therefore, the observed heterogeneity in electricity price shock persistence raise the question of which structural factors govern the cross-country differences.
 
 # Cross country heterogeneity in responses to the energy crisis
 
-The last sections documented substantial heterogeneity both in the conditions in which the countries entered the crisis and in the way they were affected by the 2022 gas price shock through the persistency of the electricity price disturbtion. This section now investigate the underlying causal and multidimensionnal factors of these dynamics.
+The last sections documented substantial heterogeneity both in the conditions in which the countries entered the crisis and in the way they were affected by the 2022 gas price shock through the persistence of the electricity price disruption. This section now investigate the underlying causal and multidimensional factors of these dynamics.
 
 ## Composite Vulnerability Index
 
@@ -838,7 +852,7 @@ ggplot(vulnerability_index, aes(x = reorder(Country, vulnerability_score), y = v
        fill = "Vulnerability Level")
 ```
 
-### Correlation analysis
+## Correlation analysis
 
 ```{r}
 # Prepare correlation data
@@ -853,7 +867,7 @@ kable(correlation_matrix, caption = "Correlation Matrix of Vulnerability Indicat
 
 The correlation matrix reveals weak relationships between our three vulnerability indicators. The correlation between gas share and price increase is modest (0.33), suggesting that gas dependence alone does not fully explain price responses. Import volume shows almost no correlation with gas share (0.06) and a weak negative correlation with price increase (0.18). These weak correlations confirm that vulnerability to the 2022 energy crisis was multidimensional, with each indicator capturing a distinct aspect of exposure rather than moving together systematically.
 
-### Econometric insight: does gas dependence explain price increases?
+## Econometric insight: does gas dependence explain price increases?
 
 ```{r}
 # Prepare regression data with nuclear share
@@ -906,13 +920,13 @@ ggplot(regression_data, aes(x = `gas share`, y = price_increase)) +
 
 The scatter plot reveals why the cross-sectional regression yields insignificant results. Each blue dot represents one country, with the red line showing the fitted relationship and the grey shaded area representing the 95% confidence interval. The very wide confidence interval and nearly flat slope confirm weak predictive power (R² = 0.26). Denmark emerges as a clear outlier, experiencing a 138% price increase despite only 4.33% gas dependence, while Bulgaria and Poland show minimal price increases (5.96% and 6.21%) despite moderate gas shares. Although Netherlands (46% gas share, 88% price increase) aligns with expectations, the overall pattern is dominated by exceptions. This inconsistency suggests that gas dependence alone cannot explain cross-country heterogeneity in price responses, and that other factors—such as market design, regulatory interventions, or interconnection capacity—played decisive roles in determining country-specific outcomes during the crisis.
 
-### Panel Data Analysis of Price Determinants
+## Panel Data Analysis of Price Determinants
 
 While our cross-sectional regression provides an initial test of the relationship between energy mix structure and price responses, this approach faces two critical limitations. First, with only nine observations, statistical power is severely constrained. Second, cross-sectional analysis cannot control for unobserved country-specific characteristics—such as market design, regulatory frameworks, interconnection capacity, or storage infrastructure—that may confound the relationship between gas dependence and price outcomes. Denmark's paradoxical combination of low gas dependence (4.33%) yet highest price increase (137.90%) illustrates this problem, likely reflecting its integration into the Nordic electricity market rather than its domestic generation mix. To address these limitations, we now exploit the full panel structure of our dataset (2019-2024), which provides 108 observations and enables us to control for time-invariant country characteristics through fixed effects. This approach also allows us to test a more nuanced hypothesis: whether the 2022 crisis had differential effects across countries based on their pre-existing gas dependence through an interaction between gas share and the post-crisis period.
 
 We exploit the full panel structure of our dataset (2019-2024, nine countries, 108 observations) to test whether gas dependence amplified the crisis impact. We estimate a fixed effects model with country dummies to control for time-invariant characteristics which tests whether gas-dependent countries experienced larger price increases during the crisis (2022 onward). For visualization, we classify countries as "High Gas Dependence" or "Low Gas Dependence" based on median gas share.
 
-```{r}
+```{r, results='hide'}
 
 
 ### 4.4 Panel Regression Analysis
@@ -951,7 +965,9 @@ panel_model <- lm(log_price ~ `gas share` * post_crisis + `nuclear share` + `ren
 
 # Display results
 summary(panel_model)
+```
 
+```{r}
 # Create clean results table
 model_coefs <- summary(panel_model)$coefficients
 
@@ -1012,6 +1028,7 @@ model_stats <- data.frame(
 
 kable(model_stats, caption = "Model Fit Statistics")
 ```
+
 The panel regression confirms that gas dependence systematically amplified the 2022 energy crisis impact. The interaction term (Gas Share × Post-Crisis) is positive and statistically significant (coefficient = 0.0085, p = 0.012), indicating that each additional percentage point of gas share in the electricity mix increased crisis-period prices by approximately 0.85% in log terms. The baseline crisis effect shows all countries experienced substantial price increases averaging 29.2% during 2022 (coefficient = 0.292, p < 0.001), but this effect was magnified in gas-dependent countries. Individual energy mix variables (gas share, nuclear share, renewable share) are all insignificant, confirming that structural characteristics matter primarily through their interaction with external shocks rather than determining baseline price levels. The model achieves excellent explanatory power with an R² of 0.818, explaining 82% of price variation across countries and time—a substantial improvement over the cross-sectional model's 26%. These results provide robust evidence that while all European countries faced the same gas price shock, gas-dependent nations bore a disproportionately larger burden, with our predictions showing countries at 40% gas dependence experiencing nearly double the price increase (88.5%) compared to those at 10% dependence (45.9%).
 
 
@@ -1071,7 +1088,7 @@ The figure illustrates the differential crisis impact by gas dependence. Before 
 The table quantifies this heterogeneity using our estimated coefficients. A country with 10% gas dependence experienced a predicted 45.9% price increase during the crisis, while a country with 40% gas dependence faced an 88.5% increase—nearly double the impact. This substantial differential (42.6 percentage points) demonstrates that structural energy characteristics acted as latent vulnerabilities, only revealed under the stress of the external shock.
 
 
-### European map of price increases
+## European map of price increases
 
 ```{r}
 
@@ -1108,7 +1125,6 @@ ggplot(europe_prices) +
   theme_minimal()
 ```
 
-<<<<<<< HEAD
 The map visualizes the geographic distribution of electricity price increases across Europe between 2021 and 2022, revealing significant spatial heterogeneity. Denmark stands out with the highest price increase at 138%, represented in red, despite its low gas dependence. Southern European countries like Spain and the Netherlands experienced substantial increases of 71% and 88% respectively, shown in orange. In contrast, Eastern and Northern European countries display more moderate responses. Poland and Bulgaria show the lowest increases at only 6%, represented in green, while France, Finland, and Sweden experienced relatively contained surges between 24% and 40%, shown in yellow. Notably, the map does not reveal a clear geographic pattern suggesting regional spillover effects. High impact countries are geographically dispersed, while neighboring countries experienced vastly different outcomes. Bulgaria and Poland, both in Eastern Europe, had minimal price increases while nearby countries faced much larger shocks. This spatial heterogeneity reinforces our finding that country specific factors played more important roles than geographic proximity in determining vulnerability to the 2022 energy crisis.
 
 # FINDINGS AND CONCLUSION
@@ -1133,6 +1149,3 @@ This analysis examined the heterogeneous responses of nine European countries to
 Gas dependence in electricity generation was the systematic driver of differential vulnerability, but only during the crisis itself. The panel regression demonstrates that pre-existing gas share did not predict baseline price levels (explaining the insignificant cross-sectional results) but critically determined crisis amplification through the significant interaction effect. Each additional percentage point of gas dependence increased crisis-period prices by 0.85%, resulting in countries with 40% gas facing nearly double the price impact of those with 10% gas.
 This pattern reveals that structural energy characteristics operated as latent vulnerabilities, decisive under stress. Gas-dependent systems lacked buffer capacity when the fuel price shock hit, while nuclear- and renewable-heavy systems possessed inherent resilience. The 2022 crisis thus exposed fundamental asymmetries in European energy systems: despite facing the same external shock through integrated markets, countries experienced vastly different economic impacts based on their pre-existing generation structures. With elevated prices persisting through 2024 and minimal structural adjustment observed, these vulnerabilities remain largely unaddressed, carrying significant implications for European energy security.
 
-=======
-The map visualizes the geographic distribution of electricity price increases across Europe between 2021 and 2022, revealing significant spatial heterogeneity. Denmark stands out with the highest price increase at 138%, represented in red, despite its low gas dependence. Southern European countries like Spain and the Netherlands experienced substantial increases of 71% and 88% respectively, shown in orange. In contrast, Eastern and Northern European countries display more moderate responses. Poland and Bulgaria show the lowest increases at only 6%, represented in green, while France, Finland, and Sweden experienced relatively contained surges between 24% and 40%, shown in yellow. Notably, the map does not reveal a clear geographic pattern suggesting regional spillover effects. High impact countries are geographically dispersed, while neighboring countries experienced vastly different outcomes. Bulgaria and Poland, both in Eastern Europe, had minimal price increases while nearby countries faced much larger shocks. This spatial heterogeneity reinforces our finding that country specific factors played more important roles than geographic proximity in determining vulnerability to the 2022 energy crisis. 
->>>>>>> f677262 (Part 3 : precision on the ARMA methodology)
