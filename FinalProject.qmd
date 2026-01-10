@@ -7,7 +7,7 @@ editor: visual
 autors: "Lou-Ann and Ambrosia"
 ---
 
-All the files and previous phases of the project can be find in the following repository (in the final branch) : https://github.com/Ambrosia-P/FinalProjectR.git
+All the files and previous phases of the project can be find in the following repository (in the final branch) : https://github.com/Ambrosia-P/FinalProjectR.git  
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
